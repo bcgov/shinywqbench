@@ -18,12 +18,18 @@ trophic_groups <- wqb_add_trophic_group(database = database)
 duration_unit_code_standardization <- wqb_standardize_duration(database = database)
 concentration_unit_code_standardization <- wqb_standardize_concentration(database = database)
 
-cname <- chem_bc_wqg |>
-  dplyr::select(cas_number, chemical_name, present_in_bc_wqg)
-
 data <- wqb_compile_dataset(database = database) 
 data <- wqb_classify_duration(data)
 ecotox_data <- wqb_standardize_effect(data)
+
+cname <- ecotox_data |>
+  dplyr::select(cas_number = test_cas, chemical_name, present_in_bc_wqg) |>
+  dplyr::distinct()
+
+ecotox_data <- ecotox_data |>
+  dplyr::filter(!present_in_bc_wqg)
+
+rm(data)
 
 usethis::use_data(
   cname, ecotox_data, internal = TRUE, overwrite = TRUE
