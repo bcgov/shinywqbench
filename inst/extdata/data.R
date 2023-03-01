@@ -1,0 +1,30 @@
+library(wqbench)
+
+download_location <- "~/Ecotoxicology/ecotox"
+#wqb_download_epa_ecotox(file_path = download_location, version = 2)
+
+database <- wqb_create_epa_ecotox(
+  file_path = "~/Ecotoxicology/ecotox_db/",
+  data_path = "~/Ecotoxicology/ecotox/ecotox_ascii_09_15_2022"
+)
+database <- "~/Ecotoxicology/ecotox_db//ecotox_ascii_09_15_2022.sqlite"
+
+bc_species <- wqb_add_bc_species(database = database) 
+chem_bc_wqg <- wqb_add_bc_wqg(database = database)
+conc_endpoints <- wqb_add_concentration_endpoints(database = database)
+lifestage_codes <- wqb_add_lifestage(database = database) 
+media_groups <- wqb_add_media(database = database)
+trophic_groups <- wqb_add_trophic_group(database = database) 
+duration_unit_code_standardization <- wqb_standardize_duration(database = database)
+concentration_unit_code_standardization <- wqb_standardize_concentration(database = database)
+
+cname <- chem_bc_wqg |>
+  dplyr::select(cas_number, chemical_name, present_in_bc_wqg)
+
+data <- wqb_compile_dataset(database = database) 
+data <- wqb_classify_duration(data)
+ecotox_data <- wqb_standardize_effect(data)
+
+usethis::use_data(
+  cname, ecotox_data, internal = TRUE, overwrite = TRUE
+)
