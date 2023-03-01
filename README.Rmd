@@ -17,3 +17,7 @@ This is a basic example which shows you how to solve a common problem:
 library(shinywqbench)
 ## basic example code
 ```
+
+## Code of Conduct
+
+Please note that the shinywqbench project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

@@ -1,14 +1,25 @@
 Package: shinywqbench
-Title: What the Package Does (One Line, Title Case)
+Title: R Shiny App to Generate Water Quality Guidelines Benchmarks
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7388-1222"))
+           comment = c(ORCID = "0000-0001-7388-1222")),
+    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = "ctb",
+           comment = c(ORCID = "0000-0002-7683-4592"))
+  )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+Imports: 
+    DT,
+    dplyr,
+    ggplot2,
+    shiny,
+    ssdtools,
+    readr,
+    waiter
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
