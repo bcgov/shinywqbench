@@ -1,4 +1,9 @@
-# DT Tables ---- 
+# UI ---- 
+text_output <- function(...) {
+  textOutput(...)
+}
+
+
 table_output <- function(...) {
   wellPanel(DT::DTOutput(...), style = "font-size:87%", class = "wellpanel")
 }

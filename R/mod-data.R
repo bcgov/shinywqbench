@@ -40,10 +40,15 @@ mod_data_ui <- function(id, label = "data") {
       tabsetPanel(
         tabPanel(
           title = "1.1 Data Selected",
-          dl_group("raw", ns),
-          br(),
-          br(),
-          uiOutput(ns("ui_table_raw")) 
+          wellPanel(
+            dl_group("raw", ns),
+            br(),
+            br(),
+            br(),
+            br(),
+            uiOutput(ns("ui_table_raw")),
+            uiOutput(ns("ui_text"))
+          )
         ),
         tabPanel(
           title = "1.2 Plot",
@@ -53,9 +58,10 @@ mod_data_ui <- function(id, label = "data") {
         ),
         tabPanel(
           title = "1.3 Aggregated Data per Species",
-          h2("Aggregated data"),
+          dl_group("aggregated", ns),
           br(),
-          br()
+          br(),
+          uiOutput(ns("ui_table_aggregated"))
         ) 
       )
     )
@@ -72,7 +78,9 @@ mod_data_server <- function(id) {
       
       rv <- reactiveValues(
         data = NULL,
-        chem = NULL
+        chem = NULL,
+        aggregated = NULL, 
+        reset = 1
       )
       
       # Inputs ----
@@ -110,52 +118,110 @@ mod_data_server <- function(id) {
         } else {
           rv$chem <- input$select_cas_num
         }
+        rv$reset <- rv$reset + 1
+        rv$data <- NULL
+        rv$aggregated <- NULL
+      })
+      
+      observeEvent(rv$chem, label = "check_if_guideline_already_present", {
+    
+        print(rv$chem)
+      
+        if (length(rv$chem) == 0) {
+          output$text <- renderText({
+            "Please select a chemical to proceed"
+          })
+          rv$data <- data.frame()
+          return()
+        }  
+        
+        if (rv$chem == "") {
+          output$text <- renderText({
+            "Please select a chemical to proceed"
+          })
+          rv$data <- data.frame()
+          return()
+        }  
+        
+        
+        output$text <- renderText({
+          ""
+        })
+        
+      guideline_present  <- cname |>
+          dplyr::filter(cas_number == rv$chem) |>
+          dplyr::select(present_in_bc_wqg) |>
+          dplyr::pull()
+      
+      if (guideline_present) {
+        rv$data <- data.frame()
+        output$text <- renderText({
+          "Go to www. .ca and use the BC Water Quality Generator app"
+        })
+      } else {
+        output$text <- renderText({
+          ""
+        })
+        rv$data <- ecotox_data |>
+          dplyr::filter(test_cas == rv$chem)
+        
+        output$table_raw <- DT::renderDT({
+          data_table(rv$data)
+        })
+      }
+      })
+      
+      output$ui_table_raw <- renderUI({
+        table_output(ns("table_raw"))
+      })
+      
+      output$ui_text <- renderUI({
+        text_output(ns("text"))
       })
       
       
+      # Tab 1.3 ----
+      observeEvent(rv$chem, {
+        if (length(rv$data) == 0) {
+          return()
+        }
+        aggregated_data <- wqbench::wqb_aggregate(ecotox_data, rv$chem)
+        rv$aggregated <- aggregated_data
+      })
       
+      output$table_aggregated <- DT::renderDT({
+        data_table(rv$aggregated)
+      })
       
-      
+      output$ui_table_aggregated <- renderUI({
+        print(rv$reset)
+        table_output(ns("table_aggregated"))
+      })
       
       observe({
-        print("input type")
-        print(input$chem_type)
-        
-        print("cas_num")
-        print(input$select_cas_num)
-        
-        print("chem_name")
-        print(input$select_chem_name)  
-        
-        print("---------xxxx---------------xxxx-------------xxx---------")
-        print(rv$chem)
-    
+        print("-------xxx------")
+        print(rv$reset)
       })
       
+      # Download buttons
+
+      output$dl_raw <- downloadHandler(
+        filename = function() {
+          paste0(input$file_raw, ".csv")
+        },
+        content = function(file) {
+          readr::write_csv(rv$data, file)
+        }
+      )
       
-      
-      # output$ui_table_raw <- renderUI({
-      #   table_output(ns("table_raw"))
-      # })
-      # 
-      # output$table_raw <- DT::renderDT({
-      #   data_table(rv$data)
-      # })
-      # 
-      # observeEvent(input$chemical, {
-      #   
-      #   rv$data <- ecotox_data[ecotox_data$cname == input$chemical, ]
-      #   
-      # }, label = "filters data based on chemical input")
-      # 
-      # output$dl_raw <- downloadHandler(
-      #   filename = function() {
-      #     paste0(input$file_raw, ".csv")
-      #   },
-      #   content = function(file) {
-      #     readr::write_csv(rv$data, file)
-      #   }
-      # )
+      output$dl_aggregated <- downloadHandler(
+        filename = function() {
+          paste0(input$file_raw, ".csv")
+        },
+        content = function(file) {
+          readr::write_csv(rv$aggregated, file)
+        }
+      )
       
       return(rv)
     }
