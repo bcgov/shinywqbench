@@ -1,13 +1,13 @@
 app_server <- function(input, output, session) {
   
-  data_raw <- mod_data_server(
+  data_output <- mod_data_server(
     "mod_data_ui"
   )
   
-  # data_processed <- mod_data_processing_server(
-  #   "mod_data_processing_ui",
-  #   data_raw
-  # )
+  bench_output <- mod_bench_server(
+    "mod_bench_ui",
+    data_output
+  )
   # 
   # mod_data_analysis_server(
   #   "mod_data_analysis_ui",
