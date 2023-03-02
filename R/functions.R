@@ -81,3 +81,12 @@ ssd_hc5_plot_predictions <- function(data, fit) {
     ssdtools::scale_colour_ssd()
   gp
 }
+
+hide <- function(id, anim = TRUE) {
+  shinyjs::hide(id, anim = anim)
+}
+
+show <- function(id, anim = TRUE) {
+  shinyjs::show(id, anim = anim)
+}
+
