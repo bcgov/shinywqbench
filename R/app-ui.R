@@ -1,9 +1,10 @@
 app_ui <- function() {
   tagList(
     css_styling(),
+    shinyjs::useShinyjs(),
     navbarPage(
       title = "Screening Level Water Quality Guidelines for Emerging contaminants",
-      selected = "1. Data Pull",
+      selected = "1. Data",
       tabPanel(
         title = "1. Data",
         mod_data_ui("mod_data_ui")
