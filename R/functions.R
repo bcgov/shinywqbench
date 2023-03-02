@@ -95,3 +95,32 @@ show <- function(id, anim = TRUE) {
   shinyjs::show(id, anim = anim)
 }
 
+# Assessment Factor ----
+
+tabulate_af <- function(data) {
+  af_descriptions <- data.frame(
+    Name = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
+    Description = c(
+      "Factor based on number of trophic groups and species present",
+      "Ecological factor based on having a salmonid species present",
+      "Ecological factor based on having a planktonic crustacean species present",
+      "Factor based on number of British Columbia species present"
+    )
+  )
+  
+  data <- data |>
+    dplyr::select(
+      "af_variation", "af_salmon", "af_planktonic", "af_bc_species"
+    ) |>
+    dplyr::distinct() |>
+    tidyr::pivot_longer(
+      cols = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
+      names_to = "Name",
+      values_to = "Assessment Factor"
+    ) |>
+    dplyr::left_join(af_descriptions, by = "Name")
+  
+  data
+}
+
+
