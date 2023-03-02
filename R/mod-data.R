@@ -45,7 +45,6 @@ mod_data_ui <- function(id, label = "data") {
             br(),
             br(),
             br(),
-            br(),
             uiOutput(ns("ui_table_raw")),
             uiOutput(ns("ui_text"))
           )
@@ -58,10 +57,13 @@ mod_data_ui <- function(id, label = "data") {
         ),
         tabPanel(
           title = "1.3 Aggregated Data per Species",
-          dl_group("aggregated", ns),
-          br(),
-          br(),
-          uiOutput(ns("ui_table_aggregated"))
+          wellPanel(
+            dl_group("aggregated", ns),
+            br(),
+            br(),
+            br(),
+            uiOutput(ns("ui_table_aggregated"))
+          )
         ) 
       )
     )
