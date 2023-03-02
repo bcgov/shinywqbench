@@ -38,20 +38,20 @@ mod_data_ui <- function(id, label = "data") {
     mainPanel(
       tabsetPanel(
         tabPanel(
-          title = "data-raw",
+          title = "1.1 Data Selected",
           dl_group("raw", ns),
           br(),
           br(),
           uiOutput(ns("ui_table_raw")) 
         ),
         tabPanel(
-          title = "plot",
+          title = "1.2 Plot",
           h2("Plotting Tab"),
           br(),
           br()
         ),
         tabPanel(
-          title = "data-aggregated",
+          title = "1.3 Aggregated Data per Species",
           h2("Aggregated data"),
           br(),
           br()
