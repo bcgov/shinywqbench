@@ -79,8 +79,7 @@ mod_data_server <- function(id) {
       rv <- reactiveValues(
         data = NULL,
         chem = NULL,
-        aggregated = NULL, 
-        reset = 1
+        aggregated = NULL
       )
       
       # Inputs ----
@@ -118,14 +117,11 @@ mod_data_server <- function(id) {
         } else {
           rv$chem <- input$select_cas_num
         }
-        rv$reset <- rv$reset + 1
         rv$data <- NULL
         rv$aggregated <- NULL
       })
       
       observeEvent(rv$chem, label = "check_if_guideline_already_present", {
-    
-        print(rv$chem)
       
         if (length(rv$chem) == 0) {
           output$text <- renderText({
@@ -194,13 +190,7 @@ mod_data_server <- function(id) {
       })
       
       output$ui_table_aggregated <- renderUI({
-        print(rv$reset)
         table_output(ns("table_aggregated"))
-      })
-      
-      observe({
-        print("-------xxx------")
-        print(rv$reset)
       })
       
       # Download buttons
