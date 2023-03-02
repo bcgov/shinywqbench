@@ -51,9 +51,12 @@ mod_data_ui <- function(id, label = "data") {
         ),
         tabPanel(
           title = "1.2 Plot",
-          h2("Plotting Tab"),
-          br(),
-          br()
+          wellPanel(
+            br(),
+            br(),
+            br(),
+            uiOutput(ns("ui_plot"))
+          )
         ),
         tabPanel(
           title = "1.3 Aggregated Data per Species",
@@ -177,6 +180,20 @@ mod_data_server <- function(id) {
         text_output(ns("text"))
       })
       
+      # Tab 1.2 ----
+      output$ui_plot <- renderUI({
+        plotOutput(ns("plot"))
+      })
+      
+      output$plot <- renderPlot({
+        plot()
+      })
+      
+      plot <- reactive({
+        req(rv$data)
+        gp <- wqbench::wqb_plot(rv$data)
+        gp
+      })
       
       # Tab 1.3 ----
       observeEvent(rv$chem, {
