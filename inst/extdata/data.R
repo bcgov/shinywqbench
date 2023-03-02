@@ -1,13 +1,13 @@
 library(wqbench)
 
-download_location <- "~/Ecotoxicology/ecotox"
+#download_location <- "~/Ecotoxicology/ecotox"
 #wqb_download_epa_ecotox(file_path = download_location, version = 2)
 
 database <- wqb_create_epa_ecotox(
   file_path = "~/Ecotoxicology/ecotox_db/",
   data_path = "~/Ecotoxicology/ecotox/ecotox_ascii_09_15_2022"
 )
-database <- "~/Ecotoxicology/ecotox_db//ecotox_ascii_09_15_2022.sqlite"
+#database <- "~/Ecotoxicology/ecotox_db//ecotox_ascii_09_15_2022.sqlite"
 
 bc_species <- wqb_add_bc_species(database = database) 
 chem_bc_wqg <- wqb_add_bc_wqg(database = database)
