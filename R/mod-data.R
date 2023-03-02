@@ -191,6 +191,9 @@ mod_data_server <- function(id) {
       
       plot <- reactive({
         req(rv$data)
+        if (length(rv$data) == 0) {
+          return()
+        }
         gp <- wqbench::wqb_plot(rv$data)
         gp
       })
@@ -213,7 +216,6 @@ mod_data_server <- function(id) {
       })
       
       # Download buttons
-
       output$dl_raw <- downloadHandler(
         filename = function() {
           paste0(input$file_raw, ".csv")
