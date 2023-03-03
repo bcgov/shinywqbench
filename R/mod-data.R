@@ -52,10 +52,9 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.2 Plot",
           wellPanel(
-            h3(uiOutput(ns("ui_text_1"))),
-            br(),
             dl_group("data_plot", ns),
             br(),
+            h3(uiOutput(ns("ui_text_1"))),
             br(),
             br(),
             uiOutput(ns("ui_plot"))
