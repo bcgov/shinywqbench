@@ -4,8 +4,6 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of shinywqbench is to ...
-
 ## Installation
 
 ``` r
@@ -14,7 +12,6 @@ devtools::install_github("poissonconsulting/shinywqbench")
 ```
 
 ## How to launch app:
-
 
 ``` r
 library(shinywqbench)
