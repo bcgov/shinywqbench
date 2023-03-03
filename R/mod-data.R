@@ -197,14 +197,22 @@ mod_data_server <- function(id) {
       }
       })
       
-      observeEvent(rv$chem, {
+      w <- waiter_data()
+      
+      observeEvent(rv$chem_check, {
+        w$show()
         rv$data <- ecotox_data |>
           dplyr::filter(test_cas == rv$chem)
+        
         rv$name <- unique(rv$data$chemical_name)
         
-        output$table_raw <- DT::renderDT({
-          data_table(rv$data)
-        })
+        aggregated_data <- wqbench::wqb_aggregate(ecotox_data, rv$chem)
+        rv$aggregated <- aggregated_data
+        w$hide()
+      })
+      
+      output$table_raw <- DT::renderDT({
+        data_table(rv$data)
       })
       
       output$ui_table_raw <- renderUI({
@@ -243,14 +251,6 @@ mod_data_server <- function(id) {
       )
       
       # Tab 1.3 ----
-      observeEvent(rv$chem, {
-        if (length(rv$data) == 0) {
-          return()
-        }
-        aggregated_data <- wqbench::wqb_aggregate(ecotox_data, rv$chem)
-        rv$aggregated <- aggregated_data
-      })
-      
       output$table_aggregated <- DT::renderDT({
         data_table(rv$aggregated)
       })

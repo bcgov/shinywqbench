@@ -3,6 +3,7 @@ app_ui <- function() {
     css_styling(),
     add_external_resources(),
     shinyjs::useShinyjs(),
+    waiter::useWaiter(),
     navbarPage(
       title = "Screening Level Water Quality Guidelines for Emerging contaminants",
       selected = "1. Data",

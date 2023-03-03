@@ -44,6 +44,20 @@ dl_button <- function(..., icon = "download", class = "btn-primary") {
   downloadButton(..., icon = icon(icon), class = class)
 }
 
+# Waiting Screen ----
+
+waiting_screen <- tagList(
+  waiter::spin_flower(),
+  h4("Loading data for selected chemical ...")
+) 
+
+waiter_data <- function() {
+  waiter::Waiter$new(
+    html = waiting_screen,
+    color = "rgb(0, 51, 102, 0.9)"
+  )
+}
+
 # Shinyjs Annotation ----
 hide <- function(id, anim = TRUE) {
   shinyjs::hide(id, anim = anim)
