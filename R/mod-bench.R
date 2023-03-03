@@ -37,10 +37,12 @@ mod_bench_server <- function(id, ext) {
       # Reactive Values ----
       rv <- reactiveValues(
         data = NULL,
-        benchmark = NULL,
+        name = NULL,
+        bench = NULL,
         af_table = NULL,
         fit = NULL,
-        gp = NULL
+        gp = NULL,
+        method = NULL
       )
 
       observeEvent(ext$aggregated, {
@@ -56,10 +58,9 @@ mod_bench_server <- function(id, ext) {
       })
 
       observeEvent(ext$aggregated, {
-        method <- rv$data$method[1]
         rv$af_table <- tabulate_af(rv$data)
-        method <- rv$data$method[1]
-        if (method == "VF") {
+        rv$method <- rv$data$method[1]
+        if (rv$method == "VF") {
           rv$bench <- wqbench::wqb_generate_vf(rv$data)
         } else {
           fit <- wqbench:::wqb_generate_ssd_fit(rv$data)

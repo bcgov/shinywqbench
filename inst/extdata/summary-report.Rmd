@@ -1,22 +1,38 @@
 ---
 title: "Water Quality Benchmark Report"
 date: "`r format(dttr2::dtt_date_time(Sys.time(), tz = 'Etc/GMT+8'), '%B %d, %Y')`"
-output: html_document
-
+output: pdf_document
+params:
+  chem_name: ""
+  method: ""
+  benchmark: NULL
+  af: NULL
 ---
 
-<!-- params:  -->
-<!--     input_a: !r c(1900, 2020) -->
-<!--     input_b: NULL -->
-
-This is the report:
-
-My favorite colour is a bird
-
-```{r}
-#print(input_a)
-
-#print(input_b)
+Chemical Name: 
+```{r, echo=FALSE, results = 'asis'}
+cat(params$chem_name)
 ```
 
-This is the end of the report!
+Method:
+```{r, echo=FALSE, results = 'asis'}
+cat(params$method)
+```
+
+## Benchmark
+
+```{r, echo=FALSE}
+knitr::kable(
+  params$benchmark, 
+  digits = 5
+)
+```
+
+## Assessment Factors
+
+```{r, echo=FALSE}
+knitr::kable(
+  params$af,
+  digits = 1
+)
+```

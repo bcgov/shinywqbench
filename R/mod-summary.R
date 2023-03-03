@@ -25,23 +25,30 @@ mod_summary_server <- function(id, ext) {
       rv <- reactiveValues(
       )
       
-      
+      observe({
+        print(ext$name)
+        print(ext$method)
+        print(ext$bench)
+        print(ext$af_table)
+      })
      
       
       output$report <- downloadHandler(
-        filename <-  "ecotox_report.html",
+        filename <-  "ecotox_report.pdf",
         
         content = function(file) {
+          
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
-          print(getwd())
           file.copy(
             system.file("extdata/summary-report.Rmd", package = "shinywqbench"), 
             tempReport, overwrite = TRUE
           )
           
           params <- list(
-            input_a = 1901,
-            input_b = 2
+            chem_name = ext$name,
+            method = ext$method,
+            benchmark = ext$bench,
+            af = ext$af_table
           )
           
           rmarkdown::render(
