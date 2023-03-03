@@ -110,7 +110,7 @@ mod_bench_server <- function(id, ext) {
         wellPanel(tableOutput(ns("table_af")))
       })
 
-
+      return(rv)
     }
   )
 }

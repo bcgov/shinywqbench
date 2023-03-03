@@ -12,11 +12,11 @@ app_ui <- function() {
       tabPanel(
         title = "2. Benchmark Generator",
         mod_bench_ui("mod_bench_ui")
-      )#,
-      # tabPanel(
-      #   title = "3. Guideline Generation",
-      #   mod_data_analysis_ui("mod_data_analysis_ui")
-      # ),
+      ),
+      tabPanel(
+        title = "3. Summary",
+        mod_summary_ui("mod_summary_ui")
+      ),
       # tabPanel(
       #   title = "About",
       #   mod_about_ui("mod_about_ui")
