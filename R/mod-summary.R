@@ -6,7 +6,6 @@ mod_summary_ui <- function(id, label = "summary") {
       h2("Summary"),
       br(),
       br(),
-      br(),
       dl_button(ns("report"), label = "Generate PDF report"),
       br(),
       br(),

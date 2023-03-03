@@ -52,6 +52,9 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.2 Plot",
           wellPanel(
+            h3(uiOutput(ns("ui_text_1"))),
+            br(),
+            dl_group("data_plot", ns),
             br(),
             br(),
             br(),
@@ -84,7 +87,8 @@ mod_data_server <- function(id) {
       rv <- reactiveValues(
         data = NULL,
         chem = NULL,
-        aggregated = NULL
+        aggregated = NULL,
+        gp = NULL
       )
       
       # Inputs ----
@@ -127,7 +131,6 @@ mod_data_server <- function(id) {
       })
       
       observeEvent(rv$chem, label = "check_if_guideline_already_present", {
-      
         if (length(rv$chem) == 0) {
           output$text <- renderText({
             "Please select a chemical to proceed"
@@ -165,6 +168,7 @@ mod_data_server <- function(id) {
         })
         rv$data <- ecotox_data |>
           dplyr::filter(test_cas == rv$chem)
+        rv$name <- unique(rv$data$chemical_name)
         
         output$table_raw <- DT::renderDT({
           data_table(rv$data)
@@ -181,22 +185,35 @@ mod_data_server <- function(id) {
       })
       
       # Tab 1.2 ----
+      output$text_1 <- renderText({rv$name})
+      output$ui_text_1 <- renderUI({
+        text_output(ns("text_1"))
+      })
+      
       output$ui_plot <- renderUI({
         plotOutput(ns("plot"))
       })
-      
       output$plot <- renderPlot({
-        plot()
+        rv$gp
       })
       
-      plot <- reactive({
-        req(rv$data)
+      observeEvent(rv$data, {
         if (length(rv$data) == 0) {
           return()
         }
-        gp <- wqbench::wqb_plot(rv$data)
-        gp
+        rv$gp <- wqbench::wqb_plot(rv$data)
       })
+      
+      output$dl_data_plot <- downloadHandler(
+        filename = "data-plot.png",
+        content = function(file) {
+          ggplot2::ggsave(
+            file,
+            rv$gp,
+            device = "png"
+          )
+        }
+      )
       
       # Tab 1.3 ----
       observeEvent(rv$chem, {

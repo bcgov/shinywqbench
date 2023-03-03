@@ -6,7 +6,9 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.1 Plot",
         wellPanel(
-          uiOutput(ns("ui_text")),
+          h3(uiOutput(ns("ui_text"))),
+          br(),
+          dl_group("data_plot", ns),
           br(),
           br(),
           br(),
@@ -16,7 +18,9 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.2 Benchmark",
         wellPanel(
-          uiOutput(ns("ui_text_1")),
+          h3(uiOutput(ns("ui_text_1"))),
+          br(),
+          dl_group("data", ns),
           br(),
           br(),
           br(),
@@ -95,6 +99,17 @@ mod_bench_server <- function(id, ext) {
         }
       })
       
+      output$dl_data_plot <- downloadHandler(
+        filename = "results-plot.png",
+        content = function(file) {
+          ggplot2::ggsave(
+            file,
+            rv$gp,
+            device = "png"
+          )
+        }
+      )
+      
       # Tab 2.2
       output$text_1 <- renderText({rv$name})
       output$ui_text_1 <- renderUI({
@@ -111,6 +126,17 @@ mod_bench_server <- function(id, ext) {
         wellPanel(tableOutput(ns("table_af")))
       })
 
+      output$dl_data <- downloadHandler(
+        filename <-  "benchmark-ouput.xlsx",
+        content = function(file) {
+          sheets = list(
+            benchmark = rv$bench,
+            assessment_factor = rv$af_table
+          )
+          writexl::write_xlsx(sheets, file)
+        }
+      )
+      
       return(rv)
     }
   )
