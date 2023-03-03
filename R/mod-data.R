@@ -166,9 +166,22 @@ mod_data_server <- function(id) {
         rv$gp <- NULL
         rv$name <- NULL
         
-        output$text <- renderText({
-          "Go to www. .ca and use the BC Water Quality Generator app"
-        })
+        return(
+          showModal(
+            modalDialog(
+              div(
+                paste(rv$chem, "has a guideline present. To look up this guideline go to the"),
+                tags$a(
+                  "Guideline Look-Up Table",
+                  target = "_blank",
+                  href = "https://bcgov-env.shinyapps.io/bc_wqg/"
+                )
+              ),
+              title = "", footer = modalButton("Got it")
+            )
+          )
+        )
+        
       } else {
         output$text <- renderText({
           ""
