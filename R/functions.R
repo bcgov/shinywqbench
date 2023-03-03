@@ -1,16 +1,14 @@
-add_external_resources <- function() {
-  addResourcePath("www", system.file("app/www", package = "shinywqbench"))
-  tagList(tags$link(rel = "stylesheet", type = "text/css", href = "www/bcgov.css"))
+# UI ---- 
+well_panel <- function(...) {
+  wellPanel(..., style = "font-size:87%", class = "wellpanel")
 }
 
-# UI ---- 
 text_output <- function(...) {
   textOutput(...)
 }
 
-
 table_output <- function(...) {
-  wellPanel(DT::DTOutput(...), style = "font-size:87%", class = "wellpanel")
+  DT::DTOutput(...)
 }
 
 data_table <- function(data) {
@@ -46,52 +44,7 @@ dl_button <- function(..., icon = "download", class = "btn-primary") {
   downloadButton(..., icon = icon(icon), class = class)
 }
 
-# SSD Calculations ----
-
-prepare_for_ssd <- function(data) {
-  data <- data |>
-    dplyr::ungroup() |>
-    dplyr::select(
-      "Chemical" = "cname", "Species" = "tax_taxon", "Conc" = "concentration",
-      "Group" = "ecotox_grp", "Units" = "concentration_unit"
-    )
-  data
-}
-
-ssd_distributions_fit <- function(data) {
-  fit <- ssdtools::ssd_fit_dists(data)
-  fit
-}
-
-ssd_distributions_plot <- function(fit) {
-  gp <- ssdtools::autoplot(fit) +
-    ssdtools::scale_color_ssd()
-  gp
-}
-
-ssd_distributions_table <- function(fit) {
-  tbl <- ssdtools::ssd_gof(fit)
-  tbl
-}
-
-ssd_hc5_table_generator <- function(fit, nboot = 100) {
-  hc5 <- ssdtools::ssd_hc(fit, ci = TRUE, nboot = nboot)
-  hc5
-}
-
-ssd_hc5_plot_predictions <- function(data, fit) {
-  predictions <- stats::predict(fit, ci = TRUE)
-  gp <- ssdtools::ssd_plot(data, predictions,
-                           color = "Group",
-                           label = "Species",
-                           xlab = "Concentration (mg/L)",
-                           ribbon = TRUE
-  ) +
-    ggplot2::expand_limits(x = 3000) +
-    ssdtools::scale_colour_ssd()
-  gp
-}
-
+# Shinyjs Annotation ----
 hide <- function(id, anim = TRUE) {
   shinyjs::hide(id, anim = anim)
 }
@@ -101,7 +54,6 @@ show <- function(id, anim = TRUE) {
 }
 
 # Assessment Factor ----
-
 tabulate_af <- function(data) {
   af_descriptions <- data.frame(
     Name = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
