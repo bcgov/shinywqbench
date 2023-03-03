@@ -49,6 +49,18 @@ mod_bench_server <- function(id, ext) {
         method = NULL
       )
 
+      observe({
+        if (is.null(ext$aggregated)) {
+          rv$dat <- NULL
+          rv$name <- NULL
+          rv$bench <- NULL
+          rv$af_table <- NULL
+          rv$fit <- NULL
+          rv$gp <- NULL
+          rv$method <- NULL
+        }
+      })
+      
       observeEvent(ext$aggregated, {
         rv$name <- unique(ext$aggregated$chemical_name)
       })
@@ -133,6 +145,11 @@ mod_bench_server <- function(id, ext) {
             benchmark = rv$bench,
             assessment_factor = rv$af_table
           )
+          if (is.null(rv$bench)) {
+            sheets <- list(
+              note = data.frame(x = "no data")
+            )
+          }
           writexl::write_xlsx(sheets, file)
         }
       )

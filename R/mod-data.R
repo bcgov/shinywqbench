@@ -83,12 +83,12 @@ mod_data_server <- function(id) {
       ns <- session$ns
       
       # Reactive Values ----
-      
       rv <- reactiveValues(
         data = NULL,
         chem = NULL,
         aggregated = NULL,
-        gp = NULL
+        gp = NULL,
+        name = NULL
       )
       
       # Inputs ----
@@ -126,27 +126,31 @@ mod_data_server <- function(id) {
         } else {
           rv$chem <- input$select_cas_num
         }
-        rv$data <- NULL
-        rv$aggregated <- NULL
       })
       
       observeEvent(rv$chem, label = "check_if_guideline_already_present", {
         if (length(rv$chem) == 0) {
+          rv$data <- NULL
+          rv$aggregated <- NULL
+          rv$gp <- NULL
+          rv$name <- NULL
           output$text <- renderText({
             "Please select a chemical to proceed"
           })
-          rv$data <- data.frame()
           return()
         }  
         
         if (rv$chem == "") {
+          rv$data <- NULL
+          rv$aggregated <- NULL
+          rv$gp <- NULL
+          rv$name <- NULL
+          
           output$text <- renderText({
             "Please select a chemical to proceed"
           })
-          rv$data <- data.frame()
           return()
         }  
-        
         
         output$text <- renderText({
           ""
@@ -158,7 +162,11 @@ mod_data_server <- function(id) {
           dplyr::pull()
       
       if (guideline_present) {
-        rv$data <- data.frame()
+        rv$data <- NULL
+        rv$aggregated <- NULL
+        rv$gp <- NULL
+        rv$name <- NULL
+        
         output$text <- renderText({
           "Go to www. .ca and use the BC Water Quality Generator app"
         })

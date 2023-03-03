@@ -53,12 +53,17 @@ mod_summary_server <- function(id, ext1, ext2) {
       output$data <- downloadHandler(
         filename <-  "data-ouput.xlsx",
         content = function(file) {
-          sheets = list(
+          sheets <- list(
             data = ext1$data,
             aggregate_data = ext2$data,
             assessment_factor = ext2$af_table,
             benchmark = ext2$bench
           )
+          if (is.null(ext2$af_table)) {
+            sheets <- list(
+              note = data.frame(x = "no data")
+            )
+          }
           writexl::write_xlsx(sheets, file)
         }
       )
