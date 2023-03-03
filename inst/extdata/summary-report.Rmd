@@ -1,0 +1,22 @@
+---
+title: "Water Quality Benchmark Report"
+date: "`r format(dttr2::dtt_date_time(Sys.time(), tz = 'Etc/GMT+8'), '%B %d, %Y')`"
+output: html_document
+
+---
+
+<!-- params:  -->
+<!--     input_a: !r c(1900, 2020) -->
+<!--     input_b: NULL -->
+
+This is the report:
+
+My favorite colour is a bird
+
+```{r}
+#print(input_a)
+
+#print(input_b)
+```
+
+This is the end of the report!
