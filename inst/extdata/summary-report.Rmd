@@ -41,10 +41,10 @@ knitr::kable(
 
 
 
-Software version:
+Software versions:
 
 ```{r, echo=FALSE, results = 'asis'}
-cat("wqbench:", as.character(packageVersion("wqbench")), "\n")
+cat("- wqbench:", as.character(packageVersion("wqbench")), "\n")
 cat("\n")
-cat("shinywqbench", as.character(packageVersion("shinywqbench")))
+cat("- shinywqbench", as.character(packageVersion("shinywqbench")))
 ```
