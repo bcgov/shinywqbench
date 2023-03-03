@@ -17,10 +17,10 @@ app_ui <- function() {
         title = "3. Summary",
         mod_summary_ui("mod_summary_ui")
       ),
-      # tabPanel(
-      #   title = "About",
-      #   mod_about_ui("mod_about_ui")
-      # )
+      tabPanel(
+        title = "About",
+        mod_about_ui("mod_about_ui")
+      )
     )
   )
 }

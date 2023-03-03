@@ -13,8 +13,8 @@ app_server <- function(input, output, session) {
     "mod_summary_ui",
     bench_output
   )
-  # 
-  # mod_about_server(
-  #   "mod_about_ui"
-  # )
+
+  mod_about_server(
+    "mod_about_ui"
+  )
 }
