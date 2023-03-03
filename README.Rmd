@@ -8,14 +8,17 @@ The goal of shinywqbench is to ...
 
 ## Installation
 
+``` r
+# install.packages("devtools")
+devtools::install_github("poissonconsulting/shinywqbench")
+```
 
-## Example
+## How to launch app:
 
-This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(shinywqbench)
-## basic example code
+run_wqbench_app()
 ```
 
 ## Code of Conduct
