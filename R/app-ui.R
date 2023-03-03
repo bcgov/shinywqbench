@@ -1,6 +1,7 @@
 app_ui <- function() {
   tagList(
     css_styling(),
+    add_external_resources(),
     shinyjs::useShinyjs(),
     navbarPage(
       title = "Screening Level Water Quality Guidelines for Emerging contaminants",
