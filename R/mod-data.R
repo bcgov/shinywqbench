@@ -40,18 +40,17 @@ mod_data_ui <- function(id, label = "data") {
       tabsetPanel(
         tabPanel(
           title = "1.1 Data Selected",
-          wellPanel(
+          well_panel(
             dl_group("raw", ns),
             br(),
             br(),
             br(),
-            uiOutput(ns("ui_table_raw")),
-            uiOutput(ns("ui_text"))
+            uiOutput(ns("ui_table_raw"))
           )
         ),
         tabPanel(
           title = "1.2 Plot",
-          wellPanel(
+          well_panel(
             dl_group("data_plot", ns),
             br(),
             h3(uiOutput(ns("ui_text_1"))),
@@ -62,7 +61,7 @@ mod_data_ui <- function(id, label = "data") {
         ),
         tabPanel(
           title = "1.3 Aggregated Data per Species",
-          wellPanel(
+          well_panel(
             dl_group("aggregated", ns),
             br(),
             br(),
@@ -85,6 +84,7 @@ mod_data_server <- function(id) {
       rv <- reactiveValues(
         data = NULL,
         chem = NULL,
+        chem_pick = NULL,
         aggregated = NULL,
         gp = NULL,
         name = NULL
@@ -114,49 +114,58 @@ mod_data_server <- function(id) {
           show("div_cas")
         }
       })
-      
+  
       observeEvent(input$submit, label = "select_chemical", {
+        if (input$chem_type == "name") {
+          rv$chem_pick <- input$select_chem_name
+        } else {
+          rv$chem_pick <- input$select_cas_num
+        }
+    
+        if (length(rv$chem_pick) == 0) {
+          rv$data <- NULL
+          rv$aggregated <- NULL
+          rv$gp <- NULL
+          rv$name <- NULL
+          return(
+            showModal(
+              modalDialog(
+                div("Please select a chemical to continue"),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }  
+        
+        if (rv$chem_pick == "") {
+          rv$data <- NULL
+          rv$aggregated <- NULL
+          rv$gp <- NULL
+          rv$name <- NULL
+          return(
+            showModal(
+              modalDialog(
+                div("Please select a chemical to continue"),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
         if (input$chem_type == "name") {
           cas_number <- cname |>
             dplyr::filter(chemical_name == input$select_chem_name) |>
             dplyr::select(cas_number) |>
             dplyr::pull()
-          rv$chem <- cas_number
+          rv$chem_check <- cas_number
         } else {
-          rv$chem <- input$select_cas_num
+          rv$chem_check <- input$select_cas_num
         }
       })
       
-      observeEvent(rv$chem, label = "check_if_guideline_already_present", {
-        if (length(rv$chem) == 0) {
-          rv$data <- NULL
-          rv$aggregated <- NULL
-          rv$gp <- NULL
-          rv$name <- NULL
-          output$text <- renderText({
-            "Please select a chemical to proceed"
-          })
-          return()
-        }  
-        
-        if (rv$chem == "") {
-          rv$data <- NULL
-          rv$aggregated <- NULL
-          rv$gp <- NULL
-          rv$name <- NULL
-          
-          output$text <- renderText({
-            "Please select a chemical to proceed"
-          })
-          return()
-        }  
-        
-        output$text <- renderText({
-          ""
-        })
-        
+      observeEvent(input$submit, label = "check_if_guideline_already_present", {
+        req(rv$chem_check)
       guideline_present  <- cname |>
-          dplyr::filter(cas_number == rv$chem) |>
+          dplyr::filter(cas_number == rv$chem_check) |>
           dplyr::select(present_in_bc_wqg) |>
           dplyr::pull()
       
@@ -165,27 +174,30 @@ mod_data_server <- function(id) {
         rv$aggregated <- NULL
         rv$gp <- NULL
         rv$name <- NULL
-        
         return(
           showModal(
             modalDialog(
               div(
-                paste(rv$chem, "has a guideline present. To look up this guideline go to the"),
+                paste(
+                  cname$chemical_name[cname$cas_number == rv$chem_check], 
+                  "has a guideline present. To look up this guideline go to the"
+                ),
                 tags$a(
                   "Guideline Look-Up Table",
                   target = "_blank",
                   href = "https://bcgov-env.shinyapps.io/bc_wqg/"
                 )
               ),
-              title = "", footer = modalButton("Got it")
+              footer = modalButton("Got it")
             )
           )
         )
-        
       } else {
-        output$text <- renderText({
-          ""
-        })
+        rv$chem <- rv$chem_check
+      }
+      })
+      
+      observeEvent(rv$chem, {
         rv$data <- ecotox_data |>
           dplyr::filter(test_cas == rv$chem)
         rv$name <- unique(rv$data$chemical_name)
@@ -193,15 +205,10 @@ mod_data_server <- function(id) {
         output$table_raw <- DT::renderDT({
           data_table(rv$data)
         })
-      }
       })
       
       output$ui_table_raw <- renderUI({
         table_output(ns("table_raw"))
-      })
-      
-      output$ui_text <- renderUI({
-        text_output(ns("text"))
       })
       
       # Tab 1.2 ----

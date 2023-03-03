@@ -5,7 +5,7 @@ mod_bench_ui <- function(id, label = "bench") {
     tabsetPanel(
       tabPanel(
         title = "2.1 Plot",
-        wellPanel(
+        well_panel(
           h3(uiOutput(ns("ui_text"))),
           br(),
           dl_group("data_plot", ns),
@@ -17,7 +17,7 @@ mod_bench_ui <- function(id, label = "bench") {
       ),
       tabPanel(
         title = "2.2 Benchmark",
-        wellPanel(
+        well_panel(
           h3(uiOutput(ns("ui_text_1"))),
           br(),
           dl_group("data", ns),
