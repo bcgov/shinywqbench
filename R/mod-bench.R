@@ -38,12 +38,10 @@ mod_bench_server <- function(id, ext) {
       rv <- reactiveValues(
         data = NULL,
         benchmark = NULL,
-        af_table = NULL
+        af_table = NULL,
+        fit = NULL,
+        gp = NULL
       )
-      
-      observe({
-        print(ext$aggregated)
-      })
 
       observeEvent(ext$aggregated, {
         rv$name <- unique(ext$aggregated$chemical_name)
@@ -59,27 +57,50 @@ mod_bench_server <- function(id, ext) {
 
       observeEvent(ext$aggregated, {
         method <- rv$data$method[1]
-
         rv$af_table <- tabulate_af(rv$data)
-
-        rv$benchmark <- wqbench::wqb_generate_bench(rv$data)
-
+        method <- rv$data$method[1]
+        if (method == "VF") {
+          rv$bench <- wqbench::wqb_generate_vf(rv$data)
+        } else {
+          fit <- wqbench:::wqb_generate_ssd_fit(rv$data)
+          rv$fit <- fit
+          rv$bench <- wqbench::wqb_generate_ssd(rv$data, rv$fit)
+        }
       })
 
       # Tab 2.1
-
       output$text <- renderText({rv$name})
       output$ui_text <- renderUI({
         text_output(ns("text"))
       })
 
+      output$ui_plot <- renderUI({
+        plotOutput(ns("plot"))
+      })
+      output$plot <- renderPlot({
+        rv$gp
+      })
+
+      observeEvent(ext$aggregated, {
+        req(rv$bench)
+        if (length(rv$data) == 0) {
+          return()
+        }
+        method <- rv$data$method[1]
+        if (method == "VF") {
+          rv$gp <- wqbench::wqb_plot_vf(rv$data)
+        } else {
+          rv$gp <- wqbench::wqb_plot_ssd(rv$data, rv$fit)
+        }
+      })
+      
       # Tab 2.2
       output$text_1 <- renderText({rv$name})
       output$ui_text_1 <- renderUI({
         text_output(ns("text_1"))
       })
       
-      output$table_bench <- renderTable(rv$benchmark)
+      output$table_bench <- renderTable(rv$bench)
       output$ui_table_bench <- renderUI({
         wellPanel(tableOutput(ns("table_bench")))
       })
