@@ -22,10 +22,6 @@ mod_summary_server <- function(id, ext1, ext2) {
     function(input, output, session) {
       ns <- session$ns
       
-      # Reactive Values ----
-      rv <- reactiveValues(
-      )
-      
       output$report <- downloadHandler(
         filename <-  "ecotox_report.pdf",
         content = function(file) {
