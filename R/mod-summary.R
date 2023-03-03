@@ -7,15 +7,17 @@ mod_summary_ui <- function(id, label = "summary") {
       br(),
       br(),
       br(),
-      downloadButton(
-        outputId = ns("report"),
-        label = "Generate report"
-      )
+      dl_button(ns("report"), label = "Generate PDF report"),
+      br(),
+      br(),
+      dl_button(ns("data"), label = "Download data set"),
+      br(),
+      br()
     )
   )
 }
 
-mod_summary_server <- function(id, ext) {
+mod_summary_server <- function(id, ext1, ext2) {
   moduleServer(
     id, 
     function(input, output, session) {
@@ -25,32 +27,20 @@ mod_summary_server <- function(id, ext) {
       rv <- reactiveValues(
       )
       
-      observe({
-        print(ext$name)
-        print(ext$method)
-        print(ext$bench)
-        print(ext$af_table)
-      })
-     
-      
       output$report <- downloadHandler(
         filename <-  "ecotox_report.pdf",
-        
         content = function(file) {
-          
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
           file.copy(
             system.file("extdata/summary-report.Rmd", package = "shinywqbench"), 
             tempReport, overwrite = TRUE
           )
-          
           params <- list(
-            chem_name = ext$name,
-            method = ext$method,
-            benchmark = ext$bench,
-            af = ext$af_table
+            chem_name = ext2$name,
+            method = ext2$method,
+            benchmark = ext2$bench,
+            af = ext2$af_table
           )
-          
           rmarkdown::render(
             tempReport, 
             output_file = file,
@@ -60,17 +50,20 @@ mod_summary_server <- function(id, ext) {
         }
       )
       
+      # add raw, aggregated, benchmark
+      output$data <- downloadHandler(
+        filename <-  "data-ouput.xlsx",
+        content = function(file) {
+          sheets = list(
+            data = ext1$data,
+            aggregate_data = ext2$data,
+            assessment_factor = ext2$af_table,
+            benchmark = ext2$bench
+          )
+          writexl::write_xlsx(sheets, file)
+        }
+      )
       
     }
   )
 }
-
-
-# output$dl_aggregated <- downloadHandler(
-#   filename = function() {
-#     paste0(input$file_raw, ".csv")
-#   },
-#   content = function(file) {
-#     readr::write_csv(rv$aggregated, file)
-#   }
-# )

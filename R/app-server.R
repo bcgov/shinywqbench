@@ -11,6 +11,7 @@ app_server <- function(input, output, session) {
 
   mod_summary_server(
     "mod_summary_ui",
+    data_output,
     bench_output
   )
 
