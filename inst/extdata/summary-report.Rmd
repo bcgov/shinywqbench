@@ -36,3 +36,15 @@ knitr::kable(
   digits = 1
 )
 ```
+
+
+
+
+
+Software version:
+
+```{r, echo=FALSE, results = 'asis'}
+cat("wqbench:", as.character(packageVersion("wqbench")), "\n")
+cat("\n")
+cat("shinywqbench", as.character(packageVersion("shinywqbench")))
+```
