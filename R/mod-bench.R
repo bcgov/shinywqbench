@@ -6,10 +6,9 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.1 Plot",
         well_panel(
-          h3(uiOutput(ns("ui_text"))),
-          br(),
           dl_group("data_plot", ns),
           br(),
+          h3(uiOutput(ns("ui_text"))),
           br(),
           br(),
           uiOutput(ns("ui_plot"))
@@ -18,10 +17,9 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.2 Benchmark",
         well_panel(
-          h3(uiOutput(ns("ui_text_1"))),
-          br(),
           dl_group("data", ns),
           br(),
+          h3(uiOutput(ns("ui_text_1"))),
           br(),
           br(),
           uiOutput(ns("ui_table_bench")),
@@ -130,12 +128,12 @@ mod_bench_server <- function(id, ext) {
       
       output$table_bench <- renderTable(rv$bench)
       output$ui_table_bench <- renderUI({
-        wellPanel(tableOutput(ns("table_bench")))
+        tableOutput(ns("table_bench"))
       })
 
       output$table_af <- renderTable(rv$af_table)
       output$ui_table_af <- renderUI({
-        wellPanel(tableOutput(ns("table_af")))
+        tableOutput(ns("table_af"))
       })
 
       output$dl_data <- downloadHandler(

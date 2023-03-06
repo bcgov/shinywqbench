@@ -43,6 +43,7 @@ mod_data_ui <- function(id, label = "data") {
           well_panel(
             dl_group("raw", ns),
             br(),
+            h3(uiOutput(ns("ui_text_1"))),
             br(),
             br(),
             uiOutput(ns("ui_table_raw"))
@@ -53,7 +54,7 @@ mod_data_ui <- function(id, label = "data") {
           well_panel(
             dl_group("data_plot", ns),
             br(),
-            h3(uiOutput(ns("ui_text_1"))),
+            h3(uiOutput(ns("ui_text_2"))),
             br(),
             br(),
             uiOutput(ns("ui_plot"))
@@ -64,6 +65,7 @@ mod_data_ui <- function(id, label = "data") {
           well_panel(
             dl_group("aggregated", ns),
             br(),
+            h3(uiOutput(ns("ui_text_3"))),
             br(),
             br(),
             uiOutput(ns("ui_table_aggregated"))
@@ -105,6 +107,7 @@ mod_data_server <- function(id) {
         server = TRUE
       )
     
+      # Select chemical ----
       observeEvent(input$chem_type, {
         if (input$chem_type == "name") {
           show("div_name")
@@ -197,6 +200,7 @@ mod_data_server <- function(id) {
       }
       })
       
+      # Data ----
       w <- waiter_data()
       
       observeEvent(rv$chem_check, {
@@ -209,20 +213,28 @@ mod_data_server <- function(id) {
         aggregated_data <- wqbench::wqb_aggregate(ecotox_data, rv$chem)
         rv$aggregated <- aggregated_data
         w$hide()
+        
+        
+        
+      })
+      
+      # Tab 1.1 ----
+      output$text_1 <- renderText({rv$name})
+      output$ui_text_1 <- renderUI({
+        text_output(ns("text_1"))
       })
       
       output$table_raw <- DT::renderDT({
         data_table(rv$data)
       })
-      
       output$ui_table_raw <- renderUI({
         table_output(ns("table_raw"))
       })
       
       # Tab 1.2 ----
-      output$text_1 <- renderText({rv$name})
-      output$ui_text_1 <- renderUI({
-        text_output(ns("text_1"))
+      output$text_2 <- renderText({rv$name})
+      output$ui_text_2 <- renderUI({
+        text_output(ns("text_2"))
       })
       
       output$ui_plot <- renderUI({
@@ -251,6 +263,11 @@ mod_data_server <- function(id) {
       )
       
       # Tab 1.3 ----
+      output$text_3 <- renderText({rv$name})
+      output$ui_text_3 <- renderUI({
+        text_output(ns("text_3"))
+      })
+      
       output$table_aggregated <- DT::renderDT({
         data_table(rv$aggregated)
       })
