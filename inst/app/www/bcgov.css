@@ -50,18 +50,7 @@ body {
     color: transparent;
     background: transparent url("../images/gov3_bc_logo.png") no-repeat center center;
     padding-right: 150px;
-    /* min-width: 150px; */
 }
-
-/* 
-.dropdown-menu {
-  background-color: #38598a;
-  border: none;
-}
-.dropdown-menu>li>a {
-  color: #fff;
-}
-*/
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     color: #fff;
