@@ -205,17 +205,10 @@ mod_data_server <- function(id) {
       
       observeEvent(rv$chem_check, {
         w$show()
-        rv$data <- ecotox_data |>
-          dplyr::filter(test_cas == rv$chem)
-        
+        rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$name <- unique(rv$data$chemical_name)
-        
-        aggregated_data <- wqbench::wqb_aggregate(ecotox_data, rv$chem)
-        rv$aggregated <- aggregated_data
+        rv$aggregated <- wqbench::wqb_aggregate(rv$data)
         w$hide()
-        
-        
-        
       })
       
       # Tab 1.1 ----
