@@ -87,9 +87,15 @@ mod_data_server <- function(id) {
         data = NULL,
         chem = NULL,
         chem_pick = NULL,
+        chem_check = NULL,
         aggregated = NULL,
         gp = NULL,
-        name = NULL
+        name = NULL,
+        af_table = NULL,
+        method = NULL,
+        bench = NULL,
+        fit = NULL,
+        gp_results = NULL
       )
       
       # Inputs ----
@@ -125,11 +131,20 @@ mod_data_server <- function(id) {
           rv$chem_pick <- input$select_cas_num
         }
     
+        # clear inputs when chemical not picked
         if (length(rv$chem_pick) == 0) {
           rv$data <- NULL
           rv$aggregated <- NULL
           rv$gp <- NULL
           rv$name <- NULL
+          rv$af_table <- NULL
+          rv$method <- NULL
+          rv$bench <- NULL
+          rv$fit <- NULL
+          rv$gp_results <- NULL
+          rv$chem_check <- NULL
+          rv$chem <- NULL
+          rv$chem_pick <- NULL
           return(
             showModal(
               modalDialog(
@@ -139,12 +154,20 @@ mod_data_server <- function(id) {
             )
           )
         }  
-        
+        # clear inputs when chemical not picked
         if (rv$chem_pick == "") {
           rv$data <- NULL
           rv$aggregated <- NULL
           rv$gp <- NULL
           rv$name <- NULL
+          rv$af_table <- NULL
+          rv$method <- NULL
+          rv$bench <- NULL
+          rv$fit <- NULL
+          rv$gp_results <- NULL
+          rv$chem_check <- NULL
+          rv$chem <- NULL
+          rv$chem_pick <- NULL
           return(
             showModal(
               modalDialog(
@@ -154,6 +177,7 @@ mod_data_server <- function(id) {
             )
           )
         }
+        
         if (input$chem_type == "name") {
           cas_number <- cname |>
             dplyr::filter(chemical_name == input$select_chem_name) |>
@@ -163,55 +187,77 @@ mod_data_server <- function(id) {
         } else {
           rv$chem_check <- input$select_cas_num
         }
-      })
-      
-      observeEvent(input$submit, label = "check_if_guideline_already_present", {
-        req(rv$chem_check)
-      guideline_present  <- cname |>
+        
+        guideline_present  <- cname |>
           dplyr::filter(cas_number == rv$chem_check) |>
           dplyr::select(present_in_bc_wqg) |>
           dplyr::pull()
-      
-      if (guideline_present) {
-        rv$data <- NULL
-        rv$aggregated <- NULL
-        rv$gp <- NULL
-        rv$name <- NULL
-        return(
-          showModal(
-            modalDialog(
-              div(
-                paste(
-                  cname$chemical_name[cname$cas_number == rv$chem_check], 
-                  "has a guideline present. To look up this guideline go to the"
+        
+        # when chemical already present in wqg
+        if (guideline_present) {
+          chem_msg <- rv$chem_check
+          rv$data <- NULL
+          rv$aggregated <- NULL
+          rv$gp <- NULL
+          rv$name <- NULL
+          rv$af_table <- NULL
+          rv$method <- NULL
+          rv$bench <- NULL
+          rv$fit <- NULL
+          rv$gp_results <- NULL
+          rv$chem_check <- NULL
+          rv$chem <- NULL
+          rv$chem_pick <- NULL
+          return(
+            showModal(
+              modalDialog(
+                div(
+                  paste(
+                    cname$chemical_name[cname$cas_number == chem_msg], 
+                    "has a guideline present. To look up this guideline go to the"
+                  ),
+                  tags$a(
+                    "Guideline Look-Up Table",
+                    target = "_blank",
+                    href = "https://bcgov-env.shinyapps.io/bc_wqg/"
+                  )
                 ),
-                tags$a(
-                  "Guideline Look-Up Table",
-                  target = "_blank",
-                  href = "https://bcgov-env.shinyapps.io/bc_wqg/"
-                )
-              ),
-              footer = modalButton("Got it")
+                footer = modalButton("Got it")
+              )
             )
           )
-        )
-      } else {
-        rv$chem <- rv$chem_check
-      }
+        } else {
+          rv$chem <- rv$chem_check
+        }
       })
       
       # Data ----
       w <- waiter_data()
       
-      observeEvent(rv$chem_check, {
+      observeEvent(rv$chem, {
         w$show()
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
-        rv$name <- unique(rv$data$chemical_name)
         rv$aggregated <- wqbench::wqb_aggregate(rv$data)
         rv$aggregated <- wqbench::wqb_benchmark_method(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_variation(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_ecological(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_bc_species(rv$aggregated)
+        
+        rv$af_table <- tabulate_af(rv$aggregated)
+        rv$name <- unique(rv$data$chemical_name)
+        rv$method <- rv$aggregated$method[1]
+        
+        if (rv$method == "VF") {
+          rv$fit <- NULL
+          rv$bench <- wqbench::wqb_generate_vf(rv$aggregated)
+          rv$gp_results <- wqbench::wqb_plot_vf(rv$aggregated)
+        } else {
+          fit <- wqbench:::wqb_generate_ssd_fit(rv$aggregated)
+          rv$fit <- fit
+          rv$bench <- wqbench::wqb_generate_ssd(rv$aggregated, rv$fit)
+          rv$gp_results <- wqbench::wqb_plot_ssd(rv$aggregated, rv$fit)
+        }
+  
         w$hide()
       })
       
