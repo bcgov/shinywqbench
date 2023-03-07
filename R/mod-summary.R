@@ -6,10 +6,10 @@ mod_summary_ui <- function(id, label = "summary") {
       h2("Summary"),
       br(),
       br(),
-      dl_button(ns("report"), label = "Generate PDF report"),
+      download_button(ns("report"), label = "Generate PDF report"),
       br(),
       br(),
-      dl_button(ns("data"), label = "Download data set"),
+      download_button(ns("data"), label = "Download data set"),
       br(),
       br()
     )
@@ -23,7 +23,9 @@ mod_summary_server <- function(id, ext1, ext2) {
       ns <- session$ns
       
       output$report <- downloadHandler(
-        filename = file_name_dl("ecotox-report", ext1$chem, "pdf"),
+        filename = function() {
+          file_name_dl("ecotox-report", ext1$chem, "pdf")
+        },
         content = function(file) {
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
           file.copy(
@@ -47,7 +49,9 @@ mod_summary_server <- function(id, ext1, ext2) {
       
       # add raw, aggregated, benchmark
       output$data <- downloadHandler(
-        filename = file_name_dl("data-summary", ext1$chem, "xlsx"),
+        filename = function() {
+          file_name_dl("data-summary", ext1$chem, "xlsx")
+        },
         content = function(file) {
           sheets <- list(
             data = ext1$data,

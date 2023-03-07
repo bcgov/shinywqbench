@@ -33,14 +33,7 @@ data_table <- function(data) {
 }
 
 # Buttons ---- 
-dl_group <- function(x, ns) {
-  fillRow(
-    height = "90%", width = 300, flex = c(2, 3),
-    dl_button(ns(paste0("dl_", x)), "Download")
-  )
-}
-
-dl_button <- function(..., icon = "download", class = "btn-primary") {
+download_button <- function(..., icon = "download", class = "btn-primary") {
   downloadButton(..., icon = icon(icon), class = class)
 }
 
@@ -97,10 +90,9 @@ tabulate_af <- function(data) {
 # File Names for Downloading ----
 
 file_name_dl <- function(file_name, cas_number, ext) {
-  time_stamp <- format(Sys.time(), format = "%F %R", tz = "PST8PDT")
+  time_stamp <- format(Sys.time(), format = "%F %T", tz = "PST8PDT")
   time_stamp <- stringr::str_replace(time_stamp, " ", "_")
-  time_stamp <- stringr::str_replace(time_stamp, ":", "")
-  time_stamp
+  time_stamp <- stringr::str_replace_all(time_stamp, ":", "-")
   if (is.null(cas_number)) {
     cas_num <- ""
   } else {

@@ -41,7 +41,7 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.1 Data Selected",
           well_panel(
-            dl_group("raw", ns),
+            uiOutput(ns("download_data")),
             br(),
             h3(uiOutput(ns("ui_text_1"))),
             br(),
@@ -52,7 +52,7 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.2 Plot",
           well_panel(
-            dl_group("data_plot", ns),
+            uiOutput(ns("download_plot")),
             br(),
             h3(uiOutput(ns("ui_text_2"))),
             br(),
@@ -63,7 +63,7 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.3 Aggregated Data per Species",
           well_panel(
-            dl_group("aggregated", ns),
+            uiOutput(ns("download_aggregated")),
             br(),
             h3(uiOutput(ns("ui_text_3"))),
             br(),
@@ -274,6 +274,24 @@ mod_data_server <- function(id) {
         table_output(ns("table_raw"))
       })
       
+      output$download_data <- renderUI({
+        req(rv$chem, rv$data)
+        download_button(ns("dl_raw"))
+      })
+      
+      output$dl_raw <- downloadHandler(
+        filename = function() {
+          file_name_dl("data-raw", rv$chem, "csv")
+        },
+        content = function(file) {
+          if (is.null(rv$data)) {
+            data <- data.frame(x = "no chemical selected")
+          } else {
+            data <- rv$data
+          }
+          readr::write_csv(data, file)
+        }
+      )
       # Tab 1.2 ----
       output$text_2 <- renderText({rv$name})
       output$ui_text_2 <- renderUI({
@@ -294,8 +312,15 @@ mod_data_server <- function(id) {
         rv$gp <- wqbench::wqb_plot(rv$data)
       })
       
+      output$download_plot <- renderUI({
+        req(rv$chem, rv$gp)
+        download_button(ns("dl_data_plot"))
+      })
+      
       output$dl_data_plot <- downloadHandler(
-        filename = file_name_dl("plot-data", rv$chem, "png"),
+        filename = function() {
+          file_name_dl("plot-data", rv$chem, "png")
+        },
         content = function(file) {
           ggplot2::ggsave(
             file,
@@ -304,7 +329,6 @@ mod_data_server <- function(id) {
           )
         }
       )
-      
       # Tab 1.3 ----
       output$text_3 <- renderText({rv$name})
       output$ui_text_3 <- renderUI({
@@ -319,23 +343,17 @@ mod_data_server <- function(id) {
         table_output(ns("table_aggregated"))
       })
       
-      # Download buttons
-      output$dl_raw <- downloadHandler(
-        filename = file_name_dl("data-raw", rv$chem, "csv"),
-        content = function(file) {
-          if (is.null(rv$data)) {
-            data <- data.frame(x = "no chemical selected")
-          } else {
-            data <- rv$data
-          }
-          readr::write_csv(data, file)
-        }
-      )
+      output$download_aggregated <- renderUI({
+        req(rv$chem, rv$aggregated)
+        download_button(ns("dl_aggregated"))
+      })
       
       output$dl_aggregated <- downloadHandler(
-        filename = file_name_dl("data-aggregaated", rv$chem, "csv"),
+        filename = function() {
+          file_name_dl("data-aggregaated", rv$chem, "csv")
+        },
         content = function(file) {
-          if (is.null(rv$data)) {
+          if (is.null(rv$aggregated)) {
             data <- data.frame(x = "no chemical selected")
           } else {
             data <- rv$aggregated

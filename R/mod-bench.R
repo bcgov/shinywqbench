@@ -6,7 +6,7 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.1 Plot",
         well_panel(
-          dl_group("data_plot", ns),
+          uiOutput(ns("download_plot_results")),
           br(),
           h3(uiOutput(ns("ui_text"))),
           br(),
@@ -17,7 +17,7 @@ mod_bench_ui <- function(id, label = "bench") {
       tabPanel(
         title = "2.2 Benchmark",
         well_panel(
-          dl_group("data", ns),
+          uiOutput(ns("download_data_bench")),
           br(),
           h3(uiOutput(ns("ui_text_1"))),
           br(),
@@ -61,8 +61,15 @@ mod_bench_server <- function(id, ext) {
         ext$gp_results
       })
       
-      output$dl_data_plot <- downloadHandler(
-        filename = file_name_dl("plot-results", ext$chem, "png"),
+      output$download_plot_results <- renderUI({
+        req(ext$chem, ext$gp_results)
+        download_button(ns("dl_plot_results"))
+      })
+      
+      output$dl_plot_results <- downloadHandler(
+        filename = function() {
+          file_name_dl("plot-results", ext$chem, "png")
+        },
         content = function(file) {
           ggplot2::ggsave(
             file,
@@ -88,8 +95,15 @@ mod_bench_server <- function(id, ext) {
         tableOutput(ns("table_af"))
       })
       
-      output$dl_data <- downloadHandler(
-        filename = file_name_dl("data-bench", ext$chem, "xlsx"),
+      output$download_data_bench <- renderUI({
+        req(ext$chem, ext$bench, ext$af_table)
+        download_button(ns("dl_data_bench"))
+      })
+      
+      output$dl_data_bench <- downloadHandler(
+        filename = function() {
+          file_name_dl("data-bench", ext$chem, "xlsx")
+        },
         content = function(file) {
           sheets = list(
             chemical = data.frame(
