@@ -257,7 +257,7 @@ mod_data_server <- function(id) {
           rv$bench <- wqbench::wqb_generate_ssd(rv$aggregated, rv$fit)
           rv$gp_results <- wqbench::wqb_plot_ssd(rv$aggregated, rv$fit)
         }
-  
+      
         w$hide()
       })
       
