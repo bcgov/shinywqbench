@@ -121,7 +121,7 @@ mod_bench_server <- function(id, ext) {
           )
           if (is.null(ext$bench)) {
             sheets <- list(
-              note = data.frame(x = "no data")
+              note = data.frame(x = "no chemical selected")
             )
           }
           writexl::write_xlsx(sheets, file)

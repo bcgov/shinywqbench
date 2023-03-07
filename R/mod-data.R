@@ -325,7 +325,12 @@ mod_data_server <- function(id) {
           paste0(input$file_raw, ".csv")
         },
         content = function(file) {
-          readr::write_csv(rv$data, file)
+          if (is.null(rv$data)) {
+            data <- data.frame(x = "no chemical selected")
+          } else {
+            data <- rv$data
+          }
+          readr::write_csv(data, file)
         }
       )
       
@@ -334,7 +339,12 @@ mod_data_server <- function(id) {
           paste0(input$file_raw, ".csv")
         },
         content = function(file) {
-          readr::write_csv(rv$aggregated, file)
+          if (is.null(rv$data)) {
+            data <- data.frame(x = "no chemical selected")
+          } else {
+            data <- rv$aggregated
+          }
+          readr::write_csv(data, file)
         }
       )
       
