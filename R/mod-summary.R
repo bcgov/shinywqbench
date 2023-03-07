@@ -23,7 +23,7 @@ mod_summary_server <- function(id, ext1, ext2) {
       ns <- session$ns
       
       output$report <- downloadHandler(
-        filename <-  "ecotox_report.pdf",
+        filename = file_name_dl("ecotox-report", ext1$chem, "pdf"),
         content = function(file) {
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
           file.copy(
@@ -47,7 +47,7 @@ mod_summary_server <- function(id, ext1, ext2) {
       
       # add raw, aggregated, benchmark
       output$data <- downloadHandler(
-        filename <-  "data-ouput.xlsx",
+        filename = file_name_dl("data-summary", ext1$chem, "xlsx"),
         content = function(file) {
           sheets <- list(
             data = ext1$data,

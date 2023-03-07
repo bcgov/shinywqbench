@@ -94,4 +94,18 @@ tabulate_af <- function(data) {
   data
 }
 
+# File Names for Downloading ----
 
+file_name_dl <- function(file_name, cas_number, ext) {
+  time_stamp <- format(Sys.time(), format = "%F %R", tz = "PST8PDT")
+  time_stamp <- stringr::str_replace(time_stamp, " ", "_")
+  time_stamp <- stringr::str_replace(time_stamp, ":", "")
+  time_stamp
+  if (is.null(cas_number)) {
+    cas_num <- ""
+  } else {
+    cas_num <- cas_number
+  }
+  dl_name <- paste(file_name, cas_num, time_stamp, sep = "_")
+  dl_name <- paste0(dl_name, ".", ext)
+}

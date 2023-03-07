@@ -295,7 +295,7 @@ mod_data_server <- function(id) {
       })
       
       output$dl_data_plot <- downloadHandler(
-        filename = "data-plot.png",
+        filename = file_name_dl("plot-data", rv$chem, "png"),
         content = function(file) {
           ggplot2::ggsave(
             file,
@@ -321,9 +321,7 @@ mod_data_server <- function(id) {
       
       # Download buttons
       output$dl_raw <- downloadHandler(
-        filename = function() {
-          paste0(input$file_raw, ".csv")
-        },
+        filename = file_name_dl("data-raw", rv$chem, "csv"),
         content = function(file) {
           if (is.null(rv$data)) {
             data <- data.frame(x = "no chemical selected")
@@ -335,9 +333,7 @@ mod_data_server <- function(id) {
       )
       
       output$dl_aggregated <- downloadHandler(
-        filename = function() {
-          paste0(input$file_raw, ".csv")
-        },
+        filename = file_name_dl("data-aggregaated", rv$chem, "csv"),
         content = function(file) {
           if (is.null(rv$data)) {
             data <- data.frame(x = "no chemical selected")

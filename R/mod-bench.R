@@ -62,7 +62,7 @@ mod_bench_server <- function(id, ext) {
       })
       
       output$dl_data_plot <- downloadHandler(
-        filename = "results-plot.png",
+        filename = file_name_dl("plot-results", ext$chem, "png"),
         content = function(file) {
           ggplot2::ggsave(
             file,
@@ -89,7 +89,7 @@ mod_bench_server <- function(id, ext) {
       })
       
       output$dl_data <- downloadHandler(
-        filename <-  "benchmark-ouput.xlsx",
+        filename = file_name_dl("data-bench", ext$chem, "xlsx"),
         content = function(file) {
           sheets = list(
             chemical = data.frame(
