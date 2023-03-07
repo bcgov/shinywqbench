@@ -23,6 +23,9 @@ app_ui <- function() {
         title = "About",
         mod_about_ui("mod_about_ui")
       )
+    ),
+    div(class = "footer",
+        includeHTML("www/footer.html")
     )
   )
 }
