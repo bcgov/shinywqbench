@@ -47,18 +47,6 @@ mod_bench_server <- function(id, ext) {
         }
       })
 
-      # observeEvent(ext$aggregated, {
-      #   rv$af_table <- tabulate_af(ext$aggregated)
-      #   rv$method <- ext$aggregated$method[1]
-      #   if (rv$method == "VF") {
-      #     rv$bench <- wqbench::wqb_generate_vf(ext$aggregated)
-      #   } else {
-      #     fit <- wqbench:::wqb_generate_ssd_fit(ext$aggregated)
-      #     rv$fit <- fit
-      #     rv$bench <- wqbench::wqb_generate_ssd(ext$aggregated, rv$fit)
-      #   }
-      # })
-
       # Tab 2.1
       output$text <- renderText({ext$name})
       output$ui_text <- renderUI({
@@ -71,19 +59,6 @@ mod_bench_server <- function(id, ext) {
       output$plot <- renderPlot({
         ext$gp_results
       })
-
-      # observeEvent(ext$aggregated, {
-      #   req(ext$bench)
-      #   if (length(ext$aggregated) == 0) {
-      #     return()
-      #   }
-      #   method <- ext$aggregated$method[1]
-      #   if (method == "VF") {
-      #     rv$gp <- wqbench::wqb_plot_vf(ext$aggregated)
-      #   } else {
-      #     rv$gp <- wqbench::wqb_plot_ssd(ext$aggregated, ext$fit)
-      #   }
-      # })
       
       output$dl_data_plot <- downloadHandler(
         filename = "results-plot.png",
