@@ -38,8 +38,6 @@ mod_bench_server <- function(id, ext) {
       
       # Reactive Values ----
       rv <- reactiveValues(
-        data = NULL,
-        name = NULL,
         bench = NULL,
         af_table = NULL,
         fit = NULL,
@@ -49,8 +47,6 @@ mod_bench_server <- function(id, ext) {
 
       observe({
         if (is.null(ext$aggregated)) {
-          rv$dat <- NULL
-          rv$name <- NULL
           rv$bench <- NULL
           rv$af_table <- NULL
           rv$fit <- NULL
@@ -58,33 +54,21 @@ mod_bench_server <- function(id, ext) {
           rv$method <- NULL
         }
       })
-      
-      observeEvent(ext$aggregated, {
-        rv$name <- unique(ext$aggregated$chemical_name)
-      })
 
       observeEvent(ext$aggregated, {
-        data <- wqbench::wqb_benchmark_method(ext$aggregated)
-        data <- wqbench::wqb_af_variation(data)
-        data <- wqbench::wqb_af_ecological(data)
-        data <- wqbench::wqb_af_bc_species(data)
-        rv$data <- data
-      })
-
-      observeEvent(ext$aggregated, {
-        rv$af_table <- tabulate_af(rv$data)
-        rv$method <- rv$data$method[1]
+        rv$af_table <- tabulate_af(ext$aggregated)
+        rv$method <- ext$aggregated$method[1]
         if (rv$method == "VF") {
-          rv$bench <- wqbench::wqb_generate_vf(rv$data)
+          rv$bench <- wqbench::wqb_generate_vf(ext$aggregated)
         } else {
-          fit <- wqbench:::wqb_generate_ssd_fit(rv$data)
+          fit <- wqbench:::wqb_generate_ssd_fit(ext$aggregated)
           rv$fit <- fit
-          rv$bench <- wqbench::wqb_generate_ssd(rv$data, rv$fit)
+          rv$bench <- wqbench::wqb_generate_ssd(ext$aggregated, rv$fit)
         }
       })
 
       # Tab 2.1
-      output$text <- renderText({rv$name})
+      output$text <- renderText({ext$name})
       output$ui_text <- renderUI({
         text_output(ns("text"))
       })
@@ -98,14 +82,14 @@ mod_bench_server <- function(id, ext) {
 
       observeEvent(ext$aggregated, {
         req(rv$bench)
-        if (length(rv$data) == 0) {
+        if (length(ext$aggregated) == 0) {
           return()
         }
-        method <- rv$data$method[1]
+        method <- ext$aggregated$method[1]
         if (method == "VF") {
-          rv$gp <- wqbench::wqb_plot_vf(rv$data)
+          rv$gp <- wqbench::wqb_plot_vf(ext$aggregated)
         } else {
-          rv$gp <- wqbench::wqb_plot_ssd(rv$data, rv$fit)
+          rv$gp <- wqbench::wqb_plot_ssd(ext$aggregated, rv$fit)
         }
       })
       
@@ -121,7 +105,7 @@ mod_bench_server <- function(id, ext) {
       )
       
       # Tab 2.2
-      output$text_1 <- renderText({rv$name})
+      output$text_1 <- renderText({ext$name})
       output$ui_text_1 <- renderUI({
         text_output(ns("text_1"))
       })
