@@ -31,10 +31,10 @@ mod_summary_server <- function(id, ext1, ext2) {
             tempReport, overwrite = TRUE
           )
           params <- list(
-            chem_name = ext2$name,
-            method = ext2$method,
-            benchmark = ext2$bench,
-            af = ext2$af_table
+            chem_name = ext1$name,
+            method = ext1$method,
+            benchmark = ext1$bench,
+            af = ext1$af_table
           )
           rmarkdown::render(
             tempReport, 
@@ -51,13 +51,13 @@ mod_summary_server <- function(id, ext1, ext2) {
         content = function(file) {
           sheets <- list(
             data = ext1$data,
-            aggregate_data = ext2$data,
-            assessment_factor = ext2$af_table,
-            benchmark = ext2$bench
+            aggregate_data = ext1$aggregated,
+            assessment_factor = ext1$af_table,
+            benchmark = ext1$bench
           )
-          if (is.null(ext2$af_table)) {
+          if (is.null(ext1$data)) {
             sheets <- list(
-              note = data.frame(x = "no data")
+              note = data.frame(x = "no chemical selected")
             )
           }
           writexl::write_xlsx(sheets, file)
