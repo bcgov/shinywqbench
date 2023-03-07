@@ -38,7 +38,8 @@ mod_bench_server <- function(id, ext) {
       
       # Reactive Values ----
       rv <- reactiveValues(
-        gp = NULL
+        gp = NULL,
+        bench_display = NULL
       )
 
       observe({
@@ -86,11 +87,15 @@ mod_bench_server <- function(id, ext) {
       output$ui_table_af <- renderUI({
         tableOutput(ns("table_af"))
       })
-
+      
       output$dl_data <- downloadHandler(
         filename <-  "benchmark-ouput.xlsx",
         content = function(file) {
           sheets = list(
+            chemical = data.frame(
+              chemical_name = ext$name,
+              cas_number = ext$chem
+            ),
             benchmark = ext$bench,
             assessment_factor = ext$af_table
           )
