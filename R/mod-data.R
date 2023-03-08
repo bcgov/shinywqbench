@@ -237,8 +237,8 @@ mod_data_server <- function(id) {
       observeEvent(rv$chem, {
         w$show()
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
+        rv$data <- wqbench::wqb_benchmark_method(rv$data)
         rv$aggregated <- wqbench::wqb_aggregate(rv$data)
-        rv$aggregated <- wqbench::wqb_benchmark_method(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_variation(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_ecological(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_bc_species(rv$aggregated)
