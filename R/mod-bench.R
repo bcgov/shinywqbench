@@ -69,8 +69,9 @@ mod_bench_server <- function(id, ext) {
         w$show()
         rv$raw <- ext$data
         rv$selected <- ext$selected
+        rv$agg <- ext$aggregated
         
-        rv$agg_af <- wqbench::wqb_af_variation(ext$aggregated)
+        rv$agg_af <- wqbench::wqb_af_variation(rv$agg)
         rv$agg_af <- wqbench::wqb_af_ecological(rv$agg_af)
         rv$agg_af <- wqbench::wqb_af_bc_species(rv$agg_af)
         

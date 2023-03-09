@@ -24,7 +24,7 @@ mod_summary_server <- function(id, ext1, ext2) {
       
       output$report <- downloadHandler(
         filename = function() {
-          file_name_dl("ecotox-report", ext1$chem, "pdf")
+          file_name_dl("ecotox-report", ext2$cas, "pdf")
         },
         content = function(file) {
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
@@ -33,10 +33,10 @@ mod_summary_server <- function(id, ext1, ext2) {
             tempReport, overwrite = TRUE
           )
           params <- list(
-            chem_name = ext1$name,
-            method = ext1$method,
-            benchmark = ext1$bench,
-            af = ext1$af_table
+            chem_name = ext2$name,
+            method = ext2$method,
+            benchmark = ext2$bench,
+            af = ext2$af_table
           )
           rmarkdown::render(
             tempReport, 
@@ -50,14 +50,15 @@ mod_summary_server <- function(id, ext1, ext2) {
       # add raw, aggregated, benchmark
       output$data <- downloadHandler(
         filename = function() {
-          file_name_dl("data-summary", ext1$chem, "xlsx")
+          file_name_dl("data-summary", ext2$cas, "xlsx")
         },
         content = function(file) {
           sheets <- list(
-            data = ext1$data,
-            aggregate_data = ext1$aggregated,
-            assessment_factor = ext1$af_table,
-            benchmark = ext1$bench
+            raw = ext2$raw,
+            selected = ext2$selected,
+            aggregate_data = ext2$agg,
+            assessment_factor = ext2$af_table,
+            benchmark = ext2$bench
           )
           if (is.null(ext1$data)) {
             sheets <- list(
