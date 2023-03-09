@@ -242,6 +242,13 @@ mod_data_server <- function(id) {
         w$hide()
       })
       
+      observeEvent(rv$selected, {
+        w$show()
+        rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
+        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+        w$hide()
+      })
+      
       # Tab 1.1 ----
       output$text_1 <- renderText({rv$name})
       output$ui_text_1 <- renderUI({
