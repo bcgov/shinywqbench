@@ -1,4 +1,8 @@
 # UI ---- 
+inline <- function(x) {
+  tags$div(style = "display:inline-block; width:105px; height:75px;", x)
+}
+
 well_panel <- function(...) {
   wellPanel(..., style = "font-size:87%", class = "wellpanel")
 }

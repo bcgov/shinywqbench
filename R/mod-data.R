@@ -41,8 +41,8 @@ mod_data_ui <- function(id, label = "data") {
         tabPanel(
           title = "1.1 Raw Data",
           well_panel(
-            uiOutput(ns("download_raw")),
-            actionButton(ns("select"), "Remove selected rows!"),
+            inline(uiOutput(ns("download_raw"))),
+            inline(uiOutput(ns("button_select"))),
             br(),
             h3(uiOutput(ns("ui_text_1"))),
             br(),
@@ -298,6 +298,11 @@ mod_data_server <- function(id) {
         table_output(ns("table_raw"))
       })
       
+      output$button_select <- renderUI({
+        req(rv$chem, rv$data)
+        actionButton(ns("select"), "Remove selected rows")
+      })
+      
       output$download_raw <- renderUI({
         req(rv$chem, rv$data)
         download_button(ns("dl_raw"))
@@ -316,21 +321,14 @@ mod_data_server <- function(id) {
           readr::write_csv(data, file)
         }
       )
-      
-      
-      
-      
+
       observeEvent(input$select, {
         req(rv$data)
      
         rv$selected <-
           rv$data |>
             dplyr::filter(!dplyr::row_number() %in% input$table_raw_rows_selected)
-        
       })
-      
-      
-      
       
       # Tab 1.2 ----
       output$text_2 <- renderText({rv$name})
