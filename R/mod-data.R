@@ -34,14 +34,15 @@ mod_data_ui <- function(id, label = "data") {
           )
         ) 
       ),
-      actionButton(ns("submit"), "Run!"),
+      actionButton(ns("run"), "Run!"),
     ),
     mainPanel(
       tabsetPanel(
         tabPanel(
-          title = "1.1 Data Selected",
+          title = "1.1 Raw Data",
           well_panel(
-            uiOutput(ns("download_data")),
+            uiOutput(ns("download_raw")),
+            actionButton(ns("select"), "Remove selected rows!"),
             br(),
             h3(uiOutput(ns("ui_text_1"))),
             br(),
@@ -50,22 +51,33 @@ mod_data_ui <- function(id, label = "data") {
           )
         ),
         tabPanel(
-          title = "1.2 Plot",
+          title = "1.2 Selected Data",
+          well_panel(
+            uiOutput(ns("download_selected")),
+            br(),
+            h3(uiOutput(ns("ui_text_2"))),
+            br(),
+            br(),
+            uiOutput(ns("ui_table_selected"))
+          )
+        ),
+        tabPanel(
+          title = "1.3 Plot",
           well_panel(
             uiOutput(ns("download_plot")),
             br(),
-            h3(uiOutput(ns("ui_text_2"))),
+            h3(uiOutput(ns("ui_text_3"))),
             br(),
             br(),
             uiOutput(ns("ui_plot"))
           )
         ),
         tabPanel(
-          title = "1.3 Aggregated Data per Species",
+          title = "1.4 Aggregate Data",
           well_panel(
             uiOutput(ns("download_aggregated")),
             br(),
-            h3(uiOutput(ns("ui_text_3"))),
+            h3(uiOutput(ns("ui_text_4"))),
             br(),
             br(),
             uiOutput(ns("ui_table_aggregated"))
@@ -89,6 +101,7 @@ mod_data_server <- function(id) {
         chem_pick = NULL,
         chem_check = NULL,
         aggregated = NULL,
+        selected = NULL,
         gp = NULL,
         name = NULL,
         af_table = NULL,
@@ -124,7 +137,7 @@ mod_data_server <- function(id) {
         }
       })
   
-      observeEvent(input$submit, label = "select_chemical", {
+      observeEvent(input$run, label = "select_chemical", {
         if (input$chem_type == "name") {
           rv$chem_pick <- input$select_chem_name
         } else {
@@ -135,6 +148,7 @@ mod_data_server <- function(id) {
         if (length(rv$chem_pick) == 0) {
           rv$data <- NULL
           rv$aggregated <- NULL
+          rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
           rv$af_table <- NULL
@@ -158,6 +172,7 @@ mod_data_server <- function(id) {
         if (rv$chem_pick == "") {
           rv$data <- NULL
           rv$aggregated <- NULL
+          rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
           rv$af_table <- NULL
@@ -198,6 +213,7 @@ mod_data_server <- function(id) {
           chem_msg <- rv$chem_check
           rv$data <- NULL
           rv$aggregated <- NULL
+          rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
           rv$af_table <- NULL
@@ -274,7 +290,7 @@ mod_data_server <- function(id) {
         table_output(ns("table_raw"))
       })
       
-      output$download_data <- renderUI({
+      output$download_raw <- renderUI({
         req(rv$chem, rv$data)
         download_button(ns("dl_raw"))
       })
@@ -292,10 +308,58 @@ mod_data_server <- function(id) {
           readr::write_csv(data, file)
         }
       )
+      
+      
+      
+      
+      observeEvent(input$select, {
+        req(rv$data)
+     
+        rv$selected <-
+          rv$data |>
+            dplyr::filter(!dplyr::row_number() %in% input$table_raw_rows_selected)
+        
+      })
+      
+      
+      
+      
       # Tab 1.2 ----
       output$text_2 <- renderText({rv$name})
       output$ui_text_2 <- renderUI({
         text_output(ns("text_2"))
+      })
+      
+      output$table_selected <- DT::renderDT({
+        data_table(rv$selected)
+      })
+      
+      output$ui_table_selected <- renderUI({
+        table_output(ns("table_selected"))
+      })
+      
+      output$download_selected <- renderUI({
+        req(rv$chem, rv$selected)
+        download_button(ns("dl_selected"))
+      })
+      
+      output$dl_selected <- downloadHandler(
+        filename = function() {
+          file_name_dl("data-selected", rv$chem, "csv")
+        },
+        content = function(file) {
+          if (is.null(rv$selected)) {
+            data <- data.frame(x = "no chemical selected")
+          } else {
+            data <- rv$selected
+          }
+          readr::write_csv(data, file)
+        }
+      )
+      # Tab 1.3 ----
+      output$text_3 <- renderText({rv$name})
+      output$ui_text_3 <- renderUI({
+        text_output(ns("text_3"))
       })
       
       output$ui_plot <- renderUI({
@@ -329,10 +393,10 @@ mod_data_server <- function(id) {
           )
         }
       )
-      # Tab 1.3 ----
-      output$text_3 <- renderText({rv$name})
-      output$ui_text_3 <- renderUI({
-        text_output(ns("text_3"))
+      # Tab 1.4 ----
+      output$text_4 <- renderText({rv$name})
+      output$ui_text_4 <- renderUI({
+        text_output(ns("text_4"))
       })
       
       output$table_aggregated <- DT::renderDT({
