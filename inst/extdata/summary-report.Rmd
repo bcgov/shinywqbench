@@ -1,6 +1,6 @@
 ---
 title: "Water Quality Benchmark Report"
-date: "`r format(dttr2::dtt_date_time(Sys.time(), tz = 'Etc/GMT+8'), '%B %d, %Y')`"
+date: "`r format(as.POSIXct(as.numeric(as.POSIXct(Sys.time())), tz = 'Etc/GMT+8', origin = '1970-01-01'), '%B %d, %Y')`"
 output: pdf_document
 params:
   chem_name: ""
@@ -48,3 +48,4 @@ cat("- wqbench:", as.character(packageVersion("wqbench")), "\n")
 cat("\n")
 cat("- shinywqbench", as.character(packageVersion("shinywqbench")))
 ```
+
