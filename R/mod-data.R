@@ -253,14 +253,22 @@ mod_data_server <- function(id) {
       observeEvent(rv$chem, {
         w$show()
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
-        rv$data <- wqbench::wqb_benchmark_method(rv$data)
-        rv$aggregated <- wqbench::wqb_aggregate(rv$data)
+        
+        rv$name <- unique(rv$data$chemical_name)
+        rv$selected <- rv$data
+        
+        
+        rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
+        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+        
+        ### This needs to be moved to Tab 2
+        ### waiter needs to be added to tab 2
         rv$aggregated <- wqbench::wqb_af_variation(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_ecological(rv$aggregated)
         rv$aggregated <- wqbench::wqb_af_bc_species(rv$aggregated)
         
         rv$af_table <- tabulate_af(rv$aggregated)
-        rv$name <- unique(rv$data$chemical_name)
+        
         rv$method <- rv$aggregated$method[1]
         
         if (rv$method == "VF") {
@@ -369,11 +377,11 @@ mod_data_server <- function(id) {
         rv$gp
       })
       
-      observeEvent(rv$data, {
-        if (length(rv$data) == 0) {
+      observeEvent(rv$selected, {
+        if (length(rv$selected) == 0) {
           return()
         }
-        rv$gp <- wqbench::wqb_plot(rv$data)
+        rv$gp <- wqbench::wqb_plot(rv$selected)
       })
       
       output$download_plot <- renderUI({
