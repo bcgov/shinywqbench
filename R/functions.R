@@ -42,15 +42,12 @@ download_button <- function(..., icon = "download", class = "btn-primary") {
 }
 
 # Waiting Screen ----
-
-waiting_screen <- tagList(
-  waiter::spin_flower(),
-  h4("Loading data for selected chemical ...")
-) 
-
-waiter_data <- function() {
+waiter_data <- function(msg = "Loading data for selected chemical ...") {
   waiter::Waiter$new(
-    html = waiting_screen,
+    html = tagList(
+      waiter::spin_flower(),
+      h4(msg)
+    ),
     color = "rgb(0, 51, 102, 0.9)"
   )
 }

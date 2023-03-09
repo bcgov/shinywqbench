@@ -103,12 +103,7 @@ mod_data_server <- function(id) {
         aggregated = NULL,
         selected = NULL,
         gp = NULL,
-        name = NULL,
-        af_table = NULL,
-        method = NULL,
-        bench = NULL,
-        fit = NULL,
-        gp_results = NULL
+        name = NULL
       )
       
       # Inputs ----
@@ -151,11 +146,6 @@ mod_data_server <- function(id) {
           rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
-          rv$af_table <- NULL
-          rv$method <- NULL
-          rv$bench <- NULL
-          rv$fit <- NULL
-          rv$gp_results <- NULL
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
@@ -175,11 +165,6 @@ mod_data_server <- function(id) {
           rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
-          rv$af_table <- NULL
-          rv$method <- NULL
-          rv$bench <- NULL
-          rv$fit <- NULL
-          rv$gp_results <- NULL
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
@@ -216,11 +201,6 @@ mod_data_server <- function(id) {
           rv$selected <- NULL
           rv$gp <- NULL
           rv$name <- NULL
-          rv$af_table <- NULL
-          rv$method <- NULL
-          rv$bench <- NULL
-          rv$fit <- NULL
-          rv$gp_results <- NULL
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
@@ -257,31 +237,8 @@ mod_data_server <- function(id) {
         rv$name <- unique(rv$data$chemical_name)
         rv$selected <- rv$data
         
-        
         rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
-        
-        ### This needs to be moved to Tab 2
-        ### waiter needs to be added to tab 2
-        rv$aggregated <- wqbench::wqb_af_variation(rv$aggregated)
-        rv$aggregated <- wqbench::wqb_af_ecological(rv$aggregated)
-        rv$aggregated <- wqbench::wqb_af_bc_species(rv$aggregated)
-        
-        rv$af_table <- tabulate_af(rv$aggregated)
-        
-        rv$method <- rv$aggregated$method[1]
-        
-        if (rv$method == "VF") {
-          rv$fit <- NULL
-          rv$bench <- wqbench::wqb_generate_vf(rv$aggregated)
-          rv$gp_results <- wqbench::wqb_plot_vf(rv$aggregated)
-        } else {
-          fit <- wqbench:::wqb_generate_ssd_fit(rv$aggregated)
-          rv$fit <- fit
-          rv$bench <- wqbench::wqb_generate_ssd(rv$aggregated, rv$fit)
-          rv$gp_results <- wqbench::wqb_plot_ssd(rv$aggregated, rv$fit)
-        }
-      
         w$hide()
       })
       
