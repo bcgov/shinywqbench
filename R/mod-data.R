@@ -34,7 +34,7 @@ mod_data_ui <- function(id, label = "data") {
           )
         ) 
       ),
-      actionButton(ns("run"), "Run!"),
+      actionButton(ns("run"), "Run"),
     ),
     mainPanel(
       tabsetPanel(
