@@ -38,7 +38,7 @@ mod_data_ui <- function(id, label = "data") {
     mainPanel(
       tabsetPanel(
         tabPanel(
-          title = "1.1 Raw Data",
+          title = "1.1 Data Review",
           well_panel(
             inline(uiOutput(ns("download_raw"))),
             inline(uiOutput(ns("button_select"))),
@@ -50,7 +50,7 @@ mod_data_ui <- function(id, label = "data") {
           )
         ),
         tabPanel(
-          title = "1.2 Plot",
+          title = "1.2 View Plot",
           well_panel(
             uiOutput(ns("download_plot")),
             br(),
