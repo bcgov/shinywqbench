@@ -48,7 +48,7 @@ waiter_data <- function(msg = "Loading data for selected chemical ...") {
       waiter::spin_flower(),
       h4(msg)
     ),
-    color = "rgb(0, 51, 102, 0.9)"
+    color = "rgb(44, 62, 80, 0.9)"
   )
 }
 

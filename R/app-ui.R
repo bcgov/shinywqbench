@@ -1,7 +1,7 @@
 app_ui <- function() {
   tagList(
     css_styling(),
-    # add_external_resources(), # remove bc gov styling 
+    add_external_resources(), 
     shinyjs::useShinyjs(),
     waiter::useWaiter(),
     navbarPage(
@@ -27,10 +27,12 @@ app_ui <- function() {
         value = "tab4",
         title = "About",
         mod_about_ui("mod_about_ui")
+      ),
+      tabPanel(
+        value = "tab5",
+        title = "User Guide",
+        mod_user_ui("mod_user_ui")
       )
-    )#, # remove bc gov styling 
-    # div(class = "footer",
-    #     includeHTML("www/footer.html")
-    # )
+    )
   )
 }
