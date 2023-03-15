@@ -17,8 +17,7 @@ mod_data_ui <- function(id, label = "data") {
             selectizeInput(
               ns("select_chem_name"), 
               label = "", 
-              choices = NULL,
-              selected = NULL
+              choices = NULL
             ),
           )
         ),
@@ -101,19 +100,21 @@ mod_data_server <- function(id) {
         session = session,
         inputId = "select_chem_name",
         choices = sort(cname$chemical_name),
-        server = TRUE
+        server = TRUE,
+        selected = ""
       )
 
       updateSelectizeInput(
         session = session,
         inputId = "select_cas_num",
         choices = sort(cname$cas_number),
-        server = TRUE
+        server = TRUE,
+        selected = ""
       )
     
       # Select chemical ----
       observeEvent(input$chem_type, {
-        if (input$chem_type == "name") {
+        if (input$chem_type == "Name") {
           show("div_name")
           hide("div_cas")
         } else {
@@ -126,12 +127,12 @@ mod_data_server <- function(id) {
       w <- waiter_data()
   
       observeEvent(input$run, label = "select_chemical", {
-        if (input$chem_type == "name") {
+        if (input$chem_type == "Name") {
           rv$chem_pick <- input$select_chem_name
         } else {
           rv$chem_pick <- input$select_cas_num
         }
-    
+        
         # clear inputs when chemical not picked
         if (length(rv$chem_pick) == 0) {
           rv$data <- NULL
@@ -173,7 +174,7 @@ mod_data_server <- function(id) {
           )
         }
         
-        if (input$chem_type == "name") {
+        if (input$chem_type == "Name") {
           cas_number <- cname |>
             dplyr::filter(.data$chemical_name == input$select_chem_name) |>
             dplyr::select(cas_number) |>
