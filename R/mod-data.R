@@ -92,7 +92,8 @@ mod_data_server <- function(id) {
         aggregated = NULL,
         selected = NULL,
         gp = NULL,
-        name = NULL
+        name = NULL,
+        data_table_agg = NULL
       )
       
       # Inputs ----
@@ -141,6 +142,7 @@ mod_data_server <- function(id) {
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
+          rv$data_table_agg <- NULL
           return(
             showModal(
               modalDialog(
@@ -160,6 +162,7 @@ mod_data_server <- function(id) {
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
+          rv$data_table_agg <- NULL
           return(
             showModal(
               modalDialog(
@@ -196,6 +199,7 @@ mod_data_server <- function(id) {
           rv$chem_check <- NULL
           rv$chem <- NULL
           rv$chem_pick <- NULL
+          rv$data_table_agg <- NULL
           return(
             showModal(
               modalDialog(
@@ -230,12 +234,12 @@ mod_data_server <- function(id) {
         w$hide()
       })
       
-      # observeEvent(rv$selected, {
-      #   w$show()
-      #   rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
-      #   rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
-      #   w$hide()
-      # })
+      observeEvent(rv$selected, {
+        w$show()
+        rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
+        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+        w$hide()
+      })
       
       # Tab 1.1 ----
       output$text_1 <- renderText({rv$name})
@@ -317,11 +321,20 @@ mod_data_server <- function(id) {
       })
       
       observeEvent(rv$selected, {
-        if (length(rv$selected) == 0) {
-          return()
+        if (nrow(rv$selected) == 0) {
+          rv$gp <- NULL
+          return(
+            showModal(
+              modalDialog(
+                div(
+                  "Ensure there is at least one row of data to continue.
+                  All rows are selected to be removed."
+                ),
+                footer = modalButton("Got it")
+              )
+            )
+          )
         }
-        print("render the plot again")
-        print(rv$selected)
         rv$gp <- wqbench::wqb_plot(rv$selected)
       })
       
@@ -348,8 +361,19 @@ mod_data_server <- function(id) {
         text_output(ns("text_3"))
       })
       
+      observeEvent(rv$selected, {
+        if (nrow(rv$selected) == 0) {
+          rv$data_table_agg <- NULL
+          
+          return()
+          
+        }
+        rv$data_table_agg <- data_table(rv$aggregated)
+      })
+      
+      
       output$table_aggregated <- DT::renderDT({
-        data_table(rv$aggregated)
+        rv$data_table_agg
       })
       
       output$ui_table_aggregated <- renderUI({
