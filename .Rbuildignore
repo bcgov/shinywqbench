@@ -14,6 +14,7 @@
 ^scripts$
 ^project-notes$
 ^rsconnect$
+^.rscignore$
 ^app\.R$
 ^deploy\.R$
 ^COMPLIANCE\.yaml$

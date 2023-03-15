@@ -86,7 +86,7 @@ mod_bench_server <- function(id, ext) {
           rv$bench <- wqbench::wqb_generate_vf(rv$agg_af)
           rv$gp_results <- wqbench::wqb_plot_vf(rv$agg_af)
         } else {
-          fit <- wqbench:::wqb_generate_ssd_fit(rv$agg_af)
+          fit <- wqbench::wqb_generate_ssd_fit(rv$agg_af)
           rv$fit <- fit
           rv$bench <- wqbench::wqb_generate_ssd(rv$agg_af, rv$fit)
           rv$gp_results <- wqbench::wqb_plot_ssd(rv$agg_af, rv$fit)

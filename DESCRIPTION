@@ -14,13 +14,16 @@ Imports:
     dplyr,
     ggplot2,
     shiny,
-    ssdtools,
     readr,
     waiter,
     shinyjs,
     wqbench,
     knitr,
-    writexl
+    writexl,
+    stringr,
+    tidyr,
+    rmarkdown,
+    rlang
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

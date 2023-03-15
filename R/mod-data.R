@@ -175,7 +175,7 @@ mod_data_server <- function(id) {
         
         if (input$chem_type == "name") {
           cas_number <- cname |>
-            dplyr::filter(chemical_name == input$select_chem_name) |>
+            dplyr::filter(.data$chemical_name == input$select_chem_name) |>
             dplyr::select(cas_number) |>
             dplyr::pull()
           rv$chem_check <- cas_number
@@ -185,7 +185,7 @@ mod_data_server <- function(id) {
         
         guideline_present  <- cname |>
           dplyr::filter(cas_number == rv$chem_check) |>
-          dplyr::select(present_in_bc_wqg) |>
+          dplyr::select("present_in_bc_wqg") |>
           dplyr::pull()
         
         # when chemical already present in wqg
@@ -278,9 +278,9 @@ mod_data_server <- function(id) {
           dplyr::mutate(
             id = dplyr::row_number(),
             remove_row = dplyr::case_when(
-              id %in% input$table_selected_rows_selected & remove_row ~ FALSE, # if already selected and selected again then deselect
-              id %in% input$table_selected_rows_selected ~ TRUE, # then select them 
-              TRUE ~ remove_row # keep the rest the same
+              .data$id %in% input$table_selected_rows_selected & .data$remove_row ~ FALSE, # if already selected and selected again then deselect
+              .data$id %in% input$table_selected_rows_selected ~ TRUE, # then select them 
+              TRUE ~ .data$remove_row # keep the rest the same
             )
           ) |>
           dplyr::select(
@@ -289,7 +289,7 @@ mod_data_server <- function(id) {
         
         rv$selected <-
           rv$data |>
-          dplyr::filter(!remove_row)
+          dplyr::filter(!.data$remove_row)
         
       })
       
