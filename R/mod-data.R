@@ -55,7 +55,7 @@ mod_data_ui <- function(id, label = "data") {
           well_panel(
             uiOutput(ns("download_plot")),
             br(),
-            h3(uiOutput(ns("ui_text_3"))),
+            h3(uiOutput(ns("ui_text_2"))),
             br(),
             br(),
             uiOutput(ns("ui_plot"))
@@ -66,7 +66,7 @@ mod_data_ui <- function(id, label = "data") {
           well_panel(
             uiOutput(ns("download_aggregated")),
             br(),
-            h3(uiOutput(ns("ui_text_4"))),
+            h3(uiOutput(ns("ui_text_3"))),
             br(),
             br(),
             uiOutput(ns("ui_table_aggregated"))
@@ -304,9 +304,9 @@ mod_data_server <- function(id) {
       })
       
       # Tab 1.2 ----
-      output$text_3 <- renderText({rv$name})
-      output$ui_text_3 <- renderUI({
-        text_output(ns("text_3"))
+      output$text_2 <- renderText({rv$name})
+      output$ui_text_2 <- renderUI({
+        text_output(ns("text_2"))
       })
       
       output$ui_plot <- renderUI({
@@ -343,9 +343,9 @@ mod_data_server <- function(id) {
         }
       )
       # Tab 1.3 ----
-      output$text_4 <- renderText({rv$name})
-      output$ui_text_4 <- renderUI({
-        text_output(ns("text_4"))
+      output$text_3 <- renderText({rv$name})
+      output$ui_text_3 <- renderUI({
+        text_output(ns("text_3"))
       })
       
       output$table_aggregated <- DT::renderDT({
