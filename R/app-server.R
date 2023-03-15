@@ -18,4 +18,8 @@ app_server <- function(input, output, session) {
   mod_about_server(
     "mod_about_ui"
   )
+  
+  mod_user_server(
+    "mod_user_ui"
+  )
 }
