@@ -5,7 +5,7 @@ app_ui <- function() {
     shinyjs::useShinyjs(),
     waiter::useWaiter(),
     navbarPage(
-      title = "Screening Level Water Quality Guidelines for Emerging contaminants",
+      title = "Aquatic Life Water Quality Benchmark Generator",
       selected = "tab1",
       id = "navbarID",
       tabPanel(
