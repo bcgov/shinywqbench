@@ -47,20 +47,21 @@ mod_data_ui <- function(id, label = "data") {
             h3(uiOutput(ns("ui_text_1"))),
             br(),
             br(),
-            uiOutput(ns("ui_table_raw"))
-          )
-        ),
-        tabPanel(
-          title = "1.2 Selected Data",
-          well_panel(
-            uiOutput(ns("download_selected")),
-            br(),
-            h3(uiOutput(ns("ui_text_2"))),
-            br(),
-            br(),
+           # uiOutput(ns("ui_table_raw")),
             uiOutput(ns("ui_table_selected"))
           )
         ),
+        # tabPanel(
+        #   title = "1.2 Selected Data",
+        #   well_panel(
+        #     uiOutput(ns("download_selected")),
+        #     br(),
+        #     h3(uiOutput(ns("ui_text_2"))),
+        #     br(),
+        #     br(),
+        #     uiOutput(ns("ui_table_selected"))
+        #   )
+        # ),
         tabPanel(
           title = "1.3 Plot",
           well_panel(
@@ -231,6 +232,7 @@ mod_data_server <- function(id) {
         
         w$show()
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
+        rv$data$remove_row <- 0
         
         rv$name <- unique(rv$data$chemical_name)
         rv$selected <- rv$data
@@ -240,12 +242,12 @@ mod_data_server <- function(id) {
         w$hide()
       })
       
-      observeEvent(rv$selected, {
-        w$show()
-        rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
-        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
-        w$hide()
-      })
+      # observeEvent(rv$selected, {
+      #   w$show()
+      #   rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
+      #   rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+      #   w$hide()
+      # })
       
       # Tab 1.1 ----
       output$text_1 <- renderText({rv$name})
@@ -253,16 +255,16 @@ mod_data_server <- function(id) {
         text_output(ns("text_1"))
       })
       
-      output$table_raw <- DT::renderDT({
-        data_table(rv$data)
-      })
-      output$ui_table_raw <- renderUI({
-        table_output(ns("table_raw"))
-      })
+      # output$table_raw <- DT::renderDT({
+      #   data_table(rv$data)
+      # })
+      # output$ui_table_raw <- renderUI({
+      #   table_output(ns("table_raw"))
+      # })
       
       output$button_select <- renderUI({
         req(rv$chem, rv$data)
-        actionButton(ns("select"), "Remove selected rows")
+        actionButton(ns("select"), "Edit Data")
       })
       
       output$download_raw <- renderUI({
@@ -285,60 +287,67 @@ mod_data_server <- function(id) {
       )
 
       observeEvent(input$select, {
-        req(rv$data)
+        #req(rv$data)
      
+        print("inside edit data")
+        print(input$table_selected_rows_selected)
+        
+        rv$data <-
+          rv$data |>
+          dplyr::mutate(
+            row = dplyr::row_number(),
+            remove_row = dplyr::if_else(
+              !dplyr::row_number() %in% input$table_selected_rows_selected,
+              0,
+              1
+            )
+          )
+        
         rv$selected <-
           rv$data |>
-            # this removed the rows  
-            # dplyr::filter(!dplyr::row_number() %in% input$table_raw_rows_selected)
-            dplyr::mutate(
-              row = dplyr::row_number(),
-              id = dplyr::if_else(
-                !dplyr::row_number() %in% input$table_raw_rows_selected,
-                0,
-                1
-              )
-            )
+          dplyr::filter(!dplyr::row_number() %in% input$table_selected_rows_selected)
+        
       })
       
-      # Tab 1.2 ----
-      output$text_2 <- renderText({rv$name})
-      output$ui_text_2 <- renderUI({
-        text_output(ns("text_2"))
-      })
+      # # Tab 1.2 ----
+      # output$text_2 <- renderText({rv$name})
+      # output$ui_text_2 <- renderUI({
+      #   text_output(ns("text_2"))
+      # })
       
       output$table_selected <- DT::renderDT({
-        data_table(rv$selected) |> 
+        req(rv$data)
+        print("table render")
+        data_table(rv$data) |> 
           DT::formatStyle(
-            columns = c("id"),
+            columns = c("remove_row"),
             target = "row",
             backgroundColor = DT::styleEqual(c(1), c("#ff4d4d"))
           )
-          
       })
       
       output$ui_table_selected <- renderUI({
         table_output(ns("table_selected"))
       })
       
-      output$download_selected <- renderUI({
-        req(rv$chem, rv$selected)
-        download_button(ns("dl_selected"))
-      })
-      
-      output$dl_selected <- downloadHandler(
-        filename = function() {
-          file_name_dl("data-selected", rv$chem, "csv")
-        },
-        content = function(file) {
-          if (is.null(rv$selected)) {
-            data <- data.frame(x = "no chemical selected")
-          } else {
-            data <- rv$selected
-          }
-          readr::write_csv(data, file)
-        }
-      )
+      # output$download_selected <- renderUI({
+      #   req(rv$chem, rv$selected)
+      #   download_button(ns("dl_selected"))
+      # })
+      # 
+      # output$dl_selected <- downloadHandler(
+      #   filename = function() {
+      #     file_name_dl("data-selected", rv$chem, "csv")
+      #   },
+      #   content = function(file) {
+      #     if (is.null(rv$selected)) {
+      #       data <- data.frame(x = "no chemical selected")
+      #     } else {
+      #       data <- rv$selected
+      #     }
+      #     readr::write_csv(data, file)
+      #   }
+      # )
       # Tab 1.3 ----
       output$text_3 <- renderText({rv$name})
       output$ui_text_3 <- renderUI({
@@ -356,6 +365,8 @@ mod_data_server <- function(id) {
         if (length(rv$selected) == 0) {
           return()
         }
+        print("render the plot again")
+        print(rv$selected)
         rv$gp <- wqbench::wqb_plot(rv$selected)
       })
       
