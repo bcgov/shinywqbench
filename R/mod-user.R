@@ -1,4 +1,4 @@
-mod_about_ui <- function(id, label = "user") {
+mod_user_ui <- function(id, label = "user") {
   ns <- NS(id)
   
   tagList(
