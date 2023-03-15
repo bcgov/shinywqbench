@@ -291,7 +291,16 @@ mod_data_server <- function(id) {
      
         rv$selected <-
           rv$data |>
-            dplyr::filter(!dplyr::row_number() %in% input$table_raw_rows_selected)
+            # this removed the rows  
+            # dplyr::filter(!dplyr::row_number() %in% input$table_raw_rows_selected)
+            dplyr::mutate(
+              row = dplyr::row_number(),
+              id = dplyr::if_else(
+                !dplyr::row_number() %in% input$table_raw_rows_selected,
+                0,
+                1
+              )
+            )
       })
       
       # Tab 1.2 ----
@@ -301,7 +310,13 @@ mod_data_server <- function(id) {
       })
       
       output$table_selected <- DT::renderDT({
-        data_table(rv$selected)
+        data_table(rv$selected) |> 
+          DT::formatStyle(
+            columns = c("id"),
+            target = "row",
+            backgroundColor = DT::styleEqual(c(1), c("#ff4d4d"))
+          )
+          
       })
       
       output$ui_table_selected <- renderUI({
