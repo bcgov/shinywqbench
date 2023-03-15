@@ -1,5 +1,6 @@
 app_ui <- function() {
   tagList(
+    tags$head(tags$title("shinywqbench")),
     css_styling(),
     add_external_resources(), 
     shinyjs::useShinyjs(),
