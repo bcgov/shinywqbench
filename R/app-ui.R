@@ -11,16 +11,19 @@ app_ui <- function() {
       tabPanel(
         value = "tab1",
         title = "1. Data",
+        icon = shiny::icon("table"),
         mod_data_ui("mod_data_ui")
       ),
       tabPanel(
         value = "tab2",
         title = "2. Benchmark",
+        icon = shiny::icon("chart-simple"),
         mod_bench_ui("mod_bench_ui")
       ),
       tabPanel(
         value = "tab3",
         title = "3. Summary",
+        icon = shiny::icon("file-contract"),
         mod_summary_ui("mod_summary_ui")
       ),
       tabPanel(
