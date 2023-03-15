@@ -131,6 +131,9 @@ mod_data_server <- function(id) {
           show("div_cas")
         }
       })
+      
+      # Data ----
+      w <- waiter_data()
   
       observeEvent(input$run, label = "select_chemical", {
         if (input$chem_type == "name") {
@@ -225,12 +228,7 @@ mod_data_server <- function(id) {
         } else {
           rv$chem <- rv$chem_check
         }
-      })
-      
-      # Data ----
-      w <- waiter_data()
-      
-      observeEvent(rv$chem, {
+        
         w$show()
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         
