@@ -7,8 +7,8 @@ mod_data_ui <- function(id, label = "data") {
         radioButtons(
           ns("chem_type"),
           label = "Select chemical by",
-          choices = c("name", "cas number"),
-          selected = "name",
+          choices = c("Name", "CAS Registry Number (without dashes)"),
+          selected = "Name",
           inline = TRUE
         ),
         shinyjs::hidden(
