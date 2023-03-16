@@ -76,15 +76,14 @@ mod_bench_server <- function(id, ext) {
         rv$agg_af <- wqbench::wqb_af_bc_species(rv$agg_af)
         
         rv$af_table <- tabulate_af(rv$agg_af)
-        
         rv$method <- rv$agg_af$method[1]
         rv$name <- rv$agg_af$chemical_name[1]
         rv$cas <- rv$agg_af$test_cas[1]
-        
-        if (rv$method == "VF") {
+   
+        if (rv$method == "Deterministic") {
           rv$fit <- NULL
-          rv$bench <- wqbench::wqb_generate_vf(rv$agg_af)
-          rv$gp_results <- wqbench::wqb_plot_vf(rv$agg_af)
+          rv$bench <- wqbench::wqb_generate_det(rv$agg_af)
+          rv$gp_results <- wqbench::wqb_plot_det(rv$agg_af)
         } else {
           fit <- wqbench::wqb_generate_ssd_fit(rv$agg_af)
           rv$fit <- fit
