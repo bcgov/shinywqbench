@@ -1,5 +1,5 @@
 ---
-title: "Water Quality Benchmark Report"
+title: "Aquatic Life Water Quality Benchmark Report"
 date: "`r format(as.POSIXct(as.numeric(as.POSIXct(Sys.time())), tz = 'Etc/GMT+8', origin = '1970-01-01'), '%B %d, %Y')`"
 output: pdf_document
 params:
@@ -9,26 +9,42 @@ params:
   af: NULL
 ---
 
-Chemical Name: 
-```{r, echo=FALSE, results = 'asis'}
-cat(params$chem_name)
-```
+Chemical Name: **`r params$chem_name`**
 
-Method:
-```{r, echo=FALSE, results = 'asis'}
-cat(params$method)
-```
-
-## Benchmark
+### Data Summary
 
 ```{r, echo=FALSE}
 knitr::kable(
-  params$benchmark, 
+  tibble::tibble(
+    "Trophic Group" = 1,
+    "No. of species" = 2
+  )
+)
+```
+
+Benchmark derivation method selected: `r params$method`
+
+Critical Toxicity Value (HC5 if method is SSD): 
+
+```{r, echo=FALSE}
+knitr::kable(
+  params$benchmark,
   digits = 5
 )
 ```
 
-## Assessment Factors
+## Assessment Factor Summary
+
+```{r, echo=FALSE}
+knitr::kable(
+  tibble::tibble(
+    "Consideration" = 1,
+    "Result" = 1
+  )
+)
+```
+
+### Recommended Assessment Factors: 
 
 ```{r, echo=FALSE}
 knitr::kable(
@@ -37,9 +53,20 @@ knitr::kable(
 )
 ```
 
+### Final Aquatic Life Water Quality Benchmark
+
+Aquatic life water quality benchmark (WQAL) = critical toxicity value ÷ assessment factor
+
+WQAL = insert CTV ÷ AF
+
+WQAL = concentration with units
 
 
 
+
+
+
+\newpage
 
 Software versions:
 
