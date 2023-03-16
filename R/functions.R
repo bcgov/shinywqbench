@@ -66,10 +66,10 @@ tabulate_af <- function(data) {
   af_descriptions <- data.frame(
     Name = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
     Description = c(
-      "Factor based on number of trophic groups and species present",
-      "Ecological factor based on having a salmonid species present",
-      "Ecological factor based on having a planktonic crustacean species present",
-      "Factor based on number of British Columbia species present"
+      "Accounts for uncertainty due to limited species and trophic coverage",
+      "Accounts for uncertainty when missing data on planktonic invertebrates and/or salmonids",
+      "Accounts for uncertainty when missing data on planktonic invertebrates and/or salmonids",
+      "Accounts for uncertainty of not having representation of B.C. species"
     )
   )
   
