@@ -15,7 +15,7 @@ The app is built from the R package [wqbench](https://github.com/bcgov/wqbench),
 - A loading screen will appear telling you the app is processing your request
 
 
-- If the chemical already has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the BC Water Quality Guideline Lookup App
+- If the chemical already has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the BC Water Quality Guideline Look-up App
 - If the chemical is present in the data set, a pop up box will appear and advise you to pick a different chemical to continue.
 
 
@@ -49,14 +49,26 @@ Tab 1.4 Aggregate Data
 - shows the data aggregated for each species
 - insert rules for Step 5 
 - Download the table as csv 
-  
+
+**Performing your own analysis of the data**
+
+- You can download the aggregated data and upload it into [shinyssdtools](https://bcgov.github.io/shinyssdtools/) app if you want to vary the options of species sensitivity distribution (SSD) analysis
+
 ### Step 4: Generate Benchmark
 
 **Tab 2.1 Plot & 2.2 Report**
 - Go Tab 2 Benchmark and click Generate Benchmark on the left panel.
-- Either an species sensitivity distribution (SSD) or deterministic method is used to generate the benchmark value depending on the number of trophic groups and species present in the data set. 
+- Either an SSD analysis or deterministic method is used to generate the benchmark value depending on the number of trophic groups and species present in the data set. 
 - Download the plot as a png on Tab 2.1 Plot
 - Download a summary report on Tab 2.2 Report
+
+**SSD Method**
+The SSD method used in the app uses ssdtools `ssd_hc_bcanz()` with 100 bootstrap samples. 
+The number of bootstraps can not be adjusted in the app.
+If a user wants to vary the parameters of the SSD then the aggregated can be downloaded and used in the shinyssdtools app.
+
+**Deterministic Method**
+The deterministic method selects the lowest concentration as the critical toxicity value.
 
 ### Step 5: Download Summaries
 
@@ -64,6 +76,7 @@ Tab 1.4 Aggregate Data
 
 - Download a pdf report of the select chemical, benchmark and assessment factors. 
 - Download an excel table with all the data tables: data, selected data, aggregated data, benchmark values and assessment factors 
+- Downloaded files have a consistent name where: file-name_cas-number_datetime-stamp ex:"data-aggregated_60139_2023-03-17_08-47-52.csv"
 
 ## Data Definitions
 
@@ -83,7 +96,7 @@ Tab 1.4 Aggregate Data
 | ACR ||
 | media_type | Media type of tests (from ECOTOX) |
 | trophic_group | Grouping of species into fish, amphibian, invertebrate, algae and plant. |
-| ecological_group | Grouping of species into salmonid, plankoc invertebrates and other. |
+| ecological_group | Grouping of species into salmonid, planktonic invertebrates and other. |
 | species_present_in_bc | Column added to indicate if the species is present in British Columbia or not. Value is TRUE if the species has been found in British Columbia. |
 | author | Author of reference (from ECOTOX) |
 | title | Title of reference (from ECOTOX) |
