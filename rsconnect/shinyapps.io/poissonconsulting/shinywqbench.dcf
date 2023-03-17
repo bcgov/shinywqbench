@@ -5,7 +5,7 @@ account: poissonconsulting
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8452407
-bundleId: 6973383
+bundleId: 6973425
 url: https://poissonconsulting.shinyapps.io/shinywqbench/
-when: 1679089301.39081
-lastSyncTime: 1679089301.39084
+when: 1679089895.64238
+lastSyncTime: 1679089895.6424
