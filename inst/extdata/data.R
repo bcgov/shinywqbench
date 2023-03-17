@@ -15,19 +15,20 @@ conc_endpoints <- wqb_add_concentration_endpoints(database = database)
 lifestage_codes <- wqb_add_lifestage(database = database) 
 media_groups <- wqb_add_media(database = database)
 trophic_groups <- wqb_add_trophic_group(database = database) 
-duration_unit_code_standardization <- wqb_standardize_duration(database = database)
-concentration_unit_code_standardization <- wqb_standardize_concentration(database = database)
+duration_unit_code_standardization <- wqb_add_duration_conversions(database = database)
+concentration_unit_code_standardization <- wqb_add_conc_conversions(database = database)
 
 data <- wqb_compile_dataset(database = database) 
 data <- wqb_classify_duration(data)
 ecotox_data <- wqb_standardize_effect(data)
 
 cname <- ecotox_data |>
-  dplyr::select(cas_number = test_cas, chemical_name, present_in_bc_wqg) |>
+  dplyr::select(cas_number = cas, chemical_name, present_in_bc_wqg) |>
   dplyr::distinct()
 
 ecotox_data <- ecotox_data |>
-  dplyr::filter(!present_in_bc_wqg)
+  dplyr::filter(!present_in_bc_wqg) |>
+  dplyr::select(-present_in_bc_wqg)
 
 rm(data)
 
