@@ -6,7 +6,9 @@
 css_styling <- function() {
   css_text <-
     "
-
+    .nowrap {
+    white-space: nowrap;
+    }
   "
   tags$style(css_text, type = "text/css")
 }

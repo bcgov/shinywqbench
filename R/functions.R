@@ -51,12 +51,16 @@ data_table_raw <- function(data) {
       ordering = TRUE,
       autowidth = TRUE, 
       scrollX = TRUE,
-      columnDefs = list(list(
-        visible = FALSE,
-        targets = c(
-          "chemical_name", "cas", "species_number", "remove_row"
+      scrollY = TRUE,
+      columnDefs = list(
+        list(className = "nowrap", targets = "_all"),
+        list(
+          visible = FALSE,
+          targets = c(
+            "chemical_name", "cas", "species_number", "remove_row"
+          )
         )
-      ))
+      )
     )
   )
 }
