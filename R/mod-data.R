@@ -387,7 +387,7 @@ mod_data_server <- function(id) {
       
       output$dl_aggregated <- downloadHandler(
         filename = function() {
-          file_name_dl("data-aggregaated", rv$chem, "csv")
+          file_name_dl("data-aggregated", rv$chem, "csv")
         },
         content = function(file) {
           if (is.null(rv$aggregated)) {
