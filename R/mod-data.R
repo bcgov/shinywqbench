@@ -224,12 +224,11 @@ mod_data_server <- function(id) {
         }
         
         w$show()
+        
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$data$remove_row <- FALSE
-        
         rv$name <- unique(rv$data$chemical_name)
         rv$selected <- rv$data
-        
         rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
         w$hide()
@@ -254,7 +253,7 @@ mod_data_server <- function(id) {
       })
       
       output$download_raw <- renderUI({
-        req(rv$chem, rv$data)
+        req(rv$chem, rv$selected)
         download_button(ns("dl_raw"))
       })
       
@@ -263,10 +262,10 @@ mod_data_server <- function(id) {
           file_name_dl("data-raw", rv$chem, "csv")
         },
         content = function(file) {
-          if (is.null(rv$data)) {
+          if (is.null(rv$selected)) {
             data <- data.frame(x = "no chemical selected")
           } else {
-            data <- rv$data
+            data <- filter_data_raw_dl(rv$selected)
           }
           readr::write_csv(data, file)
         }
@@ -296,7 +295,7 @@ mod_data_server <- function(id) {
       
       output$table_selected <- DT::renderDT({
         req(rv$data)
-        data_table(rv$data) |> 
+        data_table_raw(rv$data) |> 
           DT::formatStyle(
             columns = c("remove_row"),
             target = "row",
@@ -369,7 +368,7 @@ mod_data_server <- function(id) {
           return()
           
         }
-        rv$data_table_agg <- data_table(rv$aggregated)
+        rv$data_table_agg <- data_table_agg(rv$aggregated)
       })
       
       
@@ -394,7 +393,7 @@ mod_data_server <- function(id) {
           if (is.null(rv$aggregated)) {
             data <- data.frame(x = "no chemical selected")
           } else {
-            data <- rv$aggregated
+            data <- filter_data_agg_dl(rv$aggregated)
           }
           readr::write_csv(data, file)
         }

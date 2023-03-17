@@ -28,9 +28,57 @@ data_table <- function(data) {
       ordering = TRUE,
       autowidth = TRUE, 
       scrollX = TRUE,
+      columnDefs = list(
+        list(
+          className = "dt-center",
+          targets = "_all"
+        )
+      )
+    )
+  )
+}
+
+data_table_raw <- function(data) {
+  if (!is.data.frame(data)) {
+    return()
+  }
+  DT::datatable(
+    data,
+    escape = FALSE, 
+    rownames = FALSE, 
+    class = "cell-border compact",
+    options = list(
+      ordering = TRUE,
+      autowidth = TRUE, 
+      scrollX = TRUE,
       columnDefs = list(list(
-        className = "dt-center",
-        targets = "_all"
+        visible = FALSE,
+        targets = c(
+          "chemical_name", "cas", "species_number", "remove_row"
+        )
+      ))
+    )
+  )
+}
+
+data_table_agg <- function(data) {
+  if (!is.data.frame(data)) {
+    return()
+  }
+  DT::datatable(
+    data,
+    escape = FALSE, 
+    rownames = FALSE, 
+    class = "cell-border compact",
+    options = list(
+      ordering = TRUE,
+      autowidth = TRUE, 
+      scrollX = TRUE,
+      columnDefs = list(list(
+        visible = FALSE,
+        targets = c(
+          "chemical_name", "cas", "species_number"
+        )
       ))
     )
   )
@@ -102,3 +150,33 @@ file_name_dl <- function(file_name, cas_number, ext) {
   dl_name <- paste(file_name, cas_num, time_stamp, sep = "_")
   dl_name <- paste0(dl_name, ".", ext)
 }
+
+# Filter Col Names ----
+
+filter_data_raw_dl <- function(data) {
+  data <- 
+    data |>
+    dplyr::select(
+      "chemical_name", "cas",
+      "latin_name", "common_name", "endpoint", "effect", "effect_conc_mg.L",
+      "lifestage", "duration_hrs", "duration_class", "effect_conc_std_mg.L",
+      "ACR", "media_type", "trophic_group", "ecological_group",
+      "species_present_in_bc",
+      "author", "title", "source", "publication_year"
+    )
+  data
+}
+
+filter_data_agg_dl <- function(data) {
+  data <- 
+    data |>
+    dplyr::select(
+      "chemical_name", "cas",
+      "latin_name", "common_name", "effect", "conc1_mean_std_effect_aggr_mg.L",
+      "trophic_group", "ecological_group",
+      "species_present_in_bc",
+      "method"
+    )
+  data
+}
+
