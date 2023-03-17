@@ -3,8 +3,8 @@ mod_user_ui <- function(id, label = "user") {
   
   tagList(
     wellPanel(
-      h2("user"),
-      br(),
+      h1("User Guide"),
+      uiOutput(ns("ui_userguide")),
       br(),
       br()
     )
@@ -16,7 +16,13 @@ mod_user_server <- function(id) {
     id, 
     function(input, output, session) {
       ns <- session$ns
-      
+     
+      output$ui_userguide <- renderUI({
+        includeMarkdown(
+          system.file(package = "shinywqbench", "extdata/user.md")
+        )
+      })
+       
     }
   )
 }
