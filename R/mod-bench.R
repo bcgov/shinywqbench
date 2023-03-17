@@ -78,7 +78,7 @@ mod_bench_server <- function(id, ext) {
         rv$af_table <- tabulate_af(rv$agg_af)
         rv$method <- rv$agg_af$method[1]
         rv$name <- rv$agg_af$chemical_name[1]
-        rv$cas <- rv$agg_af$test_cas[1]
+        rv$cas <- rv$agg_af$cas[1]
    
         if (rv$method == "Deterministic") {
           rv$fit <- NULL
