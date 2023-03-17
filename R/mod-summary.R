@@ -54,9 +54,9 @@ mod_summary_server <- function(id, ext1, ext2) {
         },
         content = function(file) {
           sheets <- list(
-            raw = ext2$raw,
-            selected = ext2$selected,
-            aggregate_data = ext2$agg,
+            raw = filter_data_raw_dl(ext2$raw),
+            selected = filter_data_raw_dl(ext2$selected),
+            aggregate_data = filter_data_agg_dl(ext2$agg),
             assessment_factor = ext2$af_table,
             benchmark = ext2$bench
           )
