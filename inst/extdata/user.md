@@ -7,65 +7,62 @@ The app is built from the R package [wqbench](https://github.com/bcgov/wqbench),
 
 **Tab 1.1 Data Review**
 
-- Select a chemical either by name or with the CAS registry number (without dashes) by using the radio buttons. 
-  - To select a chemical start typing the name or CAS number in the input field and if the chemical is present in the data set it will start to auto fill and show matches to your search. Click the value to select it.
+- Select a chemical by name or with the CAS registry number (without dashes) by using the radio buttons. 
+  - To select a chemical start typing the name or CAS number in the input field. If the chemical is present in the data set it will start to auto fill and will show matches to your search. Click the value to select it.
   - Due to the large number of chemicals present, the input field can only display a thousand values at a time. Type the value (name or CAS number) to narrow down the choices.
   - To clear a selection, hit the backspace button in the input field. 
-- Once a chemical has been selected, hit the Run
-- A loading screen will appear telling you the app is processing your request
-
-
-- If the chemical already has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the BC Water Quality Guideline Look-up App
-- If the chemical is present in the data set, a pop up box will appear and advise you to pick a different chemical to continue.
-
+  - If you are unable to find the chemical by name try the CAS number.
+- Once a chemical has been selected, hit the Run button.
+  - A loading screen may appear telling you the app is processing your request.
+  - Chemicals with more data will take longer to load, be patient.
+- If the chemical has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the [BC Water Quality Guideline Look-up App](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines).
+- If the chemical is not found in the data set, a pop up box will appear and say "The chemical you selected cannot be found in the database."
 
 ### Step 2: Edit Data 
 
 **Tab 1.1 Data Review**
 
-The data in the table on Tab 1.1 Review Data can be edited by removing specific rows.
+The data on Tab 1.1 Review Data can be edited by removing specific rows.
 
 - To remove a row
-  - click on the row (it will turn blue)
-  - click Edit Data 
-  - the row will turn red and has been removed. Check the View Plot tab to confirm yourself. 
+  - Click on the row (it will turn blue).
+  - Click Edit Data.
+  - The row will turn red and has been removed.
 - To add a row back in
-  - click on a red row which will turn it blue
-  - click Edit Data
-  - the screen should refresh turn the row back to the original background colour 
-- Download selected data as a csv using the Download button
+  - Click on a red row which will turn it blue.
+  - Click Edit Data.
+  - The screen should refresh turn the row back to the original background colour.
+- Download the selected data as a csv using the Download button.
   
 ### Step 3: View Selected Data 
 
-**Tab 1.2 View Plot & 1.3 Aggregated Data**
+**Tab 1.2 View Plot** 
 
-The data selected in step 2 can be viewed as a plot of the concentration value for each species
+- The data selected in step 2 can be viewed as a plot of the concentration value for each species.
+- Download the plot as png file.
 
-- Download the plot as png file
+**Tab 1.3 Aggregated Data**
 
-
-Tab 1.4 Aggregate Data 
-
-- shows the data aggregated for each species
-- insert rules for Step 5 
-- Download the table as csv 
+- Shows the data aggregated for each species.
+- The data has been aggregated as per the steps in (LINK TO PDF DOC).
+- Download the table as csv.
 
 **Performing your own analysis of the data**
 
-- You can download the aggregated data and upload it into [shinyssdtools](https://bcgov.github.io/shinyssdtools/) app if you want to vary the options of species sensitivity distribution (SSD) analysis
+- You can download the aggregated data and upload it into [shinyssdtools](https://bcgov.github.io/shinyssdtools/) app if you want to perform your own species sensitivity distribution (SSD) analysis.
 
 ### Step 4: Generate Benchmark
 
 **Tab 2.1 Plot & 2.2 Report**
-- Go Tab 2 Benchmark and click Generate Benchmark on the left panel.
-- Either an SSD analysis or deterministic method is used to generate the benchmark value depending on the number of trophic groups and species present in the data set. 
+- Go to Tab 2 Benchmark and click Generate Benchmark on the left panel.
+- Either an SSD analysis or deterministic method is used to generate the critical toxicity and benchmark value as per the steps in (LINK TO PDF DOC).
 - Download the plot as a png on Tab 2.1 Plot
-- Download a summary report on Tab 2.2 Report
+- Download the tables as an excel file on Tab 2.2 Report
 
 **SSD Method**
 The SSD method used in the app uses ssdtools `ssd_hc_bcanz()` with 100 bootstrap samples. 
-The number of bootstraps can not be adjusted in the app.
-If a user wants to vary the parameters of the SSD then the aggregated can be downloaded and used in the shinyssdtools app.
+The number of bootstraps cannot be adjusted in the app.
+If a user wants to vary the parameters of the SSD then the aggregated data can be downloaded and used in the [shinyssdtools](https://bcgov.github.io/shinyssdtools/) app.
 
 **Deterministic Method**
 The deterministic method selects the lowest concentration as the critical toxicity value.
@@ -74,43 +71,61 @@ The deterministic method selects the lowest concentration as the critical toxici
 
 **Tab 3 Summary**
 
-- Download a pdf report of the select chemical, benchmark and assessment factors. 
-- Download an excel table with all the data tables: data, selected data, aggregated data, benchmark values and assessment factors 
-- Downloaded files have a consistent name where: file-name_cas-number_datetime-stamp ex:"data-aggregated_60139_2023-03-17_08-47-52.csv"
+- Download a pdf report of the selected chemical showing the summary tables, 
+critical toxicity value, and benchmark value. 
+- Download an excel file with all the data tables: data, selected data, aggregated data, critical toxicity value and assessment factors 
+
+### General Info
+
+- Downloaded files have a consistent name where: file-name_cas-number_datetime-stamp 
+  - ex:"data-aggregated_60139_2023-03-17_08-47-52.csv"
 
 ## Data Definitions
 
-| Column Name | Description |
-| ----------- | ----------- |
-| chemical_name | chemical name (from ECOTOX) |
-| cas | chemical registry number (from ECOTOX) |
-| latin_name | species latin name (from ECOTOX) |
-| common_name | species common name (from ECOTOX) |
-| endpoint | endpoint (from ECOTOX) |
-| effect | effect description (from ECOTOX) |
-| effect_conc_mg.L ||
-| lifestage | lifestage description (from ECOTOX) |
-| duration_hrs | |
-| duration_class | Values are classified as acute or chronic based on rules/step 2 |
-| effect_conc_std_mg.L ||
-| ACR ||
-| media_type | Media type of tests (from ECOTOX) |
-| trophic_group | Grouping of species into fish, amphibian, invertebrate, algae and plant. |
-| ecological_group | Grouping of species into salmonid, planktonic invertebrates and other. |
-| species_present_in_bc | Column added to indicate if the species is present in British Columbia or not. Value is TRUE if the species has been found in British Columbia. |
-| author | Author of reference (from ECOTOX) |
-| title | Title of reference (from ECOTOX) |
-| source |   |
-| publication_year | Publication year of reference (from ECOTOX) |
+| Column Name | Description | Source |
+| ----------- | ----------- | ------ |
+| chemical_name | chemical name | ECOTOX |
+| cas | chemical registry number | ECOTOX |
+| latin_name | species Latin name | ECOTOX |
+| common_name | species common name | ECOTOX |
+| endpoint | the statistic or hypothesis generated from the test results (e.g. EC10, NOEC)  | ECOTOX |
+| effect | a measurable biological change | ECOTOX |
+| effect_conc_mg.L | contaminant concentration that corresponds to the endpoint| ECOTOX |
+| lifestage | lifestage description | ECOTOX |
+| duration_hrs | study duration, standardized to hours | ECOTOX |
+| duration_class | Values are classified as acute or chronic based on rules/step 2 | Acute or chronic | ECOTOX |
+| effect_conc_std_mg.L | effect concentration standardized to include the acute to chronic ratio to extrapolate acute and/or effect concentrations to chronic and/or no-effect concentrations | Based on Okonski et al. 2021 |
+| sp_aggre_conc_mg.L | standardized effect concentration aggregated for each species |  |
+| ACR | acute to chronic ratio; either 10, 5 or 1 depending on the duration and endpoint reported | Okonski et al. 2021 |
+| media_type | Media type of tests | ECOTOX |
+| trophic_group | Trophic group of species: fish, amphibian, invertebrate, algae and plant. | |
+| ecological_group | Identification of salmonids and planktonic invertebrates.  If neither of these, listed as "other". | B.C. ENV 2009 |
+| species_present_in_bc | Species is present in British Columbia if entry = TRUE | B.C. Conservation Data Centre. 2023 |
+| author | Author of reference | ECOTOX |
+| title | Title of reference | ECOTOX |
+| source |   | ECOTOX |
+| publication_year | Publication year of reference | ECOTOX |
 
 ## Data Process
 
-- list steps in workplan?
+- list steps in work plan
+- link to pdf
 
 ## Reference
 
 - Ecotox version
+https://cfpub.epa.gov/ecotox/
 
 
+- Okonski et al. 2021
 
+Okonski, A.I., MacDonald, D.B., Potter, K., and Bonnell, M. 2021. Deriving predicted no-effect concentrations (PNECs) using a novel assessment factor method. Hum. Ecol. Risk Assess. Int. J. 27(6): 1613–1635. doi:10.1080/10807039.2020.1865788.
 
+- B.C. Conservation Data Centre. 2023
+
+Citation: B.C. Conservation Data Centre. 2023. BC Species and Ecosystems Explorer. 
+B.C. Minist. of Environ. Victoria, B.C. Available: 
+https://a100.gov.bc.ca/pub/eswp/ 
+(accessed Jan 16, 2023).
+
+- B.C. ENV 2009
