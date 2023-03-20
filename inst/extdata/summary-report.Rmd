@@ -4,6 +4,7 @@ date: "`r format(as.POSIXct(as.numeric(as.POSIXct(Sys.time())), tz = 'Etc/GMT+8'
 output: pdf_document
 params:
   chem_name: ""
+  aggregated_data: NULL
   method: ""
   benchmark: NULL
   af: NULL
@@ -15,10 +16,7 @@ Chemical Name: **`r params$chem_name`**
 
 ```{r, echo=FALSE}
 knitr::kable(
-  tibble::tibble(
-    "Trophic Group" = 1,
-    "No. of species" = 2
-  )
+  wqbench::wqb_summary_trophic_species(params$aggregated_data)
 )
 ```
 
@@ -37,10 +35,7 @@ knitr::kable(
 
 ```{r, echo=FALSE}
 knitr::kable(
-  tibble::tibble(
-    "Consideration" = 1,
-    "Result" = 1
-  )
+  wqbench::wqb_summary_trophic_groups(params$aggregated_data)
 )
 ```
 

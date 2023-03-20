@@ -113,33 +113,6 @@ show <- function(id, anim = TRUE) {
   shinyjs::show(id, anim = anim)
 }
 
-# Assessment Factor ----
-tabulate_af <- function(data) {
-  af_descriptions <- data.frame(
-    Name = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
-    Description = c(
-      "Accounts for uncertainty due to limited species and trophic coverage",
-      "Accounts for uncertainty when missing data on planktonic invertebrates and/or salmonids",
-      "Accounts for uncertainty when missing data on planktonic invertebrates and/or salmonids",
-      "Accounts for uncertainty of not having representation of B.C. species"
-    )
-  )
-  
-  data <- data |>
-    dplyr::select(
-      "af_variation", "af_salmon", "af_planktonic", "af_bc_species"
-    ) |>
-    dplyr::distinct() |>
-    tidyr::pivot_longer(
-      cols = c("af_variation", "af_salmon", "af_planktonic", "af_bc_species"),
-      names_to = "Name",
-      values_to = "Assessment Factor"
-    ) |>
-    dplyr::left_join(af_descriptions, by = "Name")
-  
-  data
-}
-
 # File Names for Downloading ----
 
 file_name_dl <- function(file_name, cas_number, ext) {
