@@ -34,7 +34,10 @@ mod_summary_server <- function(id, ext1, ext2) {
           )
           params <- list(
             chem_name = stringr::str_squish(ext2$name),
-            data = ext2$agg_af,
+            af_table = ext2$af_table,
+            af = ext2$af,
+            trophic_sp_table = ext2$trophic_sp_table,
+            trophic_grp_table = ext2$trophic_grp_table,
             method = ext2$method,
             benchmark = ext2$bench
           )

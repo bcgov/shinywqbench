@@ -61,7 +61,6 @@ mod_bench_server <- function(id, ext) {
       # Reactive Values ----
       rv <- reactiveValues(
         agg_af = NULL,
-        af_table = NULL,
         method = NULL,
         name = NULL,
         cas = NULL,
@@ -70,7 +69,11 @@ mod_bench_server <- function(id, ext) {
         gp_results = NULL,
         bench_display = NULL,
         raw = NULL,
-        selected = NULL
+        selected = NULL,
+        af_table = NULL,
+        af = NULL,
+        trophic_sp_table = NULL,
+        trophic_grp_table = NULL
       )
 
       w <- waiter_data("Running model for selected chemical ...")
@@ -85,7 +88,12 @@ mod_bench_server <- function(id, ext) {
         rv$agg_af <- wqbench::wqb_af_ecological(rv$agg_af)
         rv$agg_af <- wqbench::wqb_af_bc_species(rv$agg_af)
         
-        rv$af_table <- wqbench::wqb_summary_af(rv$agg_af) 
+        
+        rv$trophic_sp_table <- wqbench::wqb_summary_trophic_species(rv$agg_af) 
+        rv$trophic_grp_table <- wqbench::wqb_summary_trophic_groups(rv$agg_af)
+        rv$af_table <- wqbench::wqb_summary_af(rv$agg_af)
+        rv$af <- prod(rv$af_table[["Assessment Factor"]])
+        
         rv$method <- rv$agg_af$method[1]
         rv$name <- rv$agg_af$chemical_name[1]
         rv$cas <- rv$agg_af$cas[1]
@@ -158,7 +166,7 @@ mod_bench_server <- function(id, ext) {
       })
       
       output$table_trophic_groups <- renderTable({
-        wqbench::wqb_summary_trophic_species(rv$agg_af) 
+        rv$trophic_sp_table
       })
       output$ui_table_trophic_groups <- renderUI({
         req(rv$agg_af)
@@ -181,7 +189,7 @@ mod_bench_server <- function(id, ext) {
         htmlOutput(ns("text_4"))
       })
       
-      output$table_bench <- renderTable(rv$bench)
+      output$table_bench <- renderTable({rv$bench}, digits = 5)
       output$ui_table_bench <- renderUI({
         tableOutput(ns("table_bench"))
       })
@@ -195,7 +203,7 @@ mod_bench_server <- function(id, ext) {
       })
       
       output$table_summary_af <- renderTable({
-        wqbench::wqb_summary_trophic_groups(rv$agg_af)
+        rv$trophic_grp_table
       })
       output$ui_table_summary_af <- renderUI({
         req(rv$agg_af)
@@ -228,8 +236,8 @@ mod_bench_server <- function(id, ext) {
       output$text_8 <- renderText({
         paste(
           "Aquatic life water quailty benchmark WQ<sub>AL</sub> = critical toxicity value <span>&#247;</span> assessment factor <br/>",
-          "QW<sub>AL</sub> = ", signif(rv$bench$benchmark_est_mg.L*rv$bench$af), "mg/L", "<span>&#247;</span>", rv$bench$af, "<br/>",
-          "QW<sub>AL</sub> =", signif(rv$bench$benchmark_est_mg.L), "mg/L"
+          "QW<sub>AL</sub> = ", signif(rv$bench$ctv_est_mg.L), "mg/L", "<span>&#247;</span>", rv$af, "<br/>",
+          "QW<sub>AL</sub> =", signif(rv$bench$ctv_est_mg.L/rv$af), "mg/L"
         )
       })
       output$ui_text_8 <- renderUI({

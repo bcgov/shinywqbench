@@ -4,7 +4,10 @@ date: "`r format(as.POSIXct(as.numeric(as.POSIXct(Sys.time())), tz = 'Etc/GMT+8'
 output: pdf_document
 params:
   chem_name: ""
-  data: NULL
+  af_table: NULL
+  af: NULL
+  trophic_sp_table: NULL
+  trophic_grp_table: NULL
   method: ""
   benchmark: NULL
 ---
@@ -15,7 +18,7 @@ Chemical Name: **`r params$chem_name`**
 
 ```{r, echo=FALSE}
 knitr::kable(
-  wqbench::wqb_summary_trophic_species(params$data)
+  params$trophic_sp_table
 )
 ```
 
@@ -33,7 +36,7 @@ knitr::kable(
 
 ```{r, echo=FALSE}
 knitr::kable(
-  wqbench::wqb_summary_trophic_groups(params$data)
+  params$trophic_grp_table
 )
 ```
 
@@ -41,7 +44,7 @@ knitr::kable(
 
 ```{r, echo=FALSE}
 knitr::kable(
-  wqbench::wqb_summary_af(params$data)
+  params$trophic_sp_table
 )
 ```
 
@@ -49,9 +52,9 @@ knitr::kable(
 $\\$
 Aquatic life water quality benchmark ($WQ_{AL}$) = critical toxicity value $\div$ assessment factor
 
-$WQ_{AL} =$ `r signif(params$bench$benchmark_est_mg.L*params$bench$af)` mg/L $\div$ `r params$bench$af`
+$WQ_{AL} =$ `r signif(params$bench$ctv_est_mg.L)` mg/L $\div$ `r params$af`
 
-$WQ_{AL} =$  `r signif(params$bench$benchmark_est_mg.L)` mg/L
+$WQ_{AL} =$  `r signif(params$bench$ctv_est_mg.L / params$af)` mg/L
 
 \newpage
 
