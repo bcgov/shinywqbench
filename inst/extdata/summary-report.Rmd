@@ -4,19 +4,18 @@ date: "`r format(as.POSIXct(as.numeric(as.POSIXct(Sys.time())), tz = 'Etc/GMT+8'
 output: pdf_document
 params:
   chem_name: ""
-  aggregated_data: NULL
+  data: NULL
   method: ""
   benchmark: NULL
-  af: NULL
 ---
 
 Chemical Name: **`r params$chem_name`**
 
-### Data Summary
+##### Data Summary
 
 ```{r, echo=FALSE}
 knitr::kable(
-  wqbench::wqb_summary_trophic_species(params$aggregated_data)
+  wqbench::wqb_summary_trophic_species(params$data)
 )
 ```
 
@@ -26,40 +25,33 @@ Critical Toxicity Value (HC5 if method is SSD):
 
 ```{r, echo=FALSE}
 knitr::kable(
-  params$benchmark,
-  digits = 5
+  params$benchmark
 )
 ```
 
-## Assessment Factor Summary
+##### Assessment Factor Summary
 
 ```{r, echo=FALSE}
 knitr::kable(
-  wqbench::wqb_summary_trophic_groups(params$aggregated_data)
+  wqbench::wqb_summary_trophic_groups(params$data)
 )
 ```
 
-### Recommended Assessment Factors: 
+##### Recommended Assessment Factors
 
 ```{r, echo=FALSE}
 knitr::kable(
-  params$af,
-  digits = 1
+  wqbench::wqb_summary_af(params$data)
 )
 ```
 
-### Final Aquatic Life Water Quality Benchmark
+##### Final Aquatic Life Water Quality Benchmark  
+$\\$
+Aquatic life water quality benchmark ($WQ_{AL}$) = critical toxicity value $\div$ assessment factor
 
-Aquatic life water quality benchmark (WQAL) = critical toxicity value ÷ assessment factor
+$WQ_{AL} =$ `r signif(params$bench$benchmark_est_mg.L*params$bench$af)` mg/L $\div$ `r params$bench$af`
 
-WQAL = insert CTV ÷ AF
-
-WQAL = concentration with units
-
-
-
-
-
+$WQ_{AL} =$  `r signif(params$bench$benchmark_est_mg.L)` mg/L
 
 \newpage
 

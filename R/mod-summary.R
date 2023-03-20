@@ -34,10 +34,9 @@ mod_summary_server <- function(id, ext1, ext2) {
           )
           params <- list(
             chem_name = stringr::str_squish(ext2$name),
-            aggregated_data = ext2$agg,
+            data = ext2$agg_af,
             method = ext2$method,
-            benchmark = ext2$bench,
-            af = ext2$af_table
+            benchmark = ext2$bench
           )
           rmarkdown::render(
             tempReport, 
