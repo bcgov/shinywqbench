@@ -33,7 +33,7 @@ mod_summary_server <- function(id, ext1, ext2) {
             tempReport, overwrite = TRUE
           )
           params <- list(
-            chem_name = ext2$name,
+            chem_name = stringr::str_squish(ext2$name),
             method = ext2$method,
             benchmark = ext2$bench,
             af = ext2$af_table
