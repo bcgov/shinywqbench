@@ -61,7 +61,7 @@ mod_data_ui <- function(id, label = "data") {
           )
         ),
         tabPanel(
-          title = "1.3 Aggregate Data",
+          title = "1.3 Aggregated Data",
           well_panel(
             uiOutput(ns("download_aggregated")),
             br(),
@@ -147,7 +147,7 @@ mod_data_server <- function(id) {
           return(
             showModal(
               modalDialog(
-                div("Please select a chemical to continue"),
+                div("The chemical you selected cannot be found in the database."),
                 footer = modalButton("Got it")
               )
             )
@@ -167,7 +167,7 @@ mod_data_server <- function(id) {
           return(
             showModal(
               modalDialog(
-                div("Please select a chemical to continue"),
+                div("The chemical you selected cannot be found in the database."),
                 footer = modalButton("Got it")
               )
             )
