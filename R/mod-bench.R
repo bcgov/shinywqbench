@@ -31,17 +31,20 @@ mod_bench_ui <- function(id, label = "bench") {
             uiOutput(ns("download_data_bench")),
             br(),
             h4(uiOutput(ns("ui_text_1"))),
+            h5(uiOutput(ns("ui_text_2"))),
             uiOutput(ns("ui_table_trophic_groups")),
-            uiOutput(ns("ui_text_2")),
-            br(),
             uiOutput(ns("ui_text_3")),
+            br(),
+            uiOutput(ns("ui_text_4")),
             uiOutput(ns("ui_table_bench")),
-            h5(uiOutput(ns("ui_text_4"))),
+            h5(uiOutput(ns("ui_text_5"))),
             uiOutput(ns("ui_table_summary_af")),
             br(),
+            h5(uiOutput(ns("ui_text_6"))),
             uiOutput(ns("ui_table_af")),
-            h5(uiOutput(ns("ui_text_5"))),
-            uiOutput(ns("ui_text_6"))
+            br(),
+            h5(uiOutput(ns("ui_text_7"))),
+            uiOutput(ns("ui_text_8"))
           )
         )
       )
@@ -146,6 +149,14 @@ mod_bench_server <- function(id, ext) {
         text_output(ns("text_1"))
       })
       
+      output$text_2 <- renderText({
+        paste("Data Summary")
+      })
+      output$ui_text_2 <- renderUI({
+        req(rv$name)
+        text_output(ns("text_2"))
+      })
+      
       output$table_trophic_groups <- renderTable({
         wqbench::wqb_summary_trophic_species(rv$agg_af) 
       })
@@ -154,20 +165,20 @@ mod_bench_server <- function(id, ext) {
         tableOutput(ns("table_trophic_groups"))
       })
       
-      output$text_2 <- renderText({
+      output$text_3 <- renderText({
         paste("Benchmark devivation method selected:", rv$method)
       })
-      output$ui_text_2 <- renderUI({
+      output$ui_text_3 <- renderUI({
         req(rv$method)
-        text_output(ns("text_2"))
+        text_output(ns("text_3"))
       })
       
-      output$text_3 <- renderText({
+      output$text_4 <- renderText({
         paste("Critical Toxicity Value (HC<sub>5</sub> if method is SSD):")
       })
-      output$ui_text_3 <- renderUI({
+      output$ui_text_4 <- renderUI({
         req(rv$bench)
-        htmlOutput(ns("text_3"))
+        htmlOutput(ns("text_4"))
       })
       
       output$table_bench <- renderTable(rv$bench)
@@ -175,12 +186,12 @@ mod_bench_server <- function(id, ext) {
         tableOutput(ns("table_bench"))
       })
 
-      output$text_4 <- renderText({
+      output$text_5 <- renderText({
         paste("Assessment Factor Summary")
       })
-      output$ui_text_4 <- renderUI({
+      output$ui_text_5 <- renderUI({
         req(rv$bench)
-        text_output(ns("text_4"))
+        text_output(ns("text_5"))
       })
       
       output$table_summary_af <- renderTable({
@@ -191,6 +202,14 @@ mod_bench_server <- function(id, ext) {
         tableOutput(ns("table_summary_af"))
       })
       
+      output$text_6 <- renderText({
+        paste("Recommended Assessment Factor")
+      })
+      output$ui_text_6 <- renderUI({
+        req(rv$bench)
+        text_output(ns("text_6"))
+      })
+      
       output$table_af <- renderTable({
         rv$af_table
       })
@@ -198,24 +217,24 @@ mod_bench_server <- function(id, ext) {
         tableOutput(ns("table_af"))
       })
       
-      output$text_5 <- renderText({
+      output$text_7 <- renderText({
         paste("Final Aquatic Life Water Quality Benchmark")
       })
-      output$ui_text_5 <- renderUI({
+      output$ui_text_7 <- renderUI({
         req(rv$bench)
-        text_output(ns("text_5"))
+        text_output(ns("text_7"))
       })
       
-      output$text_6 <- renderText({
+      output$text_8 <- renderText({
         paste(
           "Aquatic life water quailty benchmark WQ<sub>AL</sub> = critical toxicity value <span>&#247;</span> assessment factor <br/>",
-          "QW<sub>AL</sub> = ", rv$bench$benchmark_est_mg.L*rv$bench$af, "<span>&#247;</span>", rv$bench$af, "<br/>",
+          "QW<sub>AL</sub> = ", signif(rv$bench$benchmark_est_mg.L*rv$bench$af), "mg/L", "<span>&#247;</span>", rv$bench$af, "<br/>",
           "QW<sub>AL</sub> =", signif(rv$bench$benchmark_est_mg.L), "mg/L"
         )
       })
-      output$ui_text_6 <- renderUI({
+      output$ui_text_8 <- renderUI({
         req(rv$bench)
-        htmlOutput(ns("text_6"))
+        htmlOutput(ns("text_8"))
       })
       
       output$download_data_bench <- renderUI({
