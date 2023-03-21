@@ -143,7 +143,8 @@ mod_bench_server <- function(id, ext) {
           ggplot2::ggsave(
             file,
             rv$gp_results,
-            device = "png"
+            device = "png",
+            width = 15
           )
         }
       )
@@ -260,8 +261,10 @@ mod_bench_server <- function(id, ext) {
               chemical_name = rv$name,
               cas_number = rv$cas
             ),
-            benchmark = rv$bench,
-            assessment_factor = rv$af_table
+            data_summary = rv$trophic_sp_table,
+            ctv = rv$bench,
+            af_summary = rv$trophic_grp_table,
+            af = rv$af_table
           )
           if (is.null(rv$bench)) {
             sheets <- list(
