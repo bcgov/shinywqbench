@@ -50,7 +50,7 @@ mod_summary_server <- function(id, ext1, ext2) {
         }
       )
       
-      # add raw, aggregated, benchmark
+      # add raw, aggregated, ctv
       output$data <- downloadHandler(
         filename = function() {
           file_name_dl("data-summary", ext2$cas, "xlsx")
@@ -61,7 +61,7 @@ mod_summary_server <- function(id, ext1, ext2) {
             selected = filter_data_raw_dl(ext2$selected),
             aggregate_data = filter_data_agg_dl(ext2$agg),
             assessment_factor = ext2$af_table,
-            benchmark = ext2$bench
+            ctv = ext2$bench
           )
           if (is.null(ext1$data)) {
             sheets <- list(
