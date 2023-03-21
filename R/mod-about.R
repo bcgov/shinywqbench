@@ -27,8 +27,8 @@ mod_about_server <- function(id) {
       
       output$text_1 <- renderText({
         paste(
-          "wqbench version:", as.character(packageVersion("wqbench")),"<br/>", 
-          "shinywgbench version:", as.character(packageVersion("shinywqbench"))
+          "wqbench version:", as.character(utils::packageVersion("wqbench")),"<br/>", 
+          "shinywgbench version:", as.character(utils::packageVersion("shinywqbench"))
         )
       })
       output$ui_text_1 <- renderUI({
