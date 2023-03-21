@@ -210,9 +210,9 @@ mod_data_server <- function(id) {
                     "has a guideline present. To look up this guideline go to the"
                   ),
                   tags$a(
-                    "Guideline Look-Up Table",
+                    "BC Water Quality Guideline Look-up App",
                     target = "_blank",
-                    href = "https://bcgov-env.shinyapps.io/bc_wqg/"
+                    href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines"
                   )
                 ),
                 footer = modalButton("Got it")
