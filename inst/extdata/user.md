@@ -66,6 +66,7 @@ If a user wants to vary the parameters of the SSD then the aggregated data can b
 
 **Deterministic Method**
 The deterministic method selects the lowest concentration as the critical toxicity value.
+The deterministic method does not produce an upper and lower confidence interval.
 
 ### Step 5: Download Summaries
 
@@ -111,21 +112,15 @@ critical toxicity value, and benchmark value.
 - list steps in work plan
 - link to pdf
 
-## Reference
+## References
 
-- Ecotox version
-https://cfpub.epa.gov/ecotox/
-
-
-- Okonski et al. 2021
-
-Okonski, A.I., MacDonald, D.B., Potter, K., and Bonnell, M. 2021. Deriving predicted no-effect concentrations (PNECs) using a novel assessment factor method. Hum. Ecol. Risk Assess. Int. J. 27(6): 1613–1635. doi:10.1080/10807039.2020.1865788.
-
-- B.C. Conservation Data Centre. 2023
-
-Citation: B.C. Conservation Data Centre. 2023. BC Species and Ecosystems Explorer. 
+B.C. Conservation Data Centre. 2023. BC Species and Ecosystems Explorer. 
 B.C. Minist. of Environ. Victoria, B.C. Available: 
 https://a100.gov.bc.ca/pub/eswp/ 
 (accessed Jan 16, 2023).
 
-- B.C. ENV 2009
+Curated toxicity data were retrieved from the ECOTOXicology Knowledgebase, U.S. Environmental Protection Agency. http:/www.epa.gov/ecotox/ (accessed Mar 20, 2023)
+
+Okonski, A.I., MacDonald, D.B., Potter, K., and Bonnell, M. 2021. Deriving predicted no-effect concentrations (PNECs) using a novel assessment factor method. Hum. Ecol. Risk Assess. Int. J. 27(6): 1613–1635. doi:10.1080/10807039.2020.1865788.
+
+- B.C. ENV 2009?
