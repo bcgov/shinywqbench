@@ -149,7 +149,7 @@ filter_data_agg_dl <- function(data) {
     data |>
     dplyr::select(
       "chemical_name", "cas",
-      "latin_name", "common_name", "effect", "conc1_mean_std_effect_aggr_mg.L",
+      "latin_name", "common_name", "effect", "sp_aggre_conc_mg.L",
       "trophic_group", "ecological_group",
       "species_present_in_bc",
       "method"
