@@ -1,31 +1,37 @@
 Package: shinywqbench
-Title: R Shiny App to Generate Water Quality Guidelines Benchmarks
+Title: R Shiny App to Calculates Aquatic Life Benchmarks
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7388-1222")),
-    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = "ctb",
+  person("Province of British Columbia", role = "cph"),
+  person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = c("aut"),
+             comment = c(ORCID = "0000-0001-7388-1222")),
+  person("Angeline", "Tillmanns", ,"Angeline.Tillmanns@gov.bc.ca", role = c("aut", "cre")),
+  person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("ctb"),
            comment = c(ORCID = "0000-0002-7683-4592"))
   )
-Description: What the package does (one paragraph).
-License: MIT + file LICENSE
+Description: This package is the user interface to the wqbench R package and 
+  allows users to easily access standardized ecotoxicology data for thousands of 
+  chemicals. Either a SSD or deterministic method is used to determine the 
+  critical toxicity value and assessment factors to compute the aquatic life 
+  water quality benchmark for a compound.
+License: Apache License (>= 2)
 Imports: 
     DT,
     dplyr,
     ggplot2,
-    shiny,
-    readr,
-    waiter,
-    shinyjs,
-    wqbench,
     knitr,
-    writexl,
-    stringr,
-    tidyr,
-    rmarkdown,
     markdown,
+    readr,
+    rmarkdown,
     rlang,
-    utils
+    shiny,
+    stringr,
+    shinyjs,
+    tidyr,
+    utils,
+    waiter,
+    writexl,
+    wqbench
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

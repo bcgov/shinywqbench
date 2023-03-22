@@ -4,15 +4,21 @@
 \name{shinywqbench-package}
 \alias{shinywqbench}
 \alias{shinywqbench-package}
-\title{shinywqbench: R Shiny App to Generate Water Quality Guidelines Benchmarks}
+\title{shinywqbench: R Shiny App to Calculates Aquatic Life Benchmarks}
 \description{
-What the package does (one paragraph).
+This package is the user interface to the wqbench R package and allows users to easily access standardized ecotoxicology data for thousands of chemicals. Either a SSD or deterministic method is used to determine the critical toxicity value and assessment factors to compute the aquatic life water quality benchmark for a compound.
 }
 \author{
-\strong{Maintainer}: Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
+\strong{Maintainer}: Angeline Tillmanns \email{Angeline.Tillmanns@gov.bc.ca}
+
+Authors:
+\itemize{
+  \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
+}
 
 Other contributors:
 \itemize{
+  \item Province of British Columbia [copyright holder]
   \item Joe Thorley \email{joe@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-7683-4592}{ORCID}) [contributor]
 }
 
