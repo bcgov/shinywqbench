@@ -16,6 +16,6 @@
 rsconnect::deployApp(
   appDir = ".",
   account = "poissonconsulting",
-  appName = "shinywqbench",
+  appName = "shinywqbench-dev",
   forceUpdate = TRUE
 )
