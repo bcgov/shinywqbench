@@ -111,12 +111,11 @@ mod_bench_server <- function(id, ext) {
    
         if (rv$method == "Deterministic") {
           rv$fit <- NULL
-          rv$bench <- wqbench::wqb_generate_det(rv$agg_af)
+          rv$bench <- wqbench::wqb_method_det(rv$agg_af)
           rv$gp_results <- wqbench::wqb_plot_det(rv$agg_af)
         } else {
-          fit <- wqbench::wqb_generate_ssd_fit(rv$agg_af)
-          rv$fit <- fit
-          rv$bench <- wqbench::wqb_generate_ssd(rv$agg_af, rv$fit)
+          rv$fit <- wqbench::wqb_ssd_fit(rv$agg_af)
+          rv$bench <- wqbench::wqb_method_ssd(rv$agg_af, rv$fit)
           rv$gp_results <- wqbench::wqb_plot_ssd(rv$agg_af, rv$fit)
         }
         
