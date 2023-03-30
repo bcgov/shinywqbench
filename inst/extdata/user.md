@@ -114,7 +114,7 @@ critical toxicity value, and benchmark value.
 | duration_class | Values are classified as acute or chronic based on rules/step 2 | Acute or chronic | ECOTOX |
 | effect_conc_std_mg.L | effect concentration standardized to include the acute to chronic ratio to extrapolate acute and/or effect concentrations to chronic and/or no-effect concentrations | Based on Okonski et al. 2021 |
 | sp_aggre_conc_mg.L | standardized effect concentration aggregated for each species |  |
-| ACR | acute to chronic ratio; either 10, 5 or 1 depending on the duration and endpoint reported | Okonski et al. 2021 |
+| acr | acute to chronic ratio; either 10, 5 or 1 depending on the duration and endpoint reported | Okonski et al. 2021 |
 | media_type | Media type of tests | ECOTOX |
 | trophic_group | Trophic group of species: fish, amphibian, invertebrate, algae and plant. | |
 | ecological_group | Identification of salmonids and planktonic invertebrates.  If neither of these, listed as "other". | B.C. ENV 2009 |
