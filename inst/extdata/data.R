@@ -16,7 +16,7 @@ library(wqbench)
 
 data_set <- wqb_create_data_set(
   file_path = "~/Ecotoxicology/ecotox", 
-  version = 3, 
+  version = 1, 
   folder_path = "~/Ecotoxicology/ecotox_db/"
 )
 
