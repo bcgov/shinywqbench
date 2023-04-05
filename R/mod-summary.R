@@ -38,7 +38,7 @@ mod_summary_server <- function(id, ext1, ext2) {
       
       output$report <- downloadHandler(
         filename = function() {
-          file_name_dl("ecotox-report", ext2$cas, "pdf")
+          file_name_dl("shinywqbench-report", ext2$cas, "pdf")
         },
         content = function(file) {
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
@@ -48,12 +48,14 @@ mod_summary_server <- function(id, ext1, ext2) {
           )
           params <- list(
             chem_name = stringr::str_squish(ext2$name),
+            cas_num = ext2$cas,
             af_table = ext2$af_table,
             af = ext2$af,
             trophic_sp_table = ext2$trophic_sp_table,
             trophic_grp_table = ext2$trophic_grp_table,
             method = ext2$method,
-            benchmark = ext2$bench
+            benchmark = ext2$bench,
+            gp_result = ext2$gp_results
           )
           rmarkdown::render(
             tempReport, 

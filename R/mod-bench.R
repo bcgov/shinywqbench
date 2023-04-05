@@ -87,7 +87,8 @@ mod_bench_server <- function(id, ext) {
         af_table = NULL,
         af = NULL,
         trophic_sp_table = NULL,
-        trophic_grp_table = NULL
+        trophic_grp_table = NULL,
+        version = NULL
       )
 
       w <- waiter_data("Running model for selected chemical ...")
@@ -108,6 +109,7 @@ mod_bench_server <- function(id, ext) {
         rv$method <- rv$agg_af$method[1]
         rv$name <- rv$agg_af$chemical_name[1]
         rv$cas <- rv$agg_af$cas[1]
+        rv$version <- rv$agg_af$version[1]
    
         if (rv$method == "Deterministic") {
           rv$fit <- NULL
