@@ -102,6 +102,8 @@ critical toxicity value, and benchmark value.
 
 ## Data Definitions
 
+<div class="about-table" markdown="1">
+
 | Column Name | Description | Source |
 | ----------- | ----------- | ------ |
 | chemical_name | chemical name | ECOTOX |
@@ -125,6 +127,8 @@ critical toxicity value, and benchmark value.
 | title | Title of reference | ECOTOX |
 | source | Journal name or other | ECOTOX |
 | publication_year | Publication year of reference | ECOTOX |
+
+</div>
 
 ## References
 
