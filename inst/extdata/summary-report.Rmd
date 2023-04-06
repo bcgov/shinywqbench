@@ -4,12 +4,12 @@ geometry: "top=1.5cm,left=2.5cm,right=2.5cm"
 params:
   chem_name: ""
   cas_num: ""
-  af_table: NULL
-  af: NULL
-  trophic_sp_table: NULL
-  trophic_grp_table: NULL
+  af_table: data.frame(x = 1)
+  af: "1"
+  trophic_sp_table: data.frame(x = 1)
+  trophic_grp_table: data.frame(x = 1)
   method: ""
-  benchmark: NULL
+  benchmark: data.frame(ctv_est_mg.L = 1)
   gp_result: NULL
 ---
 
@@ -71,13 +71,13 @@ knitr::kable(
 $\\$
 Aquatic life water quality benchmark ($WQ_{AL}$) = critical toxicity value $\div$ assessment factor
 
-$WQ_{AL} =$ `r signif(params$bench$ctv_est_mg.L)` mg/L $\div$ `r params$af`
+$WQ_{AL} =$ `r signif(params$benchmark$ctv_est_mg.L)` mg/L $\div$ `r params$af` 
 
-$WQ_{AL} =$  `r signif(params$bench$ctv_est_mg.L / params$af)` mg/L
-
+$WQ_{AL} =$  `r signif(params$benchmark$ctv_est_mg.L / params$af)` mg/L 
+  
 \newpage
 
-```{r, echo=FALSE, fig.width=13}
+```{r, echo=FALSE, fig.width=13.5}
 params$gp_result
 ```
 
