@@ -40,11 +40,12 @@ mod_about_server <- function(id) {
       })
       
       output$text_1 <- renderText({
-        paste(
-          "ECOTOX Download Date:", ecotox_data$download_date[1], "<br/>",
-          "ECOTOX Version:", ecotox_data$version[1], "<br/>",
-          "wqbench version:", as.character(utils::packageVersion("wqbench")),"<br/>", 
-          "shinywgbench version:", as.character(utils::packageVersion("shinywqbench"))
+        paste0(
+          "Curated toxicity data were retrieved from the ECOTOXicology Knowledgebase, U.S. Environmental Protection Agency. http:/www.epa.gov/ecotox/", 
+          " (", ecotox_data$download_date[1], ")", "<br/>",
+          "ECOTOX version: ", ecotox_data$version[1], "<br/>",
+          "wqbench version: ", as.character(utils::packageVersion("wqbench")),"<br/>", 
+          "shinywgbench version: ", as.character(utils::packageVersion("shinywqbench"))
         )
       })
       output$ui_text_1 <- renderUI({
