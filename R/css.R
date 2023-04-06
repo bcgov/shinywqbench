@@ -21,8 +21,15 @@ css_styling <- function() {
   css_text <-
     "
     .nowrap {
-    white-space: nowrap;
+      white-space: nowrap;
     }
+  
+    table :is(td, th) {
+      border: 1px solid black;
+      padding: 0.3em;
+      padding-right: 1em;
+    }
+  
   "
   tags$style(css_text, type = "text/css")
 }
