@@ -122,6 +122,23 @@ mod_bench_server <- function(id, ext) {
         w$hide()
       })
       
+      observeEvent(ext$clear_id, {
+        rv$agg_af <- NULL
+        rv$method <- NULL
+        rv$name <- NULL
+        rv$cas <- NULL
+        rv$fit <- NULL
+        rv$bench <- NULL
+        rv$gp_results <- NULL
+        rv$bench_display <- NULL
+        rv$raw <- NULL
+        rv$selected <- NULL
+        rv$af_table <- NULL
+        rv$af <- NULL
+        rv$trophic_sp_table <- NULL
+        rv$trophic_grp_table <- NULL
+      })
+      
       # Tab 2.1 ----
       output$button_benchmark <- renderUI({
         req(ext$chem, ext$aggregated)
@@ -245,11 +262,13 @@ mod_bench_server <- function(id, ext) {
       })
       
       output$text_8 <- renderText({
-        paste(
-          "Aquatic life water quailty benchmark WQ<sub>AL</sub> = critical toxicity value <span>&#247;</span> assessment factor <br/>",
-          "QW<sub>AL</sub> = ", signif(rv$bench$ctv_est_mg.L), "mg/L", "<span>&#247;</span>", rv$af, "<br/>",
-          "QW<sub>AL</sub> =", signif(rv$bench$ctv_est_mg.L/rv$af), "mg/L"
-        )
+        if (!is.null(rv$bench)) {
+          paste(
+            "Aquatic life water quailty benchmark WQ<sub>AL</sub> = critical toxicity value <span>&#247;</span> assessment factor <br/>",
+            "QW<sub>AL</sub> = ", signif(rv$bench$ctv_est_mg.L), "mg/L", "<span>&#247;</span>", rv$af, "<br/>",
+            "QW<sub>AL</sub> =", signif(rv$bench$ctv_est_mg.L/rv$af), "mg/L"
+          )
+        }
       })
       output$ui_text_8 <- renderUI({
         req(rv$bench)

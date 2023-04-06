@@ -106,7 +106,8 @@ mod_data_server <- function(id) {
         selected = NULL,
         gp = NULL,
         name = NULL,
-        data_table_agg = NULL
+        data_table_agg = NULL,
+        clear_id = 1
       )
       
       # Inputs ----
@@ -158,6 +159,7 @@ mod_data_server <- function(id) {
           rv$chem <- NULL
           rv$chem_pick <- NULL
           rv$data_table_agg <- NULL
+          rv$clear_id <- 1 + rv$clear_id
           return(
             showModal(
               modalDialog(
@@ -178,6 +180,7 @@ mod_data_server <- function(id) {
           rv$chem <- NULL
           rv$chem_pick <- NULL
           rv$data_table_agg <- NULL
+          rv$clear_id <- 1 + rv$clear_id
           return(
             showModal(
               modalDialog(
@@ -215,6 +218,7 @@ mod_data_server <- function(id) {
           rv$chem <- NULL
           rv$chem_pick <- NULL
           rv$data_table_agg <- NULL
+          rv$clear_id <- 1 + rv$clear_id
           return(
             showModal(
               modalDialog(
@@ -255,6 +259,12 @@ mod_data_server <- function(id) {
         w$hide()
       })
       
+      # Clear Tab 2 when data is edited or chemical re selected
+      observeEvent(rv$chem_pick, {
+        rv$clear_id <- 1 + rv$clear_id
+      })
+      
+      
       # Tab 1.1 ----
       output$text_1 <- renderText({rv$name})
       output$ui_text_1 <- renderUI({
@@ -286,7 +296,8 @@ mod_data_server <- function(id) {
       )
 
       observeEvent(input$select, {
-
+        rv$clear_id <- 1 + rv$clear_id
+        
         rv$data <-
           rv$data |>
           dplyr::mutate(
