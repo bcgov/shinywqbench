@@ -41,6 +41,8 @@ mod_about_server <- function(id) {
       
       output$text_1 <- renderText({
         paste(
+          "ECOTOX Download Date:", ecotox_data$download_date[1], "<br/>",
+          "ECOTOX Version:", ecotox_data$version[1], "<br/>",
           "wqbench version:", as.character(utils::packageVersion("wqbench")),"<br/>", 
           "shinywgbench version:", as.character(utils::packageVersion("shinywqbench"))
         )
