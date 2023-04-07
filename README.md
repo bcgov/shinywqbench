@@ -10,7 +10,7 @@
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("poissonconsulting/shinywqbench")
+devtools::install_github("bcgov/shinywqbench")
 ```
 
 ## How to launch app:
@@ -20,13 +20,22 @@ library(shinywqbench)
 run_wqbench_app()
 ```
 
+## How to Update the Data Set
+
+1.  Go to the *inst/extdata/data.R* file.
+2.  Run the script.
+
+## How to Deploy the App
+
+1.  Go to the *scripts/deploy.R* file.
+2.  Run the script.
+
 ## Getting Help or Reporting an Issue
 
 To report issues, bugs or enhancements, please file an
-[issue](https://github.com/bcgov/shinywqbench/issues). Review the open
-issues before reporting on the item. If the issue has already been
-reported on please do not open a new issue and instead add your
-suggestion to the already opened issue.
+[issue](https://github.com/bcgov/wqbench/issues). Check out the
+[support](https://github.com/bcgov/wqbench/blob/main/.github/SUPPORT.md)
+for more info.
 
 ## Code of Conduct
 
@@ -37,27 +46,18 @@ By contributing to this project, you agree to abide by its terms.
 
 ## License
 
-Detailed guidance around licenses is available
-[here](/BC-Open-Source-Development-Employee-Guide/Licenses.md)
+The code is released under the Apache License 2.0
 
-Attach the appropriate LICENSE file directly into your repository before
-you do anything else!
-
-The default license For code repositories is: Apache 2.0
-
-Here is the boiler-plate you should put into the comments header of
-every source code file as well as the bottom of your README.md:
-
-    Copyright 2019 Province of British Columbia
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at 
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+> Copyright 2023 Province of British Columbia
+>
+> Licensed under the Apache License, Version 2.0 (the “License”); you
+> may not use this file except in compliance with the License. You may
+> obtain a copy of the License at
+>
+> <https://www.apache.org/licenses/LICENSE-2.0>
+>
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an “AS IS” BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+> implied. See the License for the specific language governing
+> permissions and limitations under the License.

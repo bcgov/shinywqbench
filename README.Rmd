@@ -12,7 +12,7 @@ output: github_document
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("poissonconsulting/shinywqbench")
+devtools::install_github("bcgov/shinywqbench")
 ```
 
 ## How to launch app:
@@ -21,6 +21,16 @@ devtools::install_github("poissonconsulting/shinywqbench")
 library(shinywqbench)
 run_wqbench_app()
 ```
+
+## How to Update the Data Set
+
+1. Go to the *inst/extdata/data.R* file.
+2. Run the script.
+
+## How to Deploy the App
+
+1. Go to the *scripts/deploy.R* file.
+2. Run the script.
 
 ## Getting Help or Reporting an Issue
 
