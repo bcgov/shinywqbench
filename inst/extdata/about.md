@@ -30,3 +30,5 @@ The app automatically completes the following steps:
 A full description of the steps can be found in the accompanying word document, “An overview of the aquatic life water quality benchmark generator” which will eventually be published.
 
 Please do not cite this app at this point.
+
+The code is released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
