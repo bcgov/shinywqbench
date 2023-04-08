@@ -79,7 +79,7 @@ The data on Tab 1.1 Review Data can be edited by removing specific rows.
 - Download the tables as an excel file on Tab 2.2 Report
 
 **SSD Method**
-The SSD method used in the app uses ssdtools `ssd_hc_bcanz()` with 100 bootstrap samples. 
+The SSD method used in the app uses ssdtools `ssd_hc_bcanz()` with 10000 bootstrap samples. 
 The number of bootstraps cannot be adjusted in the app.
 If a user wants to vary the parameters of the SSD then the aggregated data can be downloaded and used in the [shinyssdtools](https://bcgov.github.io/shinyssdtools/) app.
 
