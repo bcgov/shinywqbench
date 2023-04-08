@@ -12,10 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#deploy to poissonconsulting server
+# run the test first
 rsconnect::deployApp(
-  appDir = ".",
-  account = "poissonconsulting",
-  appName = "shinywqbench-dev",
+  appDir = ".", 
+  account = "bcgov-env", 
+  appName = "shinywqbench-dev", 
   forceUpdate = TRUE
 )
+
+# live site
+rsconnect::deployApp(
+  appDir = ".", 
+  account = "bcgov-env",
+  appName = "shinywqbench", 
+  forceUpdate = TRUE
+)
+
+if (FALSE) {
+  rsconnect::deployApp(
+    appDir = ".",
+    account = "poissonconsulting",
+    appName = "shinywqbench",
+    forceUpdate = TRUE
+  )
+}
