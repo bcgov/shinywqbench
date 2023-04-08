@@ -6,6 +6,9 @@
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 <!-- badges: end -->
 
+This package is a shiny app that makes using the functions of the
+`wqbench` package accessible to non-R users.
+
 ## Installation
 
 ``` r
