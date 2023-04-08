@@ -10,14 +10,14 @@ output: github_document
 
 ## Installation
 
-``` r
+```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("bcgov/shinywqbench")
 ```
 
 ## How to launch app:
 
-``` r
+```{r, eval=FALSE}
 library(shinywqbench)
 run_wqbench_app()
 ```
