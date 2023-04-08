@@ -44,7 +44,7 @@ for more info.
 
 Please note that the shinywqbench project is released with a
 [Contributor Code of
-Conduct](https://github.com/bcgov/wqbench/CODE_OF_CONDUCT.md). By
+Conduct](https://github.com/bcgov/shinywqbench/CODE_OF_CONDUCT.md). By
 contributing to this project, you agree to abide by its terms.
 
 ## License
