@@ -2,7 +2,7 @@
 
 # shinywqbench 1.0.0
 
-- Internal changes only.
+- App is fully functional
 
 
 # shinywqbench 0.0.0.9000
