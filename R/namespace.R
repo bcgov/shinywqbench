@@ -15,5 +15,5 @@
 #' @import shiny
 #' @importFrom rlang .data
 #' @importFrom knitr kable
-#' @importFrom markdown markdown
+#' @importFrom markdown markdownToHTML
 NULL
