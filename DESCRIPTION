@@ -27,7 +27,6 @@ Imports:
     shiny,
     stringr,
     shinyjs,
-    tidyr,
     utils,
     waiter,
     writexl,

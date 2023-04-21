@@ -2,4 +2,6 @@
 
 export(run_wqbench_app)
 import(shiny)
+importFrom(knitr,kable)
+importFrom(markdown,markdown)
 importFrom(rlang,.data)
