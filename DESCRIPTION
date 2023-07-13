@@ -33,6 +33,8 @@ Imports:
     waiter,
     wqbench,
     writexl
+Remotes:
+   poissonconsulting/wqbench
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
