@@ -1,11 +1,11 @@
 # Copyright 2023 Province of British Columbia
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at 
-# 
+# You may obtain a copy of the License at
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 mod_data_ui <- function(id, label = "data") {
   ns <- NS(id)
-  
+
   sidebarLayout(
     sidebarPanel(
       tagList(
@@ -29,8 +29,8 @@ mod_data_ui <- function(id, label = "data") {
           div(
             id = ns("div_name"),
             selectizeInput(
-              ns("select_chem_name"), 
-              label = "", 
+              ns("select_chem_name"),
+              label = "",
               choices = NULL
             ),
           )
@@ -45,7 +45,7 @@ mod_data_ui <- function(id, label = "data") {
               selected = NULL
             )
           )
-        ) 
+        )
       ),
       actionButton(ns("run"), "Run"),
     ),
@@ -84,7 +84,7 @@ mod_data_ui <- function(id, label = "data") {
             br(),
             uiOutput(ns("ui_table_aggregated"))
           )
-        ) 
+        )
       )
     )
   )
@@ -92,10 +92,10 @@ mod_data_ui <- function(id, label = "data") {
 
 mod_data_server <- function(id) {
   moduleServer(
-    id, 
+    id,
     function(input, output, session) {
       ns <- session$ns
-      
+
       # Reactive Values ----
       rv <- reactiveValues(
         data = NULL,
@@ -109,7 +109,7 @@ mod_data_server <- function(id) {
         data_table_agg = NULL,
         clear_id = 1
       )
-      
+
       # Inputs ----
       updateSelectizeInput(
         session = session,
@@ -126,7 +126,7 @@ mod_data_server <- function(id) {
         server = TRUE,
         selected = ""
       )
-    
+
       # Select chemical ----
       observeEvent(input$chem_type, {
         if (input$chem_type == "Name") {
@@ -137,17 +137,17 @@ mod_data_server <- function(id) {
           show("div_cas")
         }
       })
-      
+
       # Data ----
       w <- waiter_data()
-  
+
       observeEvent(input$run, label = "select_chemical", {
         if (input$chem_type == "Name") {
           rv$chem_pick <- input$select_chem_name
         } else {
           rv$chem_pick <- input$select_cas_num
         }
-        
+
         # clear inputs when chemical not picked
         if (length(rv$chem_pick) == 0) {
           rv$data <- NULL
@@ -168,7 +168,7 @@ mod_data_server <- function(id) {
               )
             )
           )
-        }  
+        }
         # clear inputs when chemical not picked
         if (rv$chem_pick == "") {
           rv$data <- NULL
@@ -190,7 +190,7 @@ mod_data_server <- function(id) {
             )
           )
         }
-        
+
         if (input$chem_type == "Name") {
           cas_number <- cname |>
             dplyr::filter(.data$chemical_name == input$select_chem_name) |>
@@ -200,12 +200,12 @@ mod_data_server <- function(id) {
         } else {
           rv$chem_check <- input$select_cas_num
         }
-        
-        guideline_present  <- cname |>
+
+        guideline_present <- cname |>
           dplyr::filter(cas_number == rv$chem_check) |>
           dplyr::select("present_in_bc_wqg") |>
           dplyr::pull()
-        
+
         # when chemical already present in wqg
         if (guideline_present) {
           chem_msg <- rv$chem_check
@@ -224,7 +224,7 @@ mod_data_server <- function(id) {
               modalDialog(
                 div(
                   paste(
-                    cname$chemical_name[cname$cas_number == chem_msg], 
+                    cname$chemical_name[cname$cas_number == chem_msg],
                     "has a guideline present. To look up this guideline go to the"
                   ),
                   tags$a(
@@ -240,9 +240,9 @@ mod_data_server <- function(id) {
         } else {
           rv$chem <- rv$chem_check
         }
-        
+
         w$show()
-        
+
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$data$remove_row <- FALSE
         rv$name <- unique(rv$data$chemical_name)
@@ -251,36 +251,38 @@ mod_data_server <- function(id) {
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
         w$hide()
       })
-      
+
       observeEvent(rv$selected, {
         w$show()
         rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
         w$hide()
       })
-      
+
       # Clear Tab 2 when data is edited or chemical re selected
       observeEvent(rv$chem_pick, {
         rv$clear_id <- 1 + rv$clear_id
       })
-      
-      
+
+
       # Tab 1.1 ----
-      output$text_1 <- renderText({rv$name})
+      output$text_1 <- renderText({
+        rv$name
+      })
       output$ui_text_1 <- renderUI({
         text_output(ns("text_1"))
       })
-      
+
       output$button_select <- renderUI({
         req(rv$chem, rv$data)
         actionButton(ns("select"), "Edit Data")
       })
-      
+
       output$download_raw <- renderUI({
         req(rv$chem, rv$selected)
         download_button(ns("dl_raw"))
       })
-      
+
       output$dl_raw <- downloadHandler(
         filename = function() {
           file_name_dl("data-raw", rv$chem, "csv")
@@ -297,54 +299,55 @@ mod_data_server <- function(id) {
 
       observeEvent(input$select, {
         rv$clear_id <- 1 + rv$clear_id
-        
+
         rv$data <-
           rv$data |>
           dplyr::mutate(
             id = dplyr::row_number(),
             remove_row = dplyr::case_when(
               .data$id %in% input$table_selected_rows_selected & .data$remove_row ~ FALSE, # if already selected and selected again then deselect
-              .data$id %in% input$table_selected_rows_selected ~ TRUE, # then select them 
+              .data$id %in% input$table_selected_rows_selected ~ TRUE, # then select them
               TRUE ~ .data$remove_row # keep the rest the same
             )
           ) |>
           dplyr::select(
             -"id"
           )
-        
+
         rv$selected <-
           rv$data |>
           dplyr::filter(!.data$remove_row)
-        
       })
-      
+
       output$table_selected <- DT::renderDT({
         req(rv$data)
-        data_table_raw(rv$data) |> 
+        data_table_raw(rv$data) |>
           DT::formatStyle(
             columns = c("remove_row"),
             target = "row",
             backgroundColor = DT::styleEqual(c(1), c("#ff4d4d"))
           )
       })
-      
+
       output$ui_table_selected <- renderUI({
         table_output(ns("table_selected"))
       })
-      
+
       # Tab 1.2 ----
-      output$text_2 <- renderText({rv$name})
+      output$text_2 <- renderText({
+        rv$name
+      })
       output$ui_text_2 <- renderUI({
         text_output(ns("text_2"))
       })
-      
+
       output$ui_plot <- renderUI({
         plotOutput(ns("plot"))
       })
       output$plot <- renderPlot({
         rv$gp
       })
-      
+
       observeEvent(rv$selected, {
         if (nrow(rv$selected) == 0) {
           rv$gp <- NULL
@@ -362,12 +365,12 @@ mod_data_server <- function(id) {
         }
         rv$gp <- wqbench::wqb_plot(rv$selected)
       })
-      
+
       output$download_plot <- renderUI({
         req(rv$chem, rv$gp)
         download_button(ns("dl_data_plot"))
       })
-      
+
       output$dl_data_plot <- downloadHandler(
         filename = function() {
           file_name_dl("plot-data", rv$chem, "png")
@@ -381,35 +384,36 @@ mod_data_server <- function(id) {
         }
       )
       # Tab 1.3 ----
-      output$text_3 <- renderText({rv$name})
+      output$text_3 <- renderText({
+        rv$name
+      })
       output$ui_text_3 <- renderUI({
         text_output(ns("text_3"))
       })
-      
+
       observeEvent(rv$selected, {
         if (nrow(rv$selected) == 0) {
           rv$data_table_agg <- NULL
-          
+
           return()
-          
         }
         rv$data_table_agg <- data_table_agg(rv$aggregated)
       })
-      
-      
+
+
       output$table_aggregated <- DT::renderDT({
         rv$data_table_agg
       })
-      
+
       output$ui_table_aggregated <- renderUI({
         table_output(ns("table_aggregated"))
       })
-      
+
       output$download_aggregated <- renderUI({
         req(rv$chem, rv$aggregated)
         download_button(ns("dl_aggregated"))
       })
-      
+
       output$dl_aggregated <- downloadHandler(
         filename = function() {
           file_name_dl("data-aggregated", rv$chem, "csv")
@@ -423,7 +427,7 @@ mod_data_server <- function(id) {
           readr::write_csv(data, file)
         }
       )
-      
+
       return(rv)
     }
   )

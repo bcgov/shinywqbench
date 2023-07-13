@@ -2,40 +2,42 @@ Package: shinywqbench
 Title: R Shiny App to Calculates Aquatic Life Benchmarks
 Version: 0.0.1
 Authors@R: c(
-  person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = c("aut"),
-             comment = c(ORCID = "0000-0001-7388-1222")),
-  person("Angeline", "Tillmanns", ,"Angeline.Tillmanns@gov.bc.ca", role = c("aut", "cre")),
-  person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("ctb"),
+    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
+           comment = c(ORCID = "0000-0001-7388-1222")),
+    person("Angeline", "Tillmanns", , "Angeline.Tillmanns@gov.bc.ca", role = c("aut", "cre")),
+    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = "ctb",
            comment = c(ORCID = "0000-0002-7683-4592")),
-  person("Province of British Columbia", role = "cph")
+    person("Province of British Columbia", role = "cph")
   )
-Description: This package is the user interface to the wqbench R package and 
-  allows users to easily access standardized ecotoxicology data for thousands of 
-  chemicals. Either a SSD or deterministic method is used to determine the 
-  critical toxicity value and assessment factors to compute the aquatic life 
-  water quality benchmark for a compound.
+Description: This package is the user interface to the wqbench R package
+    and allows users to easily access standardized ecotoxicology data for
+    thousands of chemicals. Either a SSD or deterministic method is used
+    to determine the critical toxicity value and assessment factors to
+    compute the aquatic life water quality benchmark for a compound.
 License: Apache License (== 2)
+Depends: 
+    R (>= 2.10)
 Imports: 
-    DT,
     dplyr,
+    DT,
     ggplot2,
     knitr,
     markdown,
     readr,
-    rmarkdown,
     rlang,
+    rmarkdown,
     shiny,
-    stringr,
     shinyjs,
+    stringr,
     utils,
     waiter,
-    writexl,
-    wqbench
+    wqbench,
+    writexl
+Remotes:
+   poissonconsulting/wqbench
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends: 
-    R (>= 2.10)

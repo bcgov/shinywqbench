@@ -1,18 +1,18 @@
 # Copyright 2023 Province of British Columbia
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at 
-# 
+# You may obtain a copy of the License at
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# UI ---- 
+# UI ----
 inline <- function(x) {
   tags$div(style = "display:inline-block; width:105px; height:75px;", x)
 }
@@ -35,12 +35,12 @@ data_table <- function(data) {
   }
   DT::datatable(
     data,
-    escape = FALSE, 
-    rownames = FALSE, 
+    escape = FALSE,
+    rownames = FALSE,
     class = "cell-border compact",
     options = list(
       ordering = TRUE,
-      autowidth = TRUE, 
+      autowidth = TRUE,
       scrollX = TRUE,
       columnDefs = list(
         list(
@@ -58,12 +58,12 @@ data_table_raw <- function(data) {
   }
   DT::datatable(
     data,
-    escape = FALSE, 
-    rownames = FALSE, 
+    escape = FALSE,
+    rownames = FALSE,
     class = "cell-border compact",
     options = list(
       ordering = TRUE,
-      autowidth = TRUE, 
+      autowidth = TRUE,
       scrollX = TRUE,
       scrollY = TRUE,
       columnDefs = list(
@@ -87,12 +87,12 @@ data_table_agg <- function(data) {
   }
   DT::datatable(
     data,
-    escape = FALSE, 
-    rownames = FALSE, 
+    escape = FALSE,
+    rownames = FALSE,
     class = "cell-border compact",
     options = list(
       ordering = TRUE,
-      autowidth = TRUE, 
+      autowidth = TRUE,
       scrollX = TRUE,
       columnDefs = list(list(
         visible = FALSE,
@@ -104,7 +104,7 @@ data_table_agg <- function(data) {
   )
 }
 
-# Buttons ---- 
+# Buttons ----
 download_button <- function(..., icon = "download", class = "btn-primary") {
   downloadButton(..., icon = icon(icon), class = class)
 }
@@ -147,7 +147,7 @@ file_name_dl <- function(file_name, cas_number, ext) {
 # Filter Col Names ----
 
 filter_data_raw_dl <- function(data) {
-  data <- 
+  data <-
     data |>
     dplyr::select(
       "chemical_name", "cas",
@@ -163,7 +163,7 @@ filter_data_raw_dl <- function(data) {
 }
 
 filter_data_agg_dl <- function(data) {
-  data <- 
+  data <-
     data |>
     dplyr::select(
       "chemical_name", "cas",
@@ -174,4 +174,3 @@ filter_data_agg_dl <- function(data) {
     )
   data
 }
-
