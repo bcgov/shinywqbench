@@ -1,11 +1,11 @@
 # Copyright 2023 Province of British Columbia
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at 
-# 
+# You may obtain a copy of the License at
+#
 # http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 mod_summary_ui <- function(id, label = "summary") {
   ns <- NS(id)
-  
+
   tagList(
     wellPanel(
       h2("Summary"),
@@ -32,10 +32,10 @@ mod_summary_ui <- function(id, label = "summary") {
 
 mod_summary_server <- function(id, ext1, ext2) {
   moduleServer(
-    id, 
+    id,
     function(input, output, session) {
       ns <- session$ns
-      
+
       output$report <- downloadHandler(
         filename = function() {
           file_name_dl("shinywqbench-report", ext2$cas, "pdf")
@@ -43,10 +43,11 @@ mod_summary_server <- function(id, ext1, ext2) {
         content = function(file) {
           tempReport <- file.path(tempdir(), "summary-report.Rmd")
           file.copy(
-            system.file("extdata/summary-report.Rmd", package = "shinywqbench"), 
-            tempReport, overwrite = TRUE
+            system.file("extdata/summary-report.Rmd", package = "shinywqbench"),
+            tempReport,
+            overwrite = TRUE
           )
-          
+
           if (!is.null(ext2$name)) {
             params <- list(
               chem_name = stringr::str_squish(ext2$name),
@@ -73,17 +74,17 @@ mod_summary_server <- function(id, ext1, ext2) {
               gp_result = NULL
             )
           }
-          
-    
+
+
           rmarkdown::render(
-            tempReport, 
+            tempReport,
             output_file = file,
             params = params,
             envir = new.env(parent = globalenv())
           )
         }
       )
-      
+
       # add raw, aggregated, ctv
       output$data <- downloadHandler(
         filename = function() {
@@ -106,7 +107,6 @@ mod_summary_server <- function(id, ext1, ext2) {
           writexl::write_xlsx(sheets, file)
         }
       )
-      
     }
   )
 }
