@@ -16,4 +16,5 @@
 #' @importFrom rlang .data
 #' @importFrom knitr kable
 #' @importFrom markdown markdownToHTML
+#' @importFrom pkgload load_all
 NULL

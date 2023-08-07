@@ -23,6 +23,7 @@ Imports:
     ggplot2,
     knitr,
     markdown,
+    pkgload,
     readr,
     rlang,
     rmarkdown,
