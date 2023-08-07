@@ -20,7 +20,7 @@ app_ui <- function() {
     shinyjs::useShinyjs(),
     waiter::useWaiter(),
     navbarPage(
-      title = "Emergent Contaminant Aquatic Life Benchmarks – DRAFT",
+      title = "Emergent Contaminant Aquatic Life Benchmarks - DRAFT",
       selected = "tab1",
       id = "navbarID",
       tabPanel(
