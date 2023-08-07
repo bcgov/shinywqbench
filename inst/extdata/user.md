@@ -14,8 +14,6 @@
 # limitations under the License.
 -->
 
-
-This app **generates aquatic life water quality benchmarks**. 
 The app is built from the R package [wqbench](https://github.com/bcgov/wqbench), and shares the same functionality.
 
 ## How to Use the shinywqbench App
