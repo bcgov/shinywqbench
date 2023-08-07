@@ -14,8 +14,6 @@
 # limitations under the License.
 -->
 
-**This app is under development and is being shared for testing purposes only.**
-
 This app calculates aquatic life benchmarks for use when interpreting monitoring results when no water quality guidelines is available.  The app requires the user to first screen the data and then follow the necessary steps to calculate a benchmark.  
 
 The app automatically completes the following steps:
