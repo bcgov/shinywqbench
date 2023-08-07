@@ -52,6 +52,20 @@ mod_data_ui <- function(id, label = "data") {
         actionButton(ns("run"), "Run"),
       ),
       wellPanel(
+        p("Select a chemical by name or with the CAS registry number (without dashes) by using the radio buttons."),
+        p("1. To clear a selection, hit the backspace button in the input field."),
+        p("2. If you are unable to find the chemical by name try the CAS number."),
+        p(
+          "3. You can use the", 
+          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "maintained by the US EPA to look up a CAS number."
+        ),
+        p(
+          "4. The", 
+          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "is also helpful to look up synonyms. Many chemicals have multiple names."
+        ),
+        p("Once a chemical has been selected, hit the Run button."),
       )
     ),
     column(
