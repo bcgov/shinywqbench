@@ -16,7 +16,8 @@
 
 The purpose of this app is to allow the user to calculate aquatic life benchmarks for emergent contaminants when no water quality guidelines are available.
 Although these benchmarks follow methods similar to those outlined in the [BC WQG derivation protocol](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/derivation-protocol/bc_wqg_aquatic_life_derivation_protocol.pdf), many steps have been omitted including data quality screening and expert review and therefore these benchmarks are not equivalent to water quality guidelines.
-Rather the purpose of the benchmarks is to support the assessment of monitoring data and the potential for a chemical to impact the aquatic environment.  
+Rather the purpose of the benchmarks is to support the assessment of monitoring data and the potential for a chemical to impact the aquatic environment.
+
 If you have any feedback or comments on this app, please email them to Angeline.Tillmanns@gov.bc.ca  For further information on this app, please see the draft overview: 
 Tillmanns, A.R. and Pearson, A.  2023.  DRAFT wqbench: A Tool for Calculating Emergent Contaminant Aquatic Life Benchmarks.  Ministry of Water, Land and Resource Stewardship. Province of British Columbia, Victoria.
  
