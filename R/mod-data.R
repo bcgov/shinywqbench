@@ -15,41 +15,61 @@
 mod_data_ui <- function(id, label = "data") {
   ns <- NS(id)
 
-  sidebarLayout(
-    sidebarPanel(
-      tagList(
-        radioButtons(
-          ns("chem_type"),
-          label = "Select chemical by",
-          choices = c("Name", "CAS Registry Number (without dashes)"),
-          selected = "Name",
-          inline = TRUE
-        ),
-        shinyjs::hidden(
-          div(
-            id = ns("div_name"),
-            selectizeInput(
-              ns("select_chem_name"),
-              label = "",
-              choices = NULL
-            ),
-          )
-        ),
-        shinyjs::hidden(
-          div(
-            id = ns("div_cas"),
-            selectizeInput(
-              ns("select_cas_num"),
-              label = "",
-              choices = NULL,
-              selected = NULL
+  fluidRow(
+    column(
+      4,
+      wellPanel(
+        tagList(
+          radioButtons(
+            ns("chem_type"),
+            label = "Select chemical by",
+            choices = c("Name", "CAS Registry Number (without dashes)"),
+            selected = "Name",
+            inline = TRUE
+          ),
+          shinyjs::hidden(
+            div(
+              id = ns("div_name"),
+              selectizeInput(
+                ns("select_chem_name"),
+                label = "",
+                choices = NULL
+              ),
+            )
+          ),
+          shinyjs::hidden(
+            div(
+              id = ns("div_cas"),
+              selectizeInput(
+                ns("select_cas_num"),
+                label = "",
+                choices = NULL,
+                selected = NULL
+              )
             )
           )
-        )
+        ),
+        actionButton(ns("run"), "Run"),
       ),
-      actionButton(ns("run"), "Run"),
+      wellPanel(
+        p("Select a chemical by name or with the CAS registry number (without dashes) by using the radio buttons."),
+        p("1. To clear a selection, hit the backspace button in the input field."),
+        p("2. If you are unable to find the chemical by name try the CAS number."),
+        p(
+          "3. You can use the", 
+          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "maintained by the US EPA to look up a CAS number."
+        ),
+        p(
+          "4. The", 
+          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "is also helpful to look up synonyms. Many chemicals have multiple names."
+        ),
+        p("Once a chemical has been selected, hit the Run button."),
+      )
     ),
-    mainPanel(
+    column(
+      8,
       tabsetPanel(
         tabPanel(
           title = "1.1 Data Review",
@@ -86,7 +106,92 @@ mod_data_ui <- function(id, label = "data") {
           )
         )
       )
-    )
+           
+  )
+  
+  
+  # sidebarLayout(
+  #   sidebarPanel(
+  #     
+  #     fluidRow(
+  #       column(
+  #         width = 1
+  #         tagList(
+  #           radioButtons(
+  #             ns("chem_type"),
+  #             label = "Select chemical by",
+  #             choices = c("Name", "CAS Registry Number (without dashes)"),
+  #             selected = "Name",
+  #             inline = TRUE
+  #           ),
+  #           shinyjs::hidden(
+  #             div(
+  #               id = ns("div_name"),
+  #               selectizeInput(
+  #                 ns("select_chem_name"),
+  #                 label = "",
+  #                 choices = NULL
+  #               ),
+  #             )
+  #           ),
+  #           shinyjs::hidden(
+  #             div(
+  #               id = ns("div_cas"),
+  #               selectizeInput(
+  #                 ns("select_cas_num"),
+  #                 label = "",
+  #                 choices = NULL,
+  #                 selected = NULL
+  #               )
+  #             )
+  #           )
+  #         ),
+  #         actionButton(ns("run"), "Run"),
+  #       ),
+  #       column(
+  #         tabPanel("Instructions here"),
+  #       ),
+  #     ),
+  #   ),
+  #   
+    #mainPanel(
+      # tabsetPanel(
+      #   tabPanel(
+      #     title = "1.1 Data Review",
+      #     well_panel(
+      #       inline(uiOutput(ns("download_raw"))),
+      #       inline(uiOutput(ns("button_select"))),
+      #       br(),
+      #       h3(uiOutput(ns("ui_text_1"))),
+      #       br(),
+      #       br(),
+      #       uiOutput(ns("ui_table_selected"))
+      #     )
+      #   ),
+      #   tabPanel(
+      #     title = "1.2 View Plot",
+      #     well_panel(
+      #       uiOutput(ns("download_plot")),
+      #       br(),
+      #       h3(uiOutput(ns("ui_text_2"))),
+      #       br(),
+      #       br(),
+      #       uiOutput(ns("ui_plot"))
+      #     )
+      #   ),
+      #   tabPanel(
+      #     title = "1.3 Aggregated Data",
+      #     well_panel(
+      #       uiOutput(ns("download_aggregated")),
+      #       br(),
+      #       h3(uiOutput(ns("ui_text_3"))),
+      #       br(),
+      #       br(),
+      #       uiOutput(ns("ui_table_aggregated"))
+      #     )
+      #   )
+      # )
+   # )
   )
 }
 
