@@ -33,7 +33,7 @@ The app automatically completes the following steps:
 - Step 5: Data are aggregated and the most sensitive endpoint for the most sensitive life stage is selected for each species.
 - Step 6: Assessment factors are applied to account for uncertainty related to the number of species, representation of ecologically important groups and representation of B.C. species.
 
-A full description of the steps can be found in the accompanying word document, “An overview of the aquatic life water quality benchmark generator” which will eventually be published.
+A full description of the steps can be found in the accompanying document, "[An overview of the aquatic life water quality benchmark generator](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/approved-wqgs/benchmarks_for_emerging_contaminants_overview_draft_august_2023.pdf)" which will eventually be published.
 
 Please do not cite this app at this point.
 
