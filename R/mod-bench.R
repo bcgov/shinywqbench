@@ -93,6 +93,35 @@ mod_bench_server <- function(id, ext) {
       w <- waiter_data("Running model for selected chemical ...")
 
       observeEvent(input$benchmark, {
+        # Don't allow value to be generated if already present 
+        guideline_present <- cname |>
+          dplyr::filter(cas_number == ext$chem_check) |>
+          dplyr::select("present_in_bc_wqg") |>
+          dplyr::pull()
+        
+        if (guideline_present) {
+          chem_msg <- ext$chem_check
+          
+          return(
+            showModal(
+              modalDialog(
+                div(
+                  paste(
+                    cname$chemical_name[cname$cas_number == chem_msg],
+                    "has a guideline present. To look up this guideline go to the"
+                  ),
+                  tags$a(
+                    "BC Water Quality Guideline Look-up App",
+                    target = "_blank",
+                    href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines"
+                  )
+                ),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
+        
         w$show()
         rv$raw <- ext$data
         rv$selected <- ext$selected
