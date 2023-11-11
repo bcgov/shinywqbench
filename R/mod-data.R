@@ -57,8 +57,8 @@ mod_data_ui <- function(id, label = "data") {
         p("2. If you are unable to find the chemical by name try the CAS number."),
         p(
           "3. You can use the", 
-          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
-          "maintained by the US EPA to look up a CAS number."
+          a("CAS Common Chemistry lookup tool", href = "https://commonchemistry.cas.org/"), 
+          "maintained by the American Chemical Society to look up the CAS number."
         ),
         p(
           "4. The", 
