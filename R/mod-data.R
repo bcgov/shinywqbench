@@ -221,50 +221,8 @@ mod_data_server <- function(id) {
           rv$chem_check <- input$select_cas_num
         }
 
-        # TODO move this to tab 2
-        # not able to move until data is uploaded
-        guideline_present <- cname |>
-          dplyr::filter(cas_number == rv$chem_check) |>
-          dplyr::select("present_in_bc_wqg") |>
-          dplyr::pull()
-        
-        # when chemical already present in wqg
-        if (guideline_present) {
-          chem_msg <- rv$chem_check
-          # rv$data <- NULL
-          # rv$aggregated <- NULL
-          # rv$selected <- NULL
-          # rv$gp <- NULL
-          # rv$name <- NULL
-          # rv$chem_check <- NULL
-          # rv$chem <- NULL
-          # rv$chem_pick <- NULL
-          # rv$data_table_agg <- NULL
-          # rv$clear_id <- 1 + rv$clear_id
-          # return(
-          #   showModal(
-          #     modalDialog(
-          #       div(
-          #         paste(
-          #           cname$chemical_name[cname$cas_number == chem_msg],
-          #           "has a guideline present. To look up this guideline go to the"
-          #         ),
-          #         tags$a(
-          #           "BC Water Quality Guideline Look-up App",
-          #           target = "_blank",
-          #           href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines"
-          #         )
-          #       ),
-          #       footer = modalButton("Got it")
-          #     )
-          #   )
-          # )
-        } else {
-          rv$chem <- rv$chem_check
-         }
-
         w$show()
-
+        rv$chem <- rv$chem_check
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$data$remove_row <- FALSE
         rv$name <- unique(rv$data$chemical_name)
