@@ -66,6 +66,14 @@ mod_data_ui <- function(id, label = "data") {
           "is also helpful to look up synonyms. Many chemicals have multiple names."
         ),
         p("Once a chemical has been selected, hit the Run button."),
+      ),
+      wellPanel(
+        p("You can add your own data by filling in the table below and then hitting the add button."),
+        br(),
+        rhandsontable::rHandsontableOutput(ns("add")),
+        br(),
+        actionButton(ns("add_button"), "Add"),
+        br()
       )
     ),
     column(
@@ -243,6 +251,49 @@ mod_data_server <- function(id) {
       observeEvent(rv$chem_pick, {
         rv$clear_id <- 1 + rv$clear_id
       })
+      
+      # Add data
+      
+      # TODO: pull the sample values from the database in the data.R file
+      output$add <- rhandsontable::renderRHandsontable({
+        add_df_template <- data.frame(
+          species_number = rep(NA_integer_, 5),
+          latin_name = rep(NA_character_, 5),
+          endpoint = factor(
+            rep(NA_character_, 5),
+            levels = sort(unique(ecotox_data$endpoint))
+          ),
+          effects = factor(
+            NA_character_,
+            levels = sort(unique(ecotox_data$effect))
+          ),
+          effect_conc_std_mg.L = NA_real_,
+          lifestage = factor(
+            NA_character_,
+            levels = sort(unique(ecotox_data$lifestage))
+          ),
+          trophic_group = factor(
+            NA_character_,
+            levels = sort(unique(ecotox_data$trophic_group))
+          ),
+          ecological_group = factor(
+            NA_character_,
+            levels = sort(unique(ecotox_data$ecological_group))
+          ),
+          species_present_in_bc = NA
+        )
+        if (!is.null(add_df_template)) {
+          rhandsontable::rhandsontable(add_df_template, rowHeaders = NULL) |>
+            rhandsontable::hot_rows(rowHeights = 50) |>
+            rhandsontable::hot_col("endpoint", allowInvalid = FALSE) |>
+            rhandsontable::hot_col("effects", allowInvalid = FALSE) |>
+            rhandsontable::hot_col("lifestage", allowInvalid = FALSE) |>
+            rhandsontable::hot_col("trophic_group", allowInvalid = FALSE) |>
+            rhandsontable::hot_col("ecological_group", allowInvalid = FALSE)
+        }
+      })
+      
+      
 
 
       # Tab 1.1 ----
