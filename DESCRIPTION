@@ -25,6 +25,7 @@ Imports:
     markdown,
     pkgload,
     readr,
+    rhandsontable,
     rlang,
     rmarkdown,
     shiny,
