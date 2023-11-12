@@ -252,15 +252,15 @@ mod_data_server <- function(id) {
         rv$clear_id <- 1 + rv$clear_id
       })
       
+      ## Add Data ----
       # Add data
       
       # TODO: pull the sample values from the database in the data.R file
       output$add <- rhandsontable::renderRHandsontable({
         add_df_template <- data.frame(
-          species_number = rep(NA_integer_, 5),
-          latin_name = rep(NA_character_, 5),
+          latin_name = rep(NA_character_, 3),
           endpoint = factor(
-            rep(NA_character_, 5),
+            NA_character_,
             levels = sort(unique(ecotox_data$endpoint))
           ),
           effects = factor(
@@ -293,6 +293,26 @@ mod_data_server <- function(id) {
         }
       })
       
+      observeEvent(input$add_button, {
+        add_tbl_1 <- rhandsontable::hot_to_r(input$add)
+        
+        add_tbl_1 <- 
+          add_tbl_1 |>
+          dplyr::mutate(
+            # TODO: Determine how species_number is used and can be added to not conflict
+            species_number = 1
+          ) 
+        
+        # Check things
+        # 1. All cells are filled out, ie non are blank
+        # 2. Drop rows that are completely blank
+        # 3. Add to data set 
+        
+        
+        print(add_tbl_1)
+        
+        
+      })
       
 
 
