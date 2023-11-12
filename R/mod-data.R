@@ -263,7 +263,7 @@ mod_data_server <- function(id) {
             NA_character_,
             levels = sort(unique(ecotox_data$endpoint))
           ),
-          effects = factor(
+          effect = factor(
             NA_character_,
             levels = sort(unique(ecotox_data$effect))
           ),
@@ -286,7 +286,7 @@ mod_data_server <- function(id) {
           rhandsontable::rhandsontable(add_df_template, rowHeaders = NULL) |>
             rhandsontable::hot_rows(rowHeights = 50) |>
             rhandsontable::hot_col("endpoint", allowInvalid = FALSE) |>
-            rhandsontable::hot_col("effects", allowInvalid = FALSE) |>
+            rhandsontable::hot_col("effect", allowInvalid = FALSE) |>
             rhandsontable::hot_col("lifestage", allowInvalid = FALSE) |>
             rhandsontable::hot_col("trophic_group", allowInvalid = FALSE) |>
             rhandsontable::hot_col("ecological_group", allowInvalid = FALSE)
@@ -300,7 +300,11 @@ mod_data_server <- function(id) {
           add_tbl_1 |>
           dplyr::mutate(
             # TODO: Determine how species_number is used and can be added to not conflict
-            species_number = 1
+            species_number = 1,
+            dplyr::across(
+              c(endpoint, effect, lifestage, trophic_group, ecological_group), 
+              ~as.character(.x)
+            )
           ) 
         
         # Check things
@@ -308,11 +312,15 @@ mod_data_server <- function(id) {
         # 2. Drop rows that are completely blank
         # 3. Add to data set 
         
+        print(str(rv$data))
+        print(str(add_tbl_1))
         
-        print(add_tbl_1)
-        
-        
+        rv$data <- 
+          rv$data |>
+          dplyr::bind_rows(add_tbl_1)
       })
+      
+      
       
 
 
