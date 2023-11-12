@@ -296,6 +296,13 @@ mod_data_server <- function(id) {
       observeEvent(input$add_button, {
         add_tbl_1 <- rhandsontable::hot_to_r(input$add)
         
+        # TODO: be good to move to a function so it can be tested
+        # Drop rows that are completely blank
+        add_tbl_1 <- dplyr::filter(
+          add_tbl_1, 
+          rowSums(is.na(add_tbl_1)) != ncol(add_tbl_1)
+        )
+        
         add_tbl_1 <- 
           add_tbl_1 |>
           dplyr::mutate(
@@ -304,17 +311,18 @@ mod_data_server <- function(id) {
             dplyr::across(
               c(endpoint, effect, lifestage, trophic_group, ecological_group), 
               ~as.character(.x)
+            ),
+            species_present_in_bc = dplyr::if_else(
+              is.na(species_present_in_bc), 
+              FALSE, 
+              species_present_in_bc
             )
           ) 
         
-        # Check things
-        # 1. All cells are filled out, ie non are blank
-        # 2. Drop rows that are completely blank
+        # 2. All cells are filled out, ie non are blank
+        
+     
         # 3. Add to data set 
-        
-        print(str(rv$data))
-        print(str(add_tbl_1))
-        
         rv$data <- 
           rv$data |>
           dplyr::bind_rows(add_tbl_1)
