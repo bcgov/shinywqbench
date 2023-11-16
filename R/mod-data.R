@@ -68,9 +68,14 @@ mod_data_ui <- function(id, label = "data") {
         p("Once a chemical has been selected, hit the Run button."),
       ),
       wellPanel(
-        p("You can add your own data by filling in the table below and then hitting the add button."),
+        p("You can add your own data by uploading a csv file."),
         br(),
-        rhandsontable::rHandsontableOutput(ns("add")),
+        fileInput(
+          ns("file_add"), 
+          "Choose CSV File",
+          multiple = FALSE,
+          accept = c(".csv")
+        ),
         br(),
         actionButton(ns("add_button"), "Add"),
         br()
@@ -256,45 +261,12 @@ mod_data_server <- function(id) {
       # Add data
       
       # TODO: pull the sample values from the database in the data.R file
-      output$add <- rhandsontable::renderRHandsontable({
-        add_df_template <- data.frame(
-          latin_name = rep(NA_character_, 3),
-          endpoint = factor(
-            NA_character_,
-            levels = sort(unique(ecotox_data$endpoint))
-          ),
-          effect = factor(
-            NA_character_,
-            levels = sort(unique(ecotox_data$effect))
-          ),
-          effect_conc_std_mg.L = NA_real_,
-          lifestage = factor(
-            NA_character_,
-            levels = sort(unique(ecotox_data$lifestage))
-          ),
-          trophic_group = factor(
-            NA_character_,
-            levels = sort(unique(ecotox_data$trophic_group))
-          ),
-          ecological_group = factor(
-            NA_character_,
-            levels = sort(unique(ecotox_data$ecological_group))
-          ),
-          species_present_in_bc = NA
-        )
-        if (!is.null(add_df_template)) {
-          rhandsontable::rhandsontable(add_df_template, rowHeaders = NULL) |>
-            rhandsontable::hot_rows(rowHeights = 50) |>
-            rhandsontable::hot_col("endpoint", allowInvalid = FALSE) |>
-            rhandsontable::hot_col("effect", allowInvalid = FALSE) |>
-            rhandsontable::hot_col("lifestage", allowInvalid = FALSE) |>
-            rhandsontable::hot_col("trophic_group", allowInvalid = FALSE) |>
-            rhandsontable::hot_col("ecological_group", allowInvalid = FALSE)
-        }
-      })
+      
       
       observeEvent(input$add_button, {
-        add_tbl_1 <- rhandsontable::hot_to_r(input$add)
+        add_tbl_1 <- read.csv(
+          input$file_add$datapath
+        )
         
         # TODO: be good to move to a function so it can be tested
         # Drop rows that are completely blank
@@ -320,14 +292,35 @@ mod_data_server <- function(id) {
           ) 
         
         # 2. All cells are filled out, ie non are blank
+        ## pop up box if any cells are blank
+        msg <- try(check_no_missing(add_tbl_1), silent = TRUE)
+        if (is_try_error(add_tbl_1)) {
+          return(
+            showModal(
+              modalDialog(
+                div("All rows must be filled out."),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
+        ## need a way to detect that values are removed from the table 
+        print("here1")
+        print(msg)
+        print(add_tbl_1)
         
-     
         # 3. Add to data set 
         rv$data <- 
           rv$data |>
           dplyr::bind_rows(add_tbl_1)
+        
+        print(rv$data)
+        
       })
       
+      observe({
+        print(rv$data)
+      })
       
       
 
@@ -360,7 +353,10 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_raw_dl(rv$selected)
           }
-          readr::write_csv(data, file)
+          
+          ## TO DO
+          
+          readr::write_csv(rv$data, file)
         }
       )
 

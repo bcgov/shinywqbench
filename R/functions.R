@@ -174,3 +174,27 @@ filter_data_agg_dl <- function(data) {
     )
   data
 }
+
+# Upload Data -----
+is_try_error <- function(x) inherits(x, "try-error")
+
+# goal, identify cells with missing values
+check_no_missing <- function(data) {
+  if (sum(is.na(data))) {
+    msg <- c()
+    for (i in 1:nrow(data)) {
+      for (j in 1:ncol(data)) {
+        if (is.na(data[i, j])) {
+          msg_1 <- paste0("row ", i, " in the '", colnames(data)[j], "' column")
+          msg <- c(msg, msg_1)
+        }
+      }
+    }
+    chk::abort_chk(
+      "No missing values are allowed in the added data. ", 
+      "Please correct the missing value(s) in: ",
+      paste(msg, collapse = ", ")
+    )
+    
+  }
+}
