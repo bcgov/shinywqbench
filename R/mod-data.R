@@ -308,7 +308,9 @@ mod_data_server <- function(id) {
         add_tbl_1 <- add_tbl_1 |>
           dplyr::left_join(species_match, by = "latin_name", multiple = "first") |>
           dplyr::mutate(
-            species_number = dplyr::if_else(is.na(species_number), (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], species_number)
+            species_number = dplyr::if_else(is.na(species_number), (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], species_number),
+            trophic_group = factor(trophic_group, levels = levels(rv$data$trophic_group)),
+            ecological_group = factor(ecological_group, levels = levels(rv$data$ecological_group))
           )
         
         # 3. Add to data set
