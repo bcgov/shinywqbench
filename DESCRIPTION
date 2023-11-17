@@ -30,6 +30,7 @@ Imports:
     shiny,
     shinyjs,
     stringr,
+    tidyr,
     utils,
     waiter,
     wqbench,
