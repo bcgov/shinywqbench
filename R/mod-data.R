@@ -241,6 +241,12 @@ mod_data_server <- function(id) {
         rv$chem <- rv$chem_check
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$data$remove_row <- FALSE
+        rv$data <- dplyr::relocate(
+          rv$data,
+          latin_name, endpoint, effect, lifestage, effect_conc_std_mg.L, 
+          trophic_group, ecological_group, species_present_in_bc,
+          .after = "cas",
+        )
         rv$name <- unique(rv$data$chemical_name)
         rv$selected <- rv$data
         rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
@@ -272,68 +278,40 @@ mod_data_server <- function(id) {
         }
       )
       
-      
-      
-      
       # Add data
       
       # TODO: pull the sample values from the database in the data.R file
       
       
       observeEvent(input$add_button, {
-        add_tbl_1 <- read.csv(
-          input$file_add$datapath
-        )
-        
-        print(add_tbl_1)
-        return()
-        
-        # TODO: be good to move to a function so it can be tested
-        # Drop rows that are completely blank
-        add_tbl_1 <- dplyr::filter(
-          add_tbl_1, 
-          rowSums(is.na(add_tbl_1)) != ncol(add_tbl_1)
-        )
-        
-        add_tbl_1 <- 
-          add_tbl_1 |>
-          dplyr::mutate(
-            # TODO: Determine how species_number is used and can be added to not conflict
-            species_number = 1,
-            dplyr::across(
-              c(endpoint, effect, lifestage, trophic_group, ecological_group), 
-              ~as.character(.x)
-            ),
-            species_present_in_bc = dplyr::if_else(
-              is.na(species_present_in_bc), 
-              FALSE, 
-              species_present_in_bc
-            )
-          ) 
-        
-        # 2. All cells are filled out, ie non are blank
-        ## pop up box if any cells are blank
-        msg <- try(check_no_missing(add_tbl_1), silent = TRUE)
-        if (is_try_error(add_tbl_1)) {
+        # Check that data already present
+        if (is.null(rv$data)) {
           return(
             showModal(
               modalDialog(
-                div("All rows must be filled out."),
+                div("Please select a chemical before adding data."),
                 footer = modalButton("Got it")
               )
             )
           )
         }
-        ## need a way to detect that values are removed from the table 
-        print("here1")
-        print(msg)
-        print(add_tbl_1)
         
-        # 3. Add to data set 
-        rv$data <- 
+        add_tbl_1 <- readr::read_csv(
+          input$file_add$datapath
+        )
+        add_tbl_1 <- wqbench::wqb_check_add_data(add_tbl_1, wqbench::template)
+        
+        # TODO: Determine how species_number is used and can be added to not conflict
+        
+ 
+        
+
+
+        # 3. Add to data set
+        rv$data <-
           rv$data |>
           dplyr::bind_rows(add_tbl_1)
-        
+
         print(rv$data)
         
       })
