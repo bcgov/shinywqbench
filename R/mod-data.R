@@ -300,17 +300,22 @@ mod_data_server <- function(id) {
           input$file_add$datapath
         )
         add_tbl_1 <- wqbench::wqb_check_add_data(add_tbl_1, wqbench::template)
+        # add a species number 
+        species_match <- rv$data |>
+          dplyr::select(species_number, latin_name) |>
+          dplyr::distinct()
         
-        # TODO: Determine how species_number is used and can be added to not conflict
+        add_tbl_1 <- add_tbl_1 |>
+          dplyr::left_join(species_match, by = "latin_name", multiple = "first") |>
+          dplyr::mutate(
+            species_number = dplyr::if_else(is.na(species_number), (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], species_number)
+          )
         
- 
-        
-
-
         # 3. Add to data set
         rv$data <-
           rv$data |>
-          dplyr::bind_rows(add_tbl_1)
+          dplyr::bind_rows(add_tbl_1) |>
+          tidyr::fill(chemical_name, cas)
 
         print(rv$data)
         
