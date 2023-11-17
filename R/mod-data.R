@@ -68,15 +68,18 @@ mod_data_ui <- function(id, label = "data") {
         p("Once a chemical has been selected, hit the Run button."),
       ),
       wellPanel(
-        p("You can add your own data by uploading a csv file."),
-        br(),
+        p("You can add your own data to the Ecotox data by uploading a csv file and hitting the Add button."),
+        p("1. Download and fill in template file. Check the User Guide tab for descriptions of each column."),
+        uiOutput(ns("download_add")),
+        br(), 
+        p("2. Upload the filled in template file."),
         fileInput(
           ns("file_add"), 
-          "Choose CSV File",
+          "",
           multiple = FALSE,
           accept = c(".csv")
         ),
-        br(),
+        p("3. Hit the Add button to add the data to the Ecotox data."),
         actionButton(ns("add_button"), "Add"),
         br()
       )
@@ -258,6 +261,20 @@ mod_data_server <- function(id) {
       })
       
       ## Add Data ----
+      output$download_add <- renderUI({
+        download_button(ns("dl_add"))
+      })
+      
+      output$dl_add <- downloadHandler(
+        filename = function() paste0("template-wqbench.csv"),
+        content = function(file) {
+          readr::write_csv(wqbench::template[0, -1], file)
+        }
+      )
+      
+      
+      
+      
       # Add data
       
       # TODO: pull the sample values from the database in the data.R file
@@ -267,6 +284,9 @@ mod_data_server <- function(id) {
         add_tbl_1 <- read.csv(
           input$file_add$datapath
         )
+        
+        print(add_tbl_1)
+        return()
         
         # TODO: be good to move to a function so it can be tested
         # Drop rows that are completely blank
@@ -353,10 +373,6 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_raw_dl(rv$selected)
           }
-          
-          ## TO DO
-          
-          readr::write_csv(rv$data, file)
         }
       )
 
