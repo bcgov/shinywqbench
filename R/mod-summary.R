@@ -97,7 +97,7 @@ mod_summary_server <- function(id, ext1, ext2) {
             )
           } else {
             sheets <- list(
-              raw = filter_data_raw_dl(ext2$raw),
+              review = filter_data_raw_dl(ext2$raw),
               selected = filter_data_raw_dl(ext2$selected),
               aggregate_data = filter_data_agg_dl(ext2$agg),
               assessment_factor = ext2$af_table,
