@@ -93,12 +93,12 @@ mod_bench_server <- function(id, ext) {
       w <- waiter_data("Running model for selected chemical ...")
 
       observeEvent(input$benchmark, {
-        # Don't allow value to be generated if already present 
+        # Don't allow value to be generated if already present
         guideline_present <- cname |>
-          dplyr::filter(cas_number == ext$chem_check) |>
+          dplyr::filter(.data$cas_number == ext$chem_check) |>
           dplyr::select("present_in_bc_wqg") |>
           dplyr::pull()
-        
+
         if (guideline_present) {
           chem_msg <- ext$chem_check
           

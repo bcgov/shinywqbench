@@ -56,13 +56,13 @@ mod_data_ui <- function(id, label = "data") {
         p("1. To clear a selection, hit the backspace button in the input field."),
         p("2. If you are unable to find the chemical by name try the CAS number."),
         p(
-          "3. You can use the", 
-          a("CAS Common Chemistry lookup tool", href = "https://commonchemistry.cas.org/"), 
+          "3. You can use the",
+          a("CAS Common Chemistry lookup tool", href = "https://commonchemistry.cas.org/"),
           "maintained by the American Chemical Society to look up the CAS number."
         ),
         p(
-          "4. The", 
-          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "4. The",
+          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"),
           "is also helpful to look up synonyms. Many chemicals have multiple names."
         ),
         p("Once a chemical has been selected, hit the Run button."),
@@ -71,7 +71,7 @@ mod_data_ui <- function(id, label = "data") {
         p("To add your own data."),
         p("1. Download and fill in template. Check the User Guide tab for descriptions of each column."),
         uiOutput(ns("download_add")),
-        br(), 
+        br(),
         p("2. Upload the completed template."),
         fileInput(
           ns("file_add"), 
@@ -230,7 +230,7 @@ mod_data_server <- function(id) {
         if (input$chem_type == "Name") {
           cas_number <- cname |>
             dplyr::filter(.data$chemical_name == input$select_chem_name) |>
-            dplyr::select(cas_number) |>
+            dplyr::select("cas_number") |>
             dplyr::pull()
           rv$chem_check <- cas_number
         } else {
@@ -243,8 +243,9 @@ mod_data_server <- function(id) {
         rv$data$remove_row <- FALSE
         rv$data <- dplyr::relocate(
           rv$data,
-          latin_name, endpoint, effect, lifestage, effect_conc_std_mg.L, 
-          trophic_group, ecological_group, species_present_in_bc,
+          "latin_name", "endpoint", "effect", "lifestage", "effect_conc_mg.L",
+          "effect_conc_std_mg.L", "trophic_group", "ecological_group",
+          "species_present_in_bc",
           .after = "cas",
         )
         rv$name <- unique(rv$data$chemical_name)
@@ -328,7 +329,7 @@ mod_data_server <- function(id) {
         }
         
         species_match <- rv$data |>
-          dplyr::select(species_number, latin_name) |>
+          dplyr::select("species_number", "latin_name") |>
           dplyr::distinct()
         
         add_tbl_1 <- add_tbl_1 |>
@@ -339,16 +340,16 @@ mod_data_server <- function(id) {
           ) |>
           dplyr::mutate(
             species_number = dplyr::if_else(
-              is.na(species_number), 
+              is.na(.data$species_number), 
               (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], 
-              species_number
+              .data$species_number
             ),
             trophic_group = factor(
-              trophic_group,
+              .data$trophic_group,
               levels = levels(rv$data$trophic_group)
             ),
             ecological_group = factor(
-              ecological_group, 
+              .data$ecological_group, 
               levels = levels(rv$data$ecological_group)
             ), 
             remove_row = FALSE
@@ -358,7 +359,7 @@ mod_data_server <- function(id) {
         rv$data <-
           rv$data |>
           dplyr::bind_rows(add_tbl_1) |>
-          tidyr::fill(chemical_name, cas)
+          tidyr::fill("chemical_name", "cas")
 
         ## not sure where this can go or how the other parts may need to be adjusted 
         rv$selected <- wqbench::wqb_benchmark_method(rv$data)

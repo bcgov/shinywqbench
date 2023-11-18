@@ -183,7 +183,7 @@ check_modal <- function(check, title = "Please fix the following issue ...") {
   msg <- gsub("Error : ", "", msg)
   modalDialog(
     paste(msg),
-    title = title, 
+    title = title,
     footer = modalButton("Got it")
   )
 }
@@ -195,8 +195,8 @@ check_upload <- function(x, ext = "csv") {
   if (!any(stringr::str_detect(x, ext))) {
     ext <- paste0(ext, collapse = " or ")
     chk::abort_chk(
-      "We're not sure what to do with that file type. Please upload a ", 
-      ext, 
+      "We're not sure what to do with that file type. Please upload a ",
+      ext,
       " file."
     )
   }
