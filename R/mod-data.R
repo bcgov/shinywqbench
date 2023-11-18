@@ -312,7 +312,7 @@ mod_data_server <- function(id) {
             showModal(
               modalDialog(
                 title = "Please fix the following issue ...",
-                paste("There are no rows of data in the uploaded data.,", 
+                paste("There are no rows of data in the uploaded data.", 
                 "Please fill out the template and try again."),
                 footer = modalButton("Got it")
               )
