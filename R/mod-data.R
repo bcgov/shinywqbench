@@ -339,19 +339,8 @@ mod_data_server <- function(id) {
 
         ## not sure where this can go or how the other parts may need to be adjusted 
         rv$selected <- wqbench::wqb_benchmark_method(rv$data)
-        #rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
-        
-        
-        print(rv$data)
-        
+        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
       })
-      
-      observe({
-        print(rv$data)
-      })
-      
-      
-
 
       # Tab 1.1 ----
       output$text_1 <- renderText({
