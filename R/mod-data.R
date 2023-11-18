@@ -68,18 +68,18 @@ mod_data_ui <- function(id, label = "data") {
         p("Once a chemical has been selected, hit the Run button."),
       ),
       wellPanel(
-        p("You can add your own data to the Ecotox data by uploading a csv file and hitting the Add button."),
-        p("1. Download and fill in template file. Check the User Guide tab for descriptions of each column."),
+        p("To add your own data."),
+        p("1. Download and fill in template. Check the User Guide tab for descriptions of each column."),
         uiOutput(ns("download_add")),
         br(), 
-        p("2. Upload the filled in template file."),
+        p("2. Upload the completed template."),
         fileInput(
           ns("file_add"), 
           "",
           multiple = FALSE,
           accept = c(".csv")
         ),
-        p("3. Hit the Add button to add the data to the Ecotox data."),
+        p("3. Click the Add button to add the uploaded data."),
         actionButton(ns("add_button"), "Add"),
         br()
       )
