@@ -187,3 +187,17 @@ check_modal <- function(check, title = "Please fix the following issue ...") {
     footer = modalButton("Got it")
   )
 }
+
+check_upload <- function(x, ext = "csv") {
+  if (is.null(x)) {
+    chk::abort_chk("A file needs to be uploaded before it can be added.")
+  }
+  if (!any(stringr::str_detect(x, ext))) {
+    ext <- paste0(ext, collapse = " or ")
+    chk::abort_chk(
+      "We're not sure what to do with that file type. Please upload a ", 
+      ext, 
+      " file."
+    )
+  }
+}

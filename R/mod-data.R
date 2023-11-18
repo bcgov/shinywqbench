@@ -285,17 +285,39 @@ mod_data_server <- function(id) {
           return(
             showModal(
               modalDialog(
-                div("Please select a chemical before adding data."),
+                title = "Please fix the following issue ...",
+                div("You must select a chemical and click run before adding your data."),
                 footer = modalButton("Got it")
               )
             )
           )
         }
         
+        check_uploaded_1 <- try(
+          check_upload(input$file_add$datapath, ext = "csv"), 
+          silent = TRUE
+        )
+        if (is_try_error(check_uploaded_1)) {
+          return(showModal(check_modal(check_uploaded_1)))
+        }
+        
         add_tbl_1 <- readr::read_csv(
           input$file_add$datapath,
           show_col_types = FALSE
         )
+        
+        if (nrow(add_tbl_1) == 0) {
+          return(
+            showModal(
+              modalDialog(
+                title = "Please fix the following issue ...",
+                paste("There are no rows of data in the uploaded data.,", 
+                "Please fill out the template and try again."),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
         
         add_tbl_1 <- try(
           wqbench::wqb_check_add_data(add_tbl_1, wqbench::template),
