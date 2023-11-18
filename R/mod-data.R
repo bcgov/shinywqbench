@@ -328,7 +328,8 @@ mod_data_server <- function(id) {
             ecological_group = factor(
               ecological_group, 
               levels = levels(rv$data$ecological_group)
-            )
+            ), 
+            remove_row = FALSE
           )
         
         # 3. Add to data set
@@ -370,7 +371,7 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_raw_dl(rv$selected)
           }
-          readr::write_csv(data, file)
+          readr::write_csv(data, file, na = "")
         }
       )
 
@@ -501,7 +502,7 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_agg_dl(rv$aggregated)
           }
-          readr::write_csv(data, file)
+          readr::write_csv(data, file, na = "")
         }
       )
 
