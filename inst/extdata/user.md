@@ -32,8 +32,14 @@ The app is built from the R package [wqbench](https://github.com/bcgov/wqbench),
 - Once a chemical has been selected, hit the Run button.
   - A loading screen may appear telling you the app is processing your request.
   - Chemicals with more data will take longer to load, be patient.
-- If the chemical has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the [BC Water Quality Guideline Look-up App](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines).
 - If the chemical is not found in the data set, a pop up box will appear and say "The chemical you selected cannot be found in the database."
+- If required you can add your own data to the app.
+  - Download the template. 
+  - Fill in the template with your data.
+    - See the [Data Definitions](#data-definitions) section for descriptions of the columns.
+  - Hit the Add button.
+    - If the data is in the wrong format a pop up box provding information on why the data was not accepted will appear.
+    - Correct the data and try again.
 
 ### Step 2: Edit Data 
 
@@ -72,9 +78,10 @@ The data on Tab 1.1 Review Data can be edited by removing specific rows.
 
 **Tab 2.1 Plot & 2.2 Report**
 - Go to Tab 2 Benchmark and click Generate Benchmark on the left panel.
-- Either an SSD analysis or deterministic method is used to generate the critical toxicity and benchmark value as per the steps in (LINK TO PDF DOC).
+- Either an SSD analysis or deterministic method is used to generate the critical toxicity and benchmark value as per the steps in "[An overview of the aquatic life water quality benchmark generator](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/approved-wqgs/benchmarks_for_emerging_contaminants_overview_draft_august_2023.pdf)".
 - Download the plot as a png on Tab 2.1 Plot
 - Download the tables as an excel file on Tab 2.2 Report
+- If the chemical has an approved BC Water Quality Guideline associated with it, a pop up box will appear and provide a link to the [BC Water Quality Guideline Look-up App](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines).
 
 **SSD Method**
 The SSD method used in the app uses ssdtools `ssd_hc_bcanz()` with 10000 bootstrap samples. 
