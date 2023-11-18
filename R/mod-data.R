@@ -260,7 +260,7 @@ mod_data_server <- function(id) {
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
         w$hide()
       })
-
+      
       # Clear Tab 2 when data is edited or chemical re selected
       observeEvent(rv$chem_pick, {
         rv$clear_id <- 1 + rv$clear_id
@@ -279,10 +279,6 @@ mod_data_server <- function(id) {
       )
       
       # Add data
-      
-      # TODO: pull the sample values from the database in the data.R file
-      
-      
       observeEvent(input$add_button, {
         # Check that data already present
         if (is.null(rv$data)) {
@@ -297,20 +293,42 @@ mod_data_server <- function(id) {
         }
         
         add_tbl_1 <- readr::read_csv(
-          input$file_add$datapath
+          input$file_add$datapath,
+          show_col_types = FALSE
         )
-        add_tbl_1 <- wqbench::wqb_check_add_data(add_tbl_1, wqbench::template)
-        # add a species number 
+        
+        add_tbl_1 <- try(
+          wqbench::wqb_check_add_data(add_tbl_1, wqbench::template),
+          silent = TRUE
+        )
+        if (is_try_error(add_tbl_1)) {
+          return(showModal(check_modal(add_tbl_1)))
+        }
+        
         species_match <- rv$data |>
           dplyr::select(species_number, latin_name) |>
           dplyr::distinct()
         
         add_tbl_1 <- add_tbl_1 |>
-          dplyr::left_join(species_match, by = "latin_name", multiple = "first") |>
+          dplyr::left_join(
+            species_match, 
+            by = "latin_name", 
+            multiple = "first"
+          ) |>
           dplyr::mutate(
-            species_number = dplyr::if_else(is.na(species_number), (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], species_number),
-            trophic_group = factor(trophic_group, levels = levels(rv$data$trophic_group)),
-            ecological_group = factor(ecological_group, levels = levels(rv$data$ecological_group))
+            species_number = dplyr::if_else(
+              is.na(species_number), 
+              (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], 
+              species_number
+            ),
+            trophic_group = factor(
+              trophic_group,
+              levels = levels(rv$data$trophic_group)
+            ),
+            ecological_group = factor(
+              ecological_group, 
+              levels = levels(rv$data$ecological_group)
+            )
           )
         
         # 3. Add to data set
@@ -319,6 +337,11 @@ mod_data_server <- function(id) {
           dplyr::bind_rows(add_tbl_1) |>
           tidyr::fill(chemical_name, cas)
 
+        ## not sure where this can go or how the other parts may need to be adjusted 
+        rv$selected <- wqbench::wqb_benchmark_method(rv$data)
+        #rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+        
+        
         print(rv$data)
         
       })
@@ -350,7 +373,7 @@ mod_data_server <- function(id) {
 
       output$dl_raw <- downloadHandler(
         filename = function() {
-          file_name_dl("data-raw", rv$chem, "csv")
+          file_name_dl("data-review", rv$chem, "csv")
         },
         content = function(file) {
           if (is.null(rv$selected)) {
@@ -358,12 +381,13 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_raw_dl(rv$selected)
           }
+          readr::write_csv(data, file)
         }
       )
 
       observeEvent(input$select, {
         rv$clear_id <- 1 + rv$clear_id
-
+        
         rv$data <-
           rv$data |>
           dplyr::mutate(
