@@ -57,12 +57,20 @@ mod_data_ui <- function(id, label = "data") {
         p("2. If you are unable to find the chemical by name try the CAS number."),
         p(
           "3. You can use the",
-          a("CAS Common Chemistry lookup tool", href = "https://commonchemistry.cas.org/"),
+          a(
+            "CAS Common Chemistry lookup tool", 
+            href = "https://commonchemistry.cas.org/",
+            target = "_blank"
+          ),
           "maintained by the American Chemical Society to look up the CAS number."
         ),
         p(
           "4. The",
-          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"),
+          a(
+            "CompTox Chemicals Dashboard", 
+            href = "https://comptox.epa.gov/dashboard/",
+            target = "_blank"
+          ),
           "is also helpful to look up synonyms. Many chemicals have multiple names."
         ),
         p("Once a chemical has been selected, hit the Run button."),

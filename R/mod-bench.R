@@ -113,7 +113,8 @@ mod_bench_server <- function(id, ext) {
                   tags$a(
                     "BC Water Quality Guideline Look-up App",
                     target = "_blank",
-                    href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines"
+                    href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines",
+                    target = "_blank"
                   )
                 ),
                 footer = modalButton("Got it")
