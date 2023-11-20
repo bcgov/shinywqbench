@@ -68,11 +68,9 @@ body {
     padding-right: 150px;
     padding-bottom: 0px;
     padding-top: 0px;
-    /* min-width: 150px; */
-    
+    min-width: 150px;
 }
 
-/* 
 .dropdown-menu {
   background-color: #38598a;
   border: none;
@@ -80,7 +78,6 @@ body {
 .dropdown-menu>li>a {
   color: #fff;
 }
-*/
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     color: #fff;
