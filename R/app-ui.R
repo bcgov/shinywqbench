@@ -51,6 +51,10 @@ app_ui <- function() {
         title = "User Guide",
         mod_user_ui("mod_user_ui")
       )
+    ),
+    div(
+      class = "footer",
+      includeHTML("www/footer.html")
     )
   )
 }
