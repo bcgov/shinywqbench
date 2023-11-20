@@ -33,6 +33,13 @@ css_styling <- function() {
     .container-fluid {
       margin-top: 10px;
     }
+  
+    .navbar-nav {
+      float: right;
+      margin-bottom: 0;
+      margin-right: 20px !important;
+    }
+  
   "
   tags$style(css_text, type = "text/css")
 }
