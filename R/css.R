@@ -14,7 +14,7 @@
 
 add_external_resources <- function() {
   addResourcePath("www", system.file("app/www", package = "shinywqbench"))
-  tagList(tags$link(rel = "stylesheet", type = "text/css", href = "www/style.css"))
+  tagList(tags$link(rel = "stylesheet", type = "text/css", href = "www/bcgov.css"))
 }
 
 css_styling <- function() {
@@ -28,6 +28,10 @@ css_styling <- function() {
       border: 1px solid black;
       padding: 0.3em;
       padding-right: 1em;
+    }
+  
+    .container-fluid {
+      margin-top: 10px;
     }
   "
   tags$style(css_text, type = "text/css")
