@@ -205,6 +205,8 @@ hr {
 
 #footerAdminSection {
   background-color: #003366;
+  width: 0px;
+  margin-left: 20px;
 }
 
 #footerAdminLinks {
