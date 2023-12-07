@@ -1,8 +1,24 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# shinywqbench (development version)
+# shinywqbench 0.2.0 (2023-12-07)
 
-- Updating title, adding instructions to data tab, updating user and about tabs
+### New feature
+
+- Ability to add your own data by uploading a file. 
+
+### Major changes 
+
+- Updated data in app to the Ecotox Sept 2023 data set.
+- Number of bootstrap samples is 1000 (for SSD method). 
+
+### Minor improvements and bug fixes
+
+- Added number of bootstrap samples to tab 2.2 and pdf report when the method is SSD.	
+- Column order changes in tab 1.1 (displayed and download table).
+- Switched block/stop on generating guideline to second tab when the chemical already has a BC wqg.
+- Updated naming to be Review instead of Raw.
+- Added hyperlink to write up in about and user guide tab.
+- BC gov style added. 
 
 # shinywqbench 0.1.0
 
