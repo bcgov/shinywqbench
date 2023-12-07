@@ -150,12 +150,26 @@ filter_data_raw_dl <- function(data) {
   data <-
     data |>
     dplyr::select(
-      "chemical_name", "cas",
-      "latin_name", "common_name", "endpoint", "effect", "effect_conc_mg.L",
-      "lifestage", "duration_hrs", "duration_class", "effect_conc_std_mg.L",
-      "acr", "media_type", "trophic_group", "ecological_group",
+      "chemical_name", 
+      "cas",
+      "latin_name", 
+      "common_name", 
+      "endpoint", 
+      "effect", 
+      "effect_conc_mg.L",
+      "lifestage", 
+      "duration_hrs", 
+      "duration_class", 
+      "effect_conc_std_mg.L",
+      "acr", 
+      "media_type", 
+      "trophic_group", 
+      "ecological_group",
       "species_present_in_bc",
-      "author", "title", "source", "publication_year",
+      "author", 
+      "title", 
+      "source", 
+      "publication_year",
       "ecotox_download_date" = "download_date",
       "ecotox_version" = "version"
     )
