@@ -113,21 +113,21 @@ critical toxicity value, and benchmark value.
 | ----------- | ----------- | ------ |
 | chemical_name | chemical name | ECOTOX |
 | cas | chemical registry number | ECOTOX |
-| latin_name | species Latin name | ECOTOX |
 | common_name | species common name | ECOTOX |
+| latin_name | species Latin name | ECOTOX |
 | endpoint | the statistic or hypothesis generated from the test results (e.g. EC10, NOEC)  | ECOTOX |
 | effect | a measurable biological change | ECOTOX |
-| effect_conc_mg.L | contaminant concentration that corresponds to the endpoint| ECOTOX |
 | lifestage | lifestage description | ECOTOX |
-| duration_hrs | study duration, standardized to hours | ECOTOX |
-| duration_class | Values are classified as acute or chronic based on rules/step 2 | Calculated variable |
+| effect_conc_mg.L | contaminant concentration that corresponds to the endpoint| ECOTOX |
 | effect_conc_std_mg.L | effect concentration standardized to include the acute to chronic ratio to extrapolate acute and/or effect concentrations to chronic and/or no-effect concentrations | Calculated variable based on Okonski et al. 2021  |
-| sp_aggre_conc_mg.L | standardized effect concentration aggregated for each species | Calculated variable |
-| acr | acute to chronic ratio; either 10, 5 or 1 depending on the duration and endpoint reported | Okonski et al. 2021 |
-| media_type | Media type of tests | ECOTOX |
 | trophic_group | Trophic group of species: fish, amphibian, invertebrate, algae and plant. | Based on ECOTOX |
 | ecological_group | Identification of salmonids and planktonic invertebrates.  If neither of these, listed as "other". | B.C. ENV 2009 |
 | species_present_in_bc | Species is present in British Columbia if entry = TRUE | Based on B.C. ENV 2019 |
+| duration_hrs | study duration, standardized to hours | ECOTOX |
+| duration_class | Values are classified as acute or chronic based on rules/step 2 | Calculated variable |
+| acr | acute to chronic ratio; either 10, 5 or 1 depending on the duration and endpoint reported | Okonski et al. 2021 |
+| sp_aggre_conc_mg.L | standardized effect concentration aggregated for each species | Calculated variable |
+| media_type | Media type of tests | ECOTOX |
 | author | Author of reference | ECOTOX |
 | title | Title of reference | ECOTOX |
 | source | Journal name or other | ECOTOX |
