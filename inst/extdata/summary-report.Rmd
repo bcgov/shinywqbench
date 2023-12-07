@@ -9,6 +9,7 @@ params:
   trophic_sp_table: data.frame(x = 1)
   trophic_grp_table: data.frame(x = 1)
   method: ""
+  nboot: ""
   benchmark: data.frame(ctv_est_mg.L = 1)
   gp_result: NULL
 ---
@@ -42,6 +43,8 @@ knitr::kable(
 ```
 
 Benchmark derivation method selected: `r params$method`
+
+`r if (params$method == "SSD") paste("Number of bootstrap samples: ", params$nboot)`
 
 Critical Toxicity Value (HC5 if method is SSD): 
 

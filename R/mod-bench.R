@@ -48,6 +48,7 @@ mod_bench_ui <- function(id, label = "bench") {
             h5(uiOutput(ns("ui_text_2"))),
             uiOutput(ns("ui_table_trophic_groups")),
             uiOutput(ns("ui_text_3")),
+            uiOutput(ns("ui_text_3_1")),
             br(),
             uiOutput(ns("ui_text_4")),
             uiOutput(ns("ui_table_bench")),
@@ -80,6 +81,7 @@ mod_bench_server <- function(id, ext) {
         cas = NULL,
         fit = NULL,
         bench = NULL,
+        nboot = 1000,
         gp_results = NULL,
         bench_display = NULL,
         raw = NULL,
@@ -145,7 +147,11 @@ mod_bench_server <- function(id, ext) {
           rv$gp_results <- wqbench::wqb_plot_det(rv$agg_af)
         } else {
           rv$fit <- wqbench::wqb_ssd_fit(rv$agg_af)
-          rv$bench <- wqbench::wqb_method_ssd(rv$agg_af, rv$fit)
+          rv$bench <- wqbench::wqb_method_ssd(
+            rv$agg_af, 
+            rv$fit, 
+            nboot = rv$nboot
+          )
           rv$gp_results <- wqbench::wqb_plot_ssd(rv$agg_af, rv$fit)
         }
 
@@ -241,6 +247,22 @@ mod_bench_server <- function(id, ext) {
         text_output(ns("text_3"))
       })
 
+      output$text_3_1 <- renderText({
+        req(rv$method)
+        if (rv$method == "SSD") {
+          paste(
+            "Number of bootstrap samples: ", rv$nboot
+          )
+        } else {
+          paste("")
+        }
+      })
+      
+      output$ui_text_3_1 <- renderUI({
+        req(rv$bench)
+        htmlOutput(ns("text_3_1"))
+      })
+      
       output$text_4 <- renderText({
         paste("Critical Toxicity Value (HC<sub>5</sub> if method is SSD):")
       })
@@ -311,7 +333,7 @@ mod_bench_server <- function(id, ext) {
         req(rv$bench)
         htmlOutput(ns("text_8"))
       })
-
+      
       output$download_data_bench <- renderUI({
         req(rv$cas, rv$bench, rv$af_table)
         download_button(ns("dl_data_bench"))
