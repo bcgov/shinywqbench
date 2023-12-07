@@ -16,7 +16,7 @@ Description: This package is the user interface to the wqbench R package
     compute the aquatic life water quality benchmark for a compound.
 License: Apache License (== 2)
 Depends: 
-    R (>= 4.10)
+    R (>= 4.1)
 Imports: 
     chk,
     dplyr,
