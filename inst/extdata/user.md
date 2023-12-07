@@ -27,8 +27,8 @@ The app is built from the R package [wqbench](https://github.com/bcgov/wqbench),
   - Due to the large number of chemicals present, the input field can only display a thousand values at a time. Type the value (name or CAS number) to narrow down the choices.
   - To clear a selection, hit the backspace button in the input field. 
   - If you are unable to find the chemical by name try the CAS number.
-  - You can use the [CompTox Chemicals Dashboard](https://comptox.epa.gov/dashboard/) maintained by the US EPA to look up a CAS number.
-  - The [CompTox Chemicals Dashboard](https://comptox.epa.gov/dashboard/) is also helpful to look up synonyms. Many chemicals have multiple names.
+    - You can use the [CompTox Chemicals Dashboard](https://comptox.epa.gov/dashboard/) maintained by the US EPA to look up a CAS number.
+    - The [CompTox Chemicals Dashboard](https://comptox.epa.gov/dashboard/) is also helpful to look up synonyms. Many chemicals have multiple names.
 - Once a chemical has been selected, hit the Run button.
   - A loading screen may appear telling you the app is processing your request.
   - Chemicals with more data will take longer to load, be patient.
