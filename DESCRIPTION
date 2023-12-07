@@ -37,7 +37,7 @@ Imports:
     wqbench,
     writexl
 Remotes:
-   poissonconsulting/wqbench
+   bcgov/wqbench
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
