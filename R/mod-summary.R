@@ -57,6 +57,7 @@ mod_summary_server <- function(id, ext1, ext2) {
               trophic_sp_table = ext2$trophic_sp_table,
               trophic_grp_table = ext2$trophic_grp_table,
               method = ext2$method,
+              nboot = ext2$nboot,
               benchmark = ext2$bench,
               gp_result = ext2$gp_results
             )
@@ -70,6 +71,7 @@ mod_summary_server <- function(id, ext1, ext2) {
               trophic_sp_table = NULL,
               trophic_grp_table = NULL,
               method = "",
+              nboot = "",
               benchmark = data.frame(ctv_est_mg.L = NA_real_),
               gp_result = NULL
             )
@@ -97,7 +99,7 @@ mod_summary_server <- function(id, ext1, ext2) {
             )
           } else {
             sheets <- list(
-              raw = filter_data_raw_dl(ext2$raw),
+              review = filter_data_raw_dl(ext2$raw),
               selected = filter_data_raw_dl(ext2$selected),
               aggregate_data = filter_data_agg_dl(ext2$agg),
               assessment_factor = ext2$af_table,

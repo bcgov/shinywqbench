@@ -150,12 +150,26 @@ filter_data_raw_dl <- function(data) {
   data <-
     data |>
     dplyr::select(
-      "chemical_name", "cas",
-      "latin_name", "common_name", "endpoint", "effect", "effect_conc_mg.L",
-      "lifestage", "duration_hrs", "duration_class", "effect_conc_std_mg.L",
-      "acr", "media_type", "trophic_group", "ecological_group",
+      "chemical_name", 
+      "cas",
+      "common_name", 
+      "latin_name", 
+      "endpoint", 
+      "effect", 
+      "lifestage",
+      "effect_conc_mg.L",
+      "effect_conc_std_mg.L", 
+      "trophic_group", 
+      "ecological_group",
       "species_present_in_bc",
-      "author", "title", "source", "publication_year",
+      "duration_hrs", 
+      "duration_class", 
+      "acr", 
+      "media_type", 
+      "author", 
+      "title", 
+      "source", 
+      "publication_year",
       "ecotox_download_date" = "download_date",
       "ecotox_version" = "version"
     )
@@ -173,4 +187,31 @@ filter_data_agg_dl <- function(data) {
       "method"
     )
   data
+}
+
+# Upload Data -----
+is_try_error <- function(x) inherits(x, "try-error")
+
+check_modal <- function(check, title = "Please fix the following issue ...") {
+  msg <- stringr::str_replace(check[1], "^Error\\s*.*[:]", "")
+  msg <- gsub("Error : ", "", msg)
+  modalDialog(
+    paste(msg),
+    title = title,
+    footer = modalButton("Got it")
+  )
+}
+
+check_upload <- function(x, ext = "csv") {
+  if (is.null(x)) {
+    chk::abort_chk("A file needs to be uploaded before it can be added.")
+  }
+  if (!any(stringr::str_detect(x, ext))) {
+    ext <- paste0(ext, collapse = " or ")
+    chk::abort_chk(
+      "We're not sure what to do with that file type. Please upload a ",
+      ext,
+      " file."
+    )
+  }
 }

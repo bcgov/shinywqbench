@@ -25,7 +25,6 @@ cname <- data_set |>
   dplyr::distinct()
 
 ecotox_data <- data_set |>
-  dplyr::filter(!present_in_bc_wqg) |>
   dplyr::select(-present_in_bc_wqg)
 
 rm(data_set)

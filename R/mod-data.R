@@ -56,16 +56,40 @@ mod_data_ui <- function(id, label = "data") {
         p("1. To clear a selection, hit the backspace button in the input field."),
         p("2. If you are unable to find the chemical by name try the CAS number."),
         p(
-          "3. You can use the", 
-          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
-          "maintained by the US EPA to look up a CAS number."
+          "3. You can use the",
+          a(
+            "CAS Common Chemistry lookup tool", 
+            href = "https://commonchemistry.cas.org/",
+            target = "_blank"
+          ),
+          "maintained by the American Chemical Society to look up the CAS number."
         ),
         p(
-          "4. The", 
-          a("CompTox Chemicals Dashboard", href = "https://comptox.epa.gov/dashboard/"), 
+          "4. The",
+          a(
+            "CompTox Chemicals Dashboard", 
+            href = "https://comptox.epa.gov/dashboard/",
+            target = "_blank"
+          ),
           "is also helpful to look up synonyms. Many chemicals have multiple names."
         ),
         p("Once a chemical has been selected, hit the Run button."),
+      ),
+      wellPanel(
+        p("To add your own data."),
+        p("1. Download and fill in template. Check the User Guide tab for descriptions of each column."),
+        uiOutput(ns("download_add")),
+        br(),
+        p("2. Upload the completed template."),
+        fileInput(
+          ns("file_add"), 
+          "",
+          multiple = FALSE,
+          accept = c(".csv")
+        ),
+        p("3. Click the Add button to add the uploaded data."),
+        actionButton(ns("add_button"), "Add"),
+        br()
       )
     ),
     column(
@@ -106,92 +130,7 @@ mod_data_ui <- function(id, label = "data") {
           )
         )
       )
-           
-  )
-  
-  
-  # sidebarLayout(
-  #   sidebarPanel(
-  #     
-  #     fluidRow(
-  #       column(
-  #         width = 1
-  #         tagList(
-  #           radioButtons(
-  #             ns("chem_type"),
-  #             label = "Select chemical by",
-  #             choices = c("Name", "CAS Registry Number (without dashes)"),
-  #             selected = "Name",
-  #             inline = TRUE
-  #           ),
-  #           shinyjs::hidden(
-  #             div(
-  #               id = ns("div_name"),
-  #               selectizeInput(
-  #                 ns("select_chem_name"),
-  #                 label = "",
-  #                 choices = NULL
-  #               ),
-  #             )
-  #           ),
-  #           shinyjs::hidden(
-  #             div(
-  #               id = ns("div_cas"),
-  #               selectizeInput(
-  #                 ns("select_cas_num"),
-  #                 label = "",
-  #                 choices = NULL,
-  #                 selected = NULL
-  #               )
-  #             )
-  #           )
-  #         ),
-  #         actionButton(ns("run"), "Run"),
-  #       ),
-  #       column(
-  #         tabPanel("Instructions here"),
-  #       ),
-  #     ),
-  #   ),
-  #   
-    #mainPanel(
-      # tabsetPanel(
-      #   tabPanel(
-      #     title = "1.1 Data Review",
-      #     well_panel(
-      #       inline(uiOutput(ns("download_raw"))),
-      #       inline(uiOutput(ns("button_select"))),
-      #       br(),
-      #       h3(uiOutput(ns("ui_text_1"))),
-      #       br(),
-      #       br(),
-      #       uiOutput(ns("ui_table_selected"))
-      #     )
-      #   ),
-      #   tabPanel(
-      #     title = "1.2 View Plot",
-      #     well_panel(
-      #       uiOutput(ns("download_plot")),
-      #       br(),
-      #       h3(uiOutput(ns("ui_text_2"))),
-      #       br(),
-      #       br(),
-      #       uiOutput(ns("ui_plot"))
-      #     )
-      #   ),
-      #   tabPanel(
-      #     title = "1.3 Aggregated Data",
-      #     well_panel(
-      #       uiOutput(ns("download_aggregated")),
-      #       br(),
-      #       h3(uiOutput(ns("ui_text_3"))),
-      #       br(),
-      #       br(),
-      #       uiOutput(ns("ui_table_aggregated"))
-      #     )
-      #   )
-      # )
-   # )
+    )
   )
 }
 
@@ -299,57 +238,24 @@ mod_data_server <- function(id) {
         if (input$chem_type == "Name") {
           cas_number <- cname |>
             dplyr::filter(.data$chemical_name == input$select_chem_name) |>
-            dplyr::select(cas_number) |>
+            dplyr::select("cas_number") |>
             dplyr::pull()
           rv$chem_check <- cas_number
         } else {
           rv$chem_check <- input$select_cas_num
         }
 
-        guideline_present <- cname |>
-          dplyr::filter(cas_number == rv$chem_check) |>
-          dplyr::select("present_in_bc_wqg") |>
-          dplyr::pull()
-
-        # when chemical already present in wqg
-        if (guideline_present) {
-          chem_msg <- rv$chem_check
-          rv$data <- NULL
-          rv$aggregated <- NULL
-          rv$selected <- NULL
-          rv$gp <- NULL
-          rv$name <- NULL
-          rv$chem_check <- NULL
-          rv$chem <- NULL
-          rv$chem_pick <- NULL
-          rv$data_table_agg <- NULL
-          rv$clear_id <- 1 + rv$clear_id
-          return(
-            showModal(
-              modalDialog(
-                div(
-                  paste(
-                    cname$chemical_name[cname$cas_number == chem_msg],
-                    "has a guideline present. To look up this guideline go to the"
-                  ),
-                  tags$a(
-                    "BC Water Quality Guideline Look-up App",
-                    target = "_blank",
-                    href = "https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/water-quality/water-quality-guidelines/approved-water-quality-guidelines"
-                  )
-                ),
-                footer = modalButton("Got it")
-              )
-            )
-          )
-        } else {
-          rv$chem <- rv$chem_check
-        }
-
         w$show()
-
+        rv$chem <- rv$chem_check
         rv$data <- wqbench::wqb_filter_chemical(ecotox_data, rv$chem)
         rv$data$remove_row <- FALSE
+        rv$data <- dplyr::relocate(
+          rv$data,
+          "latin_name", "endpoint", "effect", "lifestage", "effect_conc_mg.L",
+          "effect_conc_std_mg.L", "trophic_group", "ecological_group",
+          "species_present_in_bc",
+          .after = "cas",
+        )
         rv$name <- unique(rv$data$chemical_name)
         rv$selected <- rv$data
         rv$selected <- wqbench::wqb_benchmark_method(rv$selected)
@@ -363,12 +269,110 @@ mod_data_server <- function(id) {
         rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
         w$hide()
       })
-
+      
       # Clear Tab 2 when data is edited or chemical re selected
       observeEvent(rv$chem_pick, {
         rv$clear_id <- 1 + rv$clear_id
       })
+      
+      ## Add Data ----
+      output$download_add <- renderUI({
+        download_button(ns("dl_add"))
+      })
+      
+      output$dl_add <- downloadHandler(
+        filename = function() paste0("template-wqbench.csv"),
+        content = function(file) {
+          readr::write_csv(wqbench::template[0, -1], file)
+        }
+      )
+      
+      # Add data
+      observeEvent(input$add_button, {
+        # Check that data already present
+        if (is.null(rv$data)) {
+          return(
+            showModal(
+              modalDialog(
+                title = "Please fix the following issue ...",
+                div("You must select a chemical and click run before adding your data."),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
+        
+        check_uploaded_1 <- try(
+          check_upload(input$file_add$datapath, ext = "csv"), 
+          silent = TRUE
+        )
+        if (is_try_error(check_uploaded_1)) {
+          return(showModal(check_modal(check_uploaded_1)))
+        }
+        
+        add_tbl_1 <- readr::read_csv(
+          input$file_add$datapath,
+          show_col_types = FALSE
+        )
+        
+        if (nrow(add_tbl_1) == 0) {
+          return(
+            showModal(
+              modalDialog(
+                title = "Please fix the following issue ...",
+                paste("There are no rows of data in the uploaded data.", 
+                "Please fill out the template and try again."),
+                footer = modalButton("Got it")
+              )
+            )
+          )
+        }
+        
+        add_tbl_1 <- try(
+          wqbench::wqb_check_add_data(add_tbl_1, wqbench::template),
+          silent = TRUE
+        )
+        if (is_try_error(add_tbl_1)) {
+          return(showModal(check_modal(add_tbl_1)))
+        }
+        
+        species_match <- rv$data |>
+          dplyr::select("species_number", "latin_name") |>
+          dplyr::distinct()
+        
+        add_tbl_1 <- add_tbl_1 |>
+          dplyr::left_join(
+            species_match, 
+            by = "latin_name", 
+            multiple = "first"
+          ) |>
+          dplyr::mutate(
+            species_number = dplyr::if_else(
+              is.na(.data$species_number), 
+              (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], 
+              .data$species_number
+            ),
+            trophic_group = factor(
+              .data$trophic_group,
+              levels = levels(rv$data$trophic_group)
+            ),
+            ecological_group = factor(
+              .data$ecological_group, 
+              levels = levels(rv$data$ecological_group)
+            ), 
+            remove_row = FALSE
+          )
+        
+        # 3. Add to data set
+        rv$data <-
+          rv$data |>
+          dplyr::bind_rows(add_tbl_1) |>
+          tidyr::fill("chemical_name", "cas")
 
+        ## not sure where this can go or how the other parts may need to be adjusted 
+        rv$selected <- wqbench::wqb_benchmark_method(rv$data)
+        rv$aggregated <- wqbench::wqb_aggregate(rv$selected)
+      })
 
       # Tab 1.1 ----
       output$text_1 <- renderText({
@@ -390,7 +394,7 @@ mod_data_server <- function(id) {
 
       output$dl_raw <- downloadHandler(
         filename = function() {
-          file_name_dl("data-raw", rv$chem, "csv")
+          file_name_dl("data-review", rv$chem, "csv")
         },
         content = function(file) {
           if (is.null(rv$selected)) {
@@ -398,13 +402,13 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_raw_dl(rv$selected)
           }
-          readr::write_csv(data, file)
+          readr::write_csv(data, file, na = "")
         }
       )
 
       observeEvent(input$select, {
         rv$clear_id <- 1 + rv$clear_id
-
+        
         rv$data <-
           rv$data |>
           dplyr::mutate(
@@ -529,7 +533,7 @@ mod_data_server <- function(id) {
           } else {
             data <- filter_data_agg_dl(rv$aggregated)
           }
-          readr::write_csv(data, file)
+          readr::write_csv(data, file, na = "")
         }
       )
 

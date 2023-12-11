@@ -20,7 +20,10 @@ app_ui <- function() {
     shinyjs::useShinyjs(),
     waiter::useWaiter(),
     navbarPage(
-      title = "Emergent Contaminant Aquatic Life Benchmarks - DRAFT",
+      title = div(
+        img(src = "../images/gov3_bc_logo.png", style = "padding-right: 20px;"),
+        "Emerging Contaminant Aquatic Life Benchmarks - DRAFT"
+      ),
       selected = "tab1",
       id = "navbarID",
       tabPanel(
@@ -51,6 +54,10 @@ app_ui <- function() {
         title = "User Guide",
         mod_user_ui("mod_user_ui")
       )
+    ),
+    div(
+      class = "footer",
+      includeHTML("www/footer.html")
     )
   )
 }
