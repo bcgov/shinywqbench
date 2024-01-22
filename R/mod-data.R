@@ -76,7 +76,7 @@ mod_data_ui <- function(id, label = "data") {
         p("Once a chemical has been selected, hit the Run button."),
       ),
       wellPanel(
-        p("To add your own data."),
+        p("To append your data to the existing set."),
         p("1. Download and fill in template. Check the User Guide tab for descriptions of each column."),
         uiOutput(ns("download_add")),
         br(),
