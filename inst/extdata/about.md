@@ -19,7 +19,7 @@ Although these benchmarks follow methods similar to those outlined in the [BC WQ
 Rather the purpose of the benchmarks is to support the assessment of monitoring data and the potential for a chemical to impact the aquatic environment.
 
 If you have any feedback or comments on this app, please email them to Angeline.Tillmanns@gov.bc.ca  For further information on this app, please see the draft overview: 
-[Tillmanns, A.R. and Pearson, A.  2023.  DRAFT wqbench: A Tool for Calculating Emerging Contaminant Aquatic Life Benchmarks.  Ministry of Water, Land and Resource Stewardship. Province of British Columbia, Victoria.](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/approved-wqgs/benchmarks_for_emerging_contaminants_overview_draft_august_2023.pdf)
+[Tillmanns, A.R. and Pearson, A.  2023. wqbench: A Tool for Calculating Emerging Contaminant Aquatic Life Benchmarks.  Ministry of Water, Land and Resource Stewardship. Province of British Columbia, Victoria.](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/approved-wqgs/benchmarks_for_emerging_contaminants_overview_draft_august_2023.pdf)
  
 
  
@@ -34,7 +34,5 @@ The app automatically completes the following steps:
 - Step 6: Assessment factors are applied to account for uncertainty related to the number of species, representation of ecologically important groups and representation of B.C. species.
 
 A full description of the steps can be found in the accompanying document, "An overview of the aquatic life water quality benchmark generator" which will eventually be published.
-
-Please do not cite this app at this point.
 
 The code is released under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
