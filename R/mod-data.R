@@ -85,7 +85,7 @@ mod_data_ui <- function(id, label = "data") {
           ns("file_add"), 
           "",
           multiple = FALSE,
-          accept = c(".csv")
+          accept = c(".xlsx")
         ),
         p("3. Click the Add button to add the uploaded data."),
         actionButton(ns("add_button"), "Add"),
@@ -281,9 +281,15 @@ mod_data_server <- function(id) {
       })
       
       output$dl_add <- downloadHandler(
-        filename = function() paste0("template-wqbench.csv"),
+        filename = function() paste0("template-wqbench.xlsx"),
         content = function(file) {
-          readr::write_csv(wqbench::template[0, -1], file)
+          file.copy(
+            from = system.file(
+              package = "wqbench",
+              "template/template-data.xlsx"
+            ),
+            to = file
+          )
         }
       )
       
@@ -303,16 +309,16 @@ mod_data_server <- function(id) {
         }
         
         check_uploaded_1 <- try(
-          check_upload(input$file_add$datapath, ext = "csv"), 
+          check_upload(input$file_add$datapath, ext = "xlsx"), 
           silent = TRUE
         )
         if (is_try_error(check_uploaded_1)) {
           return(showModal(check_modal(check_uploaded_1)))
         }
         
-        add_tbl_1 <- readr::read_csv(
+        add_tbl_1 <- readxl::read_excel(
           input$file_add$datapath,
-          show_col_types = FALSE
+          sheet = "data"
         )
         
         if (nrow(add_tbl_1) == 0) {
@@ -362,6 +368,9 @@ mod_data_server <- function(id) {
             ), 
             remove_row = FALSE
           )
+        
+        add_tbl_1 <- wqbench::wqb_classify_duration(add_tbl_1, quiet = TRUE)
+        add_tbl_1 <- wqbench::wqb_standardize_effect(add_tbl_1, quiet = TRUE)
         
         # 3. Add to data set
         rv$data <-
