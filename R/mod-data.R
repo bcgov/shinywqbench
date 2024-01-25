@@ -293,7 +293,7 @@ mod_data_server <- function(id) {
         }
       )
       
-      # Add data
+      # Add uploaded data
       observeEvent(input$add_button, {
         # Check that data already present
         if (is.null(rv$data)) {
@@ -365,13 +365,12 @@ mod_data_server <- function(id) {
             ecological_group = factor(
               .data$ecological_group, 
               levels = levels(rv$data$ecological_group)
-            ), 
-            remove_row = FALSE
+            )
           )
-        
+    
         add_tbl_1 <- wqbench::wqb_classify_duration(add_tbl_1, quiet = TRUE)
         add_tbl_1 <- wqbench::wqb_standardize_effect(add_tbl_1, quiet = TRUE)
-        
+        add_tbl_1$remove_row <- FALSE
         # 3. Add to data set
         rv$data <-
           rv$data |>
