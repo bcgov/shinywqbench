@@ -76,7 +76,7 @@ mod_data_ui <- function(id, label = "data") {
         p("Once a chemical has been selected, hit the Run button."),
       ),
       wellPanel(
-        p("To add your own data."),
+        p("To append your data to the existing set."),
         p("1. Download and fill in template. Check the User Guide tab for descriptions of each column."),
         uiOutput(ns("download_add")),
         br(),
@@ -85,7 +85,7 @@ mod_data_ui <- function(id, label = "data") {
           ns("file_add"), 
           "",
           multiple = FALSE,
-          accept = c(".csv")
+          accept = c(".xlsx")
         ),
         p("3. Click the Add button to add the uploaded data."),
         actionButton(ns("add_button"), "Add"),
@@ -281,13 +281,19 @@ mod_data_server <- function(id) {
       })
       
       output$dl_add <- downloadHandler(
-        filename = function() paste0("template-wqbench.csv"),
+        filename = function() paste0("template-wqbench.xlsx"),
         content = function(file) {
-          readr::write_csv(wqbench::template[0, -1], file)
+          file.copy(
+            from = system.file(
+              package = "wqbench",
+              "template/template-data.xlsx"
+            ),
+            to = file
+          )
         }
       )
       
-      # Add data
+      # Add uploaded data
       observeEvent(input$add_button, {
         # Check that data already present
         if (is.null(rv$data)) {
@@ -303,16 +309,16 @@ mod_data_server <- function(id) {
         }
         
         check_uploaded_1 <- try(
-          check_upload(input$file_add$datapath, ext = "csv"), 
+          check_upload(input$file_add$datapath, ext = "xlsx"), 
           silent = TRUE
         )
         if (is_try_error(check_uploaded_1)) {
           return(showModal(check_modal(check_uploaded_1)))
         }
         
-        add_tbl_1 <- readr::read_csv(
+        add_tbl_1 <- readxl::read_excel(
           input$file_add$datapath,
-          show_col_types = FALSE
+          sheet = "data"
         )
         
         if (nrow(add_tbl_1) == 0) {
@@ -359,10 +365,12 @@ mod_data_server <- function(id) {
             ecological_group = factor(
               .data$ecological_group, 
               levels = levels(rv$data$ecological_group)
-            ), 
-            remove_row = FALSE
+            )
           )
-        
+    
+        add_tbl_1 <- wqbench::wqb_classify_duration(add_tbl_1, quiet = TRUE)
+        add_tbl_1 <- wqbench::wqb_standardize_effect(add_tbl_1, quiet = TRUE)
+        add_tbl_1$remove_row <- FALSE
         # 3. Add to data set
         rv$data <-
           rv$data |>

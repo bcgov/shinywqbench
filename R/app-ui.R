@@ -22,7 +22,7 @@ app_ui <- function() {
     navbarPage(
       title = div(
         img(src = "../images/gov3_bc_logo.png", style = "padding-right: 20px;"),
-        "Emerging Contaminant Aquatic Life Benchmarks - DRAFT"
+        "Emerging Contaminant Aquatic Life Benchmarks"
       ),
       selected = "tab1",
       id = "navbarID",
