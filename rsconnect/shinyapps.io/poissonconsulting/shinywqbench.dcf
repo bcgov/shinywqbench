@@ -1,0 +1,10 @@
+name: shinywqbench
+title:
+username: poissonconsulting
+account: poissonconsulting
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8452407
+bundleId: 8416442
+url: https://poissonconsulting.shinyapps.io/shinywqbench/
+version: 1
