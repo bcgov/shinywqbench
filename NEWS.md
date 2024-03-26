@@ -1,6 +1,6 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# shinywqbench 0.2.0 (2023-12-07)
+# shinywqbench 0.2.0 (2024-03-25)
 
 ### New feature
 
@@ -8,8 +8,9 @@
 
 ### Major changes 
 
-- Updated data in app to the Ecotox Sept 2023 data set.
+- Updated data in app to the ECOTOX version 03-14-2024 data set.
 - Number of bootstrap samples is 1000 (for SSD method). 
+- Removed "Draft" from title.
 
 ### Minor improvements and bug fixes
 
