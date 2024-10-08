@@ -29,7 +29,12 @@ run_wqbench_app()
 1.  Go to the *inst/extdata/data.R* file.
 2.  Run the script.
 
-## How to Deploy the App
+For more details on updating the Ecotox data, the internal reference
+data, and the “Add Data” template files, see the [Developer
+Instructions](https://github.com/bcgov/wqbench/vignettes/Developer-instructions.md)
+in the [wqbench](https://github.com/bcgov/wqbench) repository.
+
+## How to Deploy the App to the web
 
 1.  Go to the *scripts/deploy.R* file.
 2.  Run the script.
