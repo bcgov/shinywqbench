@@ -17,7 +17,7 @@ This package is a shiny app that makes using the functions of the `wqbench` pack
 devtools::install_github("bcgov/shinywqbench")
 ```
 
-## How to launch app:
+## How to launch app locally:
 
 ```{r, eval=FALSE}
 library(shinywqbench)
@@ -26,18 +26,35 @@ run_wqbench_app()
 
 ## How to Update the Data Set
 
+If the ECOTOX database has been updated, you first need to update the reference
+data in the [wqbench](https://github.com/bcgov/wqbench) package. Follow the
+[Developer Instructions](https://github.com/bcgov/wqbench/vignettes/Developer-instructions.md)
+in the wqbench repository.
+
+Next, in this repository:
 1. Go to the *inst/extdata/data.R* file.
 2. Run the script.
 
-For more details on updating the Ecotox data, the internal reference data,
-and the "Add Data" template files, see the
-[Developer Instructions](https://github.com/bcgov/wqbench/vignettes/Developer-instructions.md)
-in the [wqbench](https://github.com/bcgov/wqbench) repository.
-
 ## How to Deploy the App to the web
+
+Before deploying the app, run it locally to ensure that the changes to wqbench,
+and the internal dataset in the app, are functional:
+
+```{r, eval=FALSE}
+library(shinywqbench)
+run_wqbench_app()
+```
 
 1. Go to the *scripts/deploy.R* file.
 2. Run the script.
+
+It is advised to first run the code that deploys the app name of `shinywqbench-dev` and confirm the app deploys and functions as expected.
+This app is referred to as the development app.
+
+Once it has been confirmed that the app functions and deploys properly to then run the second chunk of code with the app name `shinywqbench`.
+This app is referred to as the production app.
+
+This will help to ensure the production app is always in a working state.
 
 ## Getting Help or Reporting an Issue
 
