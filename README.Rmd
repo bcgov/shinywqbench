@@ -10,14 +10,16 @@ output: github_document
 
 This package is a shiny app that makes using the functions of the `wqbench` package accessible to non-R users.
 
-## Installation
+The live app is available at: https://bcgov-env.shinyapps.io/shinywqbench/.
+
+## How to install and launch app locally:
+
+First install it:
 
 ```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("bcgov/shinywqbench")
 ```
-
-## How to launch app locally:
 
 ```{r, eval=FALSE}
 library(shinywqbench)

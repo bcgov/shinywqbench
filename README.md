@@ -10,14 +10,17 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 This package is a shiny app that makes using the functions of the
 `wqbench` package accessible to non-R users.
 
-## Installation
+The live app is available at:
+<https://bcgov-env.shinyapps.io/shinywqbench/>.
+
+## How to install and launch app locally:
+
+First install it:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("bcgov/shinywqbench")
 ```
-
-## How to launch app locally:
 
 ``` r
 library(shinywqbench)
