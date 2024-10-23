@@ -28,8 +28,8 @@ run_wqbench_app()
 
 If the ECOTOX database has been updated, you first need to update the reference
 data in the [wqbench](https://github.com/bcgov/wqbench) package. Follow the
-[Developer Instructions](https://github.com/bcgov/wqbench/vignettes/Developer-instructions.md)
-in the wqbench repository.
+[Developer Instructions](https://bcgov.github.io/wqbench/articles/Developer-instructions.html)
+in the wqbench repository to update the package and install the updated version.
 
 Next, in this repository:
 1. Go to the *inst/extdata/data.R* file.
