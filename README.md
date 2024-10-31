@@ -27,17 +27,16 @@ library(shinywqbench)
 run_wqbench_app()
 ```
 
-## How to Update the Data Set
+## How to Update the Shiny App
 
-If the ECOTOX database has been updated, you first need to update the
-reference data in the [wqbench](https://github.com/bcgov/wqbench)
-package. Follow the [Developer
-Instructions](https://bcgov.github.io/wqbench/articles/Developer-instructions.html)
-in the wqbench repository to update the package and install the updated
-version.
+First, ensure the [wqbench](https://github.com/bcgov/wqbench) package
+has been updated. This can be done by following the [Developer
+Instructions](https://bcgov.github.io/wqbench/articles/Developer-instructions.html).
+Once this is completed, install the updated version of the wqbench
+package with `devtools::install_github("bcgov/wqbench")`.
 
-Next, in this repository: 1. Go to the *inst/extdata/data.R* file. 2.
-Run the script.
+Then to pull these updates over to this repository (shinywqbench), run
+the script in the `inst/extdata/data.R` file.
 
 ## How to Deploy the App to the web
 
@@ -48,6 +47,8 @@ wqbench, and the internal dataset in the app, are functional:
 library(shinywqbench)
 run_wqbench_app()
 ```
+
+If it looks good, stop the locally-running app, then:
 
 1.  Go to the *scripts/deploy.R* file.
 2.  Run the script.
