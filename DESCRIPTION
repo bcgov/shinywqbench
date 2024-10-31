@@ -1,6 +1,6 @@
 Package: shinywqbench
 Title: R Shiny App to Calculates Aquatic Life Benchmarks
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
            comment = c(ORCID = "0000-0001-7388-1222")),
@@ -15,9 +15,9 @@ Description: This package is the user interface to the wqbench R package
     to determine the critical toxicity value and assessment factors to
     compute the aquatic life water quality benchmark for a compound.
 License: Apache License (== 2)
-Depends: 
+Depends:
     R (>= 4.1)
-Imports: 
+Imports:
     chk,
     dplyr,
     DT,
@@ -35,11 +35,11 @@ Imports:
     tidyr,
     utils,
     waiter,
-    wqbench,
+    wqbench (>= 0.3.0),
     writexl
 Remotes:
    bcgov/wqbench
-Suggests: 
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
