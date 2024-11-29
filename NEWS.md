@@ -4,6 +4,7 @@
 
 - Fix typo in About section.
 - Adding TESTING.md file that outlines manual app testing steps. 
+- Internal changes. 
 
 # shinywqbench 0.2.0 (2024-03-25)
 

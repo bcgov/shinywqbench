@@ -20,3 +20,4 @@
 ^deploy\.R$
 ^COMPLIANCE\.yaml$
 ^\.github$
+^TESTING\.md$
