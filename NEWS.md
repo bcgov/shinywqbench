@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.2.1 (2024-11-28)
+
+- Merge pull request #3 from poissonconsulting/updates.
+
+  Updates
+
+- Merge pull request #2 from poissonconsulting/updates.
+
+  Updates
+
+- PLACEHOLDER https://github.com/poissonconsulting/shinywqbench/pull/37 (#37).
+
+- PLACEHOLDER https://github.com/poissonconsulting/shinywqbench/pull/36 (#36).
+
+
 # shinywqbench 0.2.0 (2024-03-25)
 
 ### New feature
