@@ -10,29 +10,59 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 This package is a shiny app that makes using the functions of the
 `wqbench` package accessible to non-R users.
 
-## Installation
+The live app is available at:
+<https://bcgov-env.shinyapps.io/shinywqbench/>.
+
+## How to install and launch app locally:
+
+First install it:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("bcgov/shinywqbench")
 ```
 
-## How to launch app:
+``` r
+library(shinywqbench)
+run_wqbench_app()
+```
+
+## How to Update the Shiny App
+
+First, ensure the [wqbench](https://github.com/bcgov/wqbench) package
+has been updated. This can be done by following the [Developer
+Instructions](https://bcgov.github.io/wqbench/articles/Developer-instructions.html).
+Once this is completed, install the updated version of the wqbench
+package with `devtools::install_github("bcgov/wqbench")`.
+
+Then to pull these updates over to this repository (shinywqbench), run
+the script in the `inst/extdata/data.R` file.
+
+## How to Deploy the App to the web
+
+Before deploying the app, run it locally to ensure that the changes to
+wqbench, and the internal dataset in the app, are functional:
 
 ``` r
 library(shinywqbench)
 run_wqbench_app()
 ```
 
-## How to Update the Data Set
-
-1.  Go to the *inst/extdata/data.R* file.
-2.  Run the script.
-
-## How to Deploy the App
+If it looks good, stop the locally-running app, then:
 
 1.  Go to the *scripts/deploy.R* file.
 2.  Run the script.
+
+It is advised to first run the code that deploys the app name of
+`shinywqbench-dev` and confirm the app deploys and functions as
+expected. This app is referred to as the development app.
+
+Once it has been confirmed that the app functions and deploys properly
+to then run the second chunk of code with the app name `shinywqbench`.
+This app is referred to as the production app.
+
+This will help to ensure the production app is always in a working
+state.
 
 ## Getting Help or Reporting an Issue
 
