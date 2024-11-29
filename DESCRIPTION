@@ -1,6 +1,6 @@
 Package: shinywqbench
 Title: R Shiny App to Calculates Aquatic Life Benchmarks
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
            comment = c(ORCID = "0000-0001-7388-1222")),
@@ -44,4 +44,4 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
