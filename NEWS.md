@@ -2,18 +2,8 @@
 
 # shinywqbench 0.2.1 (2024-11-28)
 
-- Merge pull request #3 from poissonconsulting/updates.
-
-  Updates
-
-- Merge pull request #2 from poissonconsulting/updates.
-
-  Updates
-
-- PLACEHOLDER https://github.com/poissonconsulting/shinywqbench/pull/37 (#37).
-
-- PLACEHOLDER https://github.com/poissonconsulting/shinywqbench/pull/36 (#36).
-
+- Fix typo in About section.
+- Adding TESTING.md file that outlines manual app testing steps. 
 
 # shinywqbench 0.2.0 (2024-03-25)
 
