@@ -1,5 +1,11 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.3.1 (2024-11-28)
+
+- Fix typo in About section.
+- Adding TESTING.md file that outlines manual app testing steps. 
+- Internal changes. 
+
 # shinywqbench 0.3.0
 
 - Updated Ecotox version to 09-12-2024
