@@ -36,6 +36,8 @@ Steps should be followed in order and be done in a single session from start to 
 	c. Download data template
 	d. Upload data template with a couple rows of data
 	e. Hit add button
-	f. Click through tabs and confirm new species was added
+	f. Click through tabs and confirm new species were added
 	g. Go to Benchmark tab and generate benchmark 
     i. Should run in seconds since it will be deterministic 
+9. Go to Footer
+  	a. Confirm all links are working
