@@ -2,23 +2,15 @@
 
 # shinywqbench 0.3.2 (2024-12-20)
 
-- Merge pull request #41 from poissonconsulting/checks-nov.
-
-- Merge pull request #40 from bcgov/update-docs.
-
-- Merge pull request #39 from bcgov/update.
-
-- Merge pull request #38 from poissonconsulting/main.
-
-- Merge pull request #37 from poissonconsulting/updates.
-
-- Merge pull request #36 from poissonconsulting/main.
+- Added link to User Guide where prompt indicated link should have been embedded.
+- Updated TESTING.md file. 
+- Internal changes.
 
 
 # shinywqbench 0.3.1 (2024-11-28)
 
 - Fix typo in About section.
-- Adding TESTING.md file that outlines manual app testing steps. 
+- Added TESTING.md file that outlines manual app testing steps. 
 - Internal changes. 
 
 # shinywqbench 0.3.0
