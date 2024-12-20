@@ -67,7 +67,8 @@ The data on Tab 1.1 Review Data can be edited by removing specific rows.
 **Tab 1.3 Aggregated Data**
 
 - Shows the data aggregated for each species.
-- The data has been aggregated as per the steps in (LINK TO PDF DOC).
+- The data has been aggregated as per the steps in [wqbench: A Tool for Calculating Emerging
+Contaminant Aquatic Life Benchmarks](https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/waterquality/water-quality-guidelines/approved-wqgs/benchmarks_for_emerging_contaminants_overview_draft_august_2023.pdf).
 - Download the table as csv.
 
 **Performing your own analysis of the data**
