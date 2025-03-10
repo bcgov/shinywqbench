@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.3.3 (2025-03-10)
+
+- Merge pull request #42 from poissonconsulting/checks-dec.
+
+- Merge pull request #41 from poissonconsulting/checks-nov.
+
+- Merge pull request #40 from bcgov/update-docs.
+
+- Merge pull request #39 from bcgov/update.
+
+- Merge pull request #38 from poissonconsulting/main.
+
+- Merge pull request #37 from poissonconsulting/updates.
+
+- Merge pull request #36 from poissonconsulting/main.
+
+
 # shinywqbench 0.3.2 (2024-12-20)
 
 - Added link to User Guide where prompt indicated link should have been embedded.
