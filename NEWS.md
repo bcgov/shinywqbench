@@ -1,11 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.3.3 (2025-03-10)
+
+- Updated TESTING.md file to include another example with a large data set.
+
 # shinywqbench 0.3.2 (2024-12-20)
 
 - Added link to User Guide where prompt indicated link should have been embedded.
 - Updated TESTING.md file. 
 - Internal changes.
-
 
 # shinywqbench 0.3.1 (2024-11-28)
 

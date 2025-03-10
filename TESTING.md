@@ -41,3 +41,6 @@ Steps should be followed in order and be done in a single session from start to 
     i. Should run in seconds since it will be deterministic 
 9. Go to Footer
   	a. Confirm all links are working
+10. Select chemical 1330785 by CAS and hit run
+  4. Go to Benchmark tab and hit Generate Benchmark
+	a. Should take a couple minutes to run
