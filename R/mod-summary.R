@@ -47,7 +47,7 @@ mod_summary_server <- function(id, ext1, ext2) {
             tempReport,
             overwrite = TRUE
           )
-
+          
           if (!is.null(ext2$name)) {
             params <- list(
               chem_name = stringr::str_squish(ext2$name),
@@ -59,7 +59,8 @@ mod_summary_server <- function(id, ext1, ext2) {
               method = ext2$method,
               nboot = ext2$nboot,
               benchmark = ext2$bench,
-              gp_result = ext2$gp_results
+              gp_result = ext2$gp_results,
+              ecotox_version = unique(ext2$raw$version)
             )
           } else {
             # for when no benchmark has been calculated
