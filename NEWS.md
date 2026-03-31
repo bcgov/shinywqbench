@@ -2,24 +2,8 @@
 
 # shinywqbench 0.4.0 (2026-03-30)
 
-- Adding version to report fixes #25 fixes #44.
-
-- Merge pull request #43 from poissonconsulting/checks-feb.
-
-- Merge pull request #42 from poissonconsulting/checks-dec.
-
-- Merge pull request #41 from poissonconsulting/checks-nov.
-
-- Merge pull request #40 from bcgov/update-docs.
-
-- Merge pull request #39 from bcgov/update.
-
-- Merge pull request #38 from poissonconsulting/main.
-
-- Merge pull request #37 from poissonconsulting/updates.
-
-- Merge pull request #36 from poissonconsulting/main.
-
+- Adding version numbers to report and about tab ().
+- Updating to ECOTOX dataset ecotox_ascii_03_12_2026.
 
 # shinywqbench 0.3.3 (2025-03-10)
 
