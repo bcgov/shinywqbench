@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.4.0 (2026-03-30)
+
+- Adding version numbers to report and about tab ().
+- Updating to ECOTOX dataset ecotox_ascii_03_12_2026.
+
 # shinywqbench 0.3.3 (2025-03-10)
 
 - Updated TESTING.md file to include another example with a large data set.

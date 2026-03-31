@@ -45,7 +45,8 @@ mod_about_server <- function(id) {
           " (", ecotox_data$download_date[1], ")", "<br/>",
           "ECOTOX version: ", ecotox_data$version[1], "<br/>",
           "wqbench version: ", as.character(utils::packageVersion("wqbench")), "<br/>",
-          "shinywqbench version: ", as.character(utils::packageVersion("shinywqbench"))
+          "shinywqbench version: ", as.character(utils::packageVersion("shinywqbench")), "<br/>",
+          "ssdtools version: ", as.character(utils::packageVersion("ssdtools"))
         )
       })
       output$ui_text_1 <- renderUI({

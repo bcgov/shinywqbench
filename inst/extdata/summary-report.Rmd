@@ -12,6 +12,7 @@ params:
   nboot: ""
   benchmark: data.frame(ctv_est_mg.L = 1)
   gp_result: NULL
+  ecotox_version: ""
 ---
 
 <!-- # Copyright 2023 Province of British Columbia -->
@@ -84,10 +85,14 @@ $WQ_{AL} =$  `r signif(params$benchmark$ctv_est_mg.L / params$af)` mg/L
 params$gp_result
 ```
 
-##### Software Versions:
+##### Software and Data Versions:
 
 ```{r, echo=FALSE, results = 'asis'}
 cat("- wqbench:", as.character(packageVersion("wqbench")), "\n")
 cat("\n")
-cat("- shinywqbench", as.character(packageVersion("shinywqbench")))
+cat("- shinywqbench:", as.character(packageVersion("shinywqbench")))
+cat("\n")
+cat("- ssdtools:", as.character(packageVersion("ssdtools")))
+cat("\n")
+cat("- ecotox dataset:", as.character(params$ecotox_version))
 ```
