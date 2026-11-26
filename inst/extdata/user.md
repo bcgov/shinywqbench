@@ -36,7 +36,7 @@ The app is built from the R package [wqbench](https://github.com/bcgov/wqbench),
 - If required you can add your own data to the app.
   - Download the template. 
   - Fill in the template with your data.
-    - See the [Data Definitions](#data-definitions) section for descriptions of the columns.
+    - See the instructions sheet in the template for descriptions and allowed values of the columns.
   - Hit the Add button.
     - If the data is in the wrong format a pop up box providing information on why the data was not accepted will appear.
     - Correct the data and try again.

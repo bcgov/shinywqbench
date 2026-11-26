@@ -13,6 +13,7 @@ This package is the user interface to the wqbench R package and allows users to 
 
 Authors:
 \itemize{
+  \item Angeline Tillmanns \email{Angeline.Tillmanns@gov.bc.ca}
   \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
 }
 

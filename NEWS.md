@@ -1,8 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# shinywqbench 0.4.1 (2026-11-25)
+
+- Updating additional data upload checks to accommodate bug fix in wqbench and increasing minimum required wqbench version. (#47)
+
 # shinywqbench 0.4.0 (2026-03-30)
 
-- Adding version numbers to report and about tab ().
+- Adding version numbers to report and about tab.
 - Updating to ECOTOX dataset ecotox_ascii_03_12_2026.
 
 # shinywqbench 0.3.3 (2025-03-10)
