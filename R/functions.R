@@ -215,3 +215,31 @@ check_upload <- function(x, ext = "csv") {
     )
   }
 }
+
+check_species_groups <- function(data, existing) {
+  existing_groups <- existing |>
+    dplyr::distinct(
+      .data$species_number,
+      existing_trophic_group = as.character(.data$trophic_group),
+      existing_ecological_group = as.character(.data$ecological_group)
+    )
+  
+  mismatch <- data |>
+    dplyr::distinct(.data$species_number, .data$latin_name, .data$trophic_group, .data$ecological_group) |>
+    dplyr::inner_join(existing_groups, by = "species_number") |>
+    dplyr::filter(
+      .data$trophic_group != .data$existing_trophic_group |
+        .data$ecological_group != .data$existing_ecological_group
+    )
+  if (nrow(mismatch) > 0) {
+    chk::abort_chk(
+      "The trophic_group and ecological_group for each species must match what is already in the data set. ",
+      paste0(
+        "Please update ", mismatch$latin_name,
+        " to trophic_group ", mismatch$existing_trophic_group,
+        " and ecological_group ", mismatch$existing_ecological_group, ".",
+        collapse = " "
+      )
+    )
+  }
+}

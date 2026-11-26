@@ -343,31 +343,49 @@ mod_data_server <- function(id) {
         }
         
         species_match <- rv$data |>
-          dplyr::select("species_number", "latin_name") |>
-          dplyr::distinct()
+          dplyr::distinct(.data$species_number, .data$latin_name) |>
+          dplyr::mutate(latin_key = stringr::str_to_lower(.data$latin_name))
         
         add_tbl_1 <- add_tbl_1 |>
-          dplyr::left_join(
-            species_match, 
-            by = "latin_name", 
-            multiple = "first"
-          ) |>
           dplyr::mutate(
-            species_number = dplyr::if_else(
-              is.na(.data$species_number), 
-              (max(rv$data$species_number):(max(rv$data$species_number) + nrow(add_tbl_1)))[-1], 
-              .data$species_number
-            ),
+            latin_key = stringr::str_to_lower(.data$latin_name)
+          )
+        
+        new_species <- add_tbl_1 |>
+          dplyr::anti_join(species_match, by = "latin_key") |>
+          dplyr::distinct(.data$latin_key, .keep_all = TRUE) |>
+          dplyr::select("latin_key", "latin_name") |>
+          dplyr::mutate(
+            species_number = max(rv$data$species_number) + dplyr::row_number()
+          )
+        
+        species_lookup <- dplyr::bind_rows(species_match, new_species)
+        
+        add_tbl_1 <- add_tbl_1 |>
+          dplyr::select(-"latin_name") |>
+          dplyr::left_join(species_lookup, by = "latin_key", multiple = "first") |>
+          dplyr::select(-"latin_key")
+        
+        check_groups <- try(
+          check_species_groups(add_tbl_1, rv$data),
+          silent = TRUE
+        )
+        if (is_try_error(check_groups)) {
+          return(showModal(check_modal(check_groups)))
+        }
+        
+        add_tbl_1 <- add_tbl_1 |>
+          dplyr::mutate(
             trophic_group = factor(
               .data$trophic_group,
               levels = levels(rv$data$trophic_group)
             ),
             ecological_group = factor(
-              .data$ecological_group, 
+              .data$ecological_group,
               levels = levels(rv$data$ecological_group)
             )
           )
-    
+        
         add_tbl_1 <- wqbench::wqb_classify_duration(add_tbl_1, quiet = TRUE)
         add_tbl_1 <- wqbench::wqb_standardize_effect(add_tbl_1, quiet = TRUE)
         add_tbl_1$remove_row <- FALSE
