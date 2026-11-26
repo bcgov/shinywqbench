@@ -221,23 +221,29 @@ check_species_groups <- function(data, existing) {
     dplyr::distinct(
       .data$species_number,
       existing_trophic_group = as.character(.data$trophic_group),
-      existing_ecological_group = as.character(.data$ecological_group)
+      existing_ecological_group = as.character(.data$ecological_group),
+      existing_species_present_in_bc = .data$species_present_in_bc
     )
-  
+
   mismatch <- data |>
-    dplyr::distinct(.data$species_number, .data$latin_name, .data$trophic_group, .data$ecological_group) |>
+    dplyr::distinct(
+      .data$species_number, .data$latin_name, .data$trophic_group,
+      .data$ecological_group, .data$species_present_in_bc
+    ) |>
     dplyr::inner_join(existing_groups, by = "species_number") |>
     dplyr::filter(
       .data$trophic_group != .data$existing_trophic_group |
-        .data$ecological_group != .data$existing_ecological_group
+        .data$ecological_group != .data$existing_ecological_group |
+        .data$species_present_in_bc != .data$existing_species_present_in_bc
     )
   if (nrow(mismatch) > 0) {
     chk::abort_chk(
-      "The trophic_group and ecological_group for each species must match what is already in the data set. ",
+      "The trophic_group, ecological_group, and species_present_in_bc for each species must match what is already in the data set. ",
       paste0(
         "Please update ", mismatch$latin_name,
         " to trophic_group ", mismatch$existing_trophic_group,
-        " and ecological_group ", mismatch$existing_ecological_group, ".",
+        ", ecological_group ", mismatch$existing_ecological_group,
+        ", and species_present_in_bc ", mismatch$existing_species_present_in_bc, ".",
         collapse = " "
       )
     )
